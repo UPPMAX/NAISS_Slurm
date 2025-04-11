@@ -43,7 +43,8 @@ nav:
 #  - Schedule: schedule.md
 #  - Prerequisites: prerequisites.md
   - Introduction: intro.md
-#  - Environment variables: env_vars.md
+  - Intro to clusters: cluster.md
+  - Batch system concepts: concepts.md
 #  - Regular expressions: reg_exp.md
 #  - Redirects: redirects.md
 #  - Symbolic links: symlinks.md
