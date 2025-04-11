@@ -1,2 +1,0 @@
-# sbatch options
-
