@@ -6,7 +6,7 @@ name: Check links
 #
 # Check links on the 21st day of the month.
 # 21st as the first letter of this repo is the 21st letter in the alphabet.
-on:
+off:
   push:
     paths:
       - .github/workflows/check_links.yaml
