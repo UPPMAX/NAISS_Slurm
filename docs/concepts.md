@@ -2,6 +2,5 @@
 
 ## What is a batch system? 
 
-## What is Slurm 
 
 

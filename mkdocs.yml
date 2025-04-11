@@ -45,7 +45,7 @@ nav:
   - Introduction: intro.md
   - Intro to clusters: cluster.md
   - Batch system concepts: concepts.md
-#  - Regular expressions: reg_exp.md
+  - What is Slurm?: slurm.md
 #  - Redirects: redirects.md
 #  - Symbolic links: symlinks.md
 #  - Archiving/compressing data: arch.md
