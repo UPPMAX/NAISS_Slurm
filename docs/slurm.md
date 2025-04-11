@@ -1,1 +1,1 @@
-# What is Slurm?
+# Introduction to Slurm

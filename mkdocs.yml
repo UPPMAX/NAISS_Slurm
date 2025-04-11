@@ -45,8 +45,8 @@ nav:
   - Introduction: intro.md
   - Intro to clusters: cluster.md
   - Batch system concepts: concepts.md
-  - What is Slurm?: slurm.md
-#  - Redirects: redirects.md
+  - Introduction to Slurm: slurm.md
+  - sbatch options: sbatch.md
 #  - Symbolic links: symlinks.md
 #  - Archiving/compressing data: arch.md
 #  - Pipes: pipes.md 
