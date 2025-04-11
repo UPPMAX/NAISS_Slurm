@@ -42,7 +42,7 @@ nav:
 #  - Course dates: course_dates.md
 #  - Schedule: schedule.md
 #  - Prerequisites: prerequisites.md
-#  - Introduction: intro.md
+  - Introduction: intro.md
 #  - Environment variables: env_vars.md
 #  - Regular expressions: reg_exp.md
 #  - Redirects: redirects.md
