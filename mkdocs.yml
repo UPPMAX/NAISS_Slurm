@@ -1,8 +1,8 @@
-site_name: Slurm at NAISS
+site_name: Running jobs on HPC systems
 repo_url: https://github.com/UPPMAX/NAISS_Slurm
 edit_uri: blob/main/docs/
 
-site_description: Material for the workshop Slurm at NAISS
+site_description: Material for the workshop Running jobs on HPC systems
 site_dir: site.build
 
 theme:
