@@ -56,7 +56,7 @@ cluster is often a supercomputer.
 
 ![batch system](../images/batch_system.png){: style="width: 400px;float: right"}
 
-In general, jobs are run with a batch- or queueing system. There are several
+In general, jobs are run with a batch- or queuing system. There are several
 variants of these, with the most common working by having the user log into a
 "login node" and then assembling and submitting their jobs from there.
 
@@ -78,7 +78,7 @@ should be configured, and what options regular users will be allowed to set.
 ## Which programs can be run effectively on a computer cluster?
 
 Computer clusters are made up of many interconnected nodes, each with a limited
-number of cores and limited memory capacity. A problem must be parallellizeable
+number of cores and limited memory capacity. A problem must be parallellizable
 in order to get any speed-up.
 
 Parallelization can be done in several ways. The simplest method is what would
@@ -184,7 +184,7 @@ extensively for general-purpose computing (GPGPU computing).
 
 GPU-driven parallel computing is, among other things, used for:
 
-- scientific modelling
+- scientific modeling
 - machine learning
 - graphical rendering
 
