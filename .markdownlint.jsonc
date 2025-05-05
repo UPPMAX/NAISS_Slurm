@@ -51,7 +51,7 @@
 
   "MD013": {
     // Line length, CHANGED FROM 80
-    "maximum": 160
+    "line_length": 160
   },
 
   // Standard markdown does not allow for valid indent code like this:
