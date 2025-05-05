@@ -20,6 +20,8 @@ github
 HPC
 hpc
 https
+http
+html
 io
 Joachim
 linux
@@ -36,6 +38,8 @@ CPUs
 gpu
 GPU
 GPUs
+GPGPU
+GPGPUs
 GUI
 GUIs
 Dardel
