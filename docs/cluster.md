@@ -1,6 +1,8 @@
 # Introduction to clusters
 
-This section is a beginner's guide to clusters, and provides general information about computer clusters like Tetralith, Dardel, Cosmos, Rackham, Kebnekaise and other HPC systems, but is not directly focused on any of them.
+This section is a beginner's guide to clusters, and provides general information
+about computer clusters like Tetralith, Dardel, Cosmos, Rackham, Kebnekaise and
+other HPC systems, but is not directly focused on any of them.
 
 ## What is a cluster
 
@@ -73,7 +75,7 @@ programs to be run as scheduled jobs on some HPC clusters, but it is up to the
 administrators to decide which programs can be run with these tools, how they
 should be configured, and what options regular users will be allowed to set.
 
-## Which programs can be run effectively on a computer cluster? 
+## Which programs can be run effectively on a computer cluster?
 
 Computer clusters are made up of many interconnected nodes, each with a limited
 number of cores and limited memory capacity. A problem must be parallellizeable
@@ -140,8 +142,9 @@ sections that can be solved independently of each other and then combined.
 
 What happens in a parallel program is generally the following:
 
-- There is a "master" processes that controls splitting up the data etc. and communicating it to one or more "slave" processes that does the calculations.
-- The "slave" processes then sends the results back to the "master".
+- A "master" processes is created to control distribution of data and tasks. 
+- The "master" sends data and instructions to one or more "slave" processes that do the calculations.
+- The "slave" processes then send the results back to the "master".
 - The "master" combines the results and/or may send out further subsections of the problem to be solved.
 
 Examples of parallel problems:
