@@ -60,3 +60,4 @@ OpenCL
 Slurm
 SLURM
 slurm
+GfxLauncher
