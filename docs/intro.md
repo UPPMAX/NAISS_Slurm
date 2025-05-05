@@ -1,7 +1,7 @@
 # Introduction to "Running jobs on HPC systems" 
 
 - Welcome page and syllabus: <a href="https://uppmax.github.io/NAISS_Slurm/index.html">https://uppmax.github.io/NAISS_Slurm/index.html</a>
-    - Also link at the House symbol at the top of the page.
+    - Link also in the House symbol at the top of the page.
 
 !!! note "Learning outcomes" 
 
@@ -27,4 +27,4 @@ Tabs for each cluster here
 
 ## Schedule 
 
-
+TBA
