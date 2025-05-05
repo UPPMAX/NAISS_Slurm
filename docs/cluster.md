@@ -78,7 +78,7 @@ should be configured, and what options regular users will be allowed to set.
 ## Which programs can be run effectively on a computer cluster?
 
 Computer clusters are made up of many interconnected nodes, each with a limited
-number of cores and limited memory capacity. A problem must be parallellizable
+number of cores and limited memory capacity. A problem must be parallelizable
 in order to get any speed-up.
 
 Parallelization can be done in several ways. The simplest method is what would
