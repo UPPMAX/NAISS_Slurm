@@ -1,4 +1,4 @@
-#Demo notes for SLURM
+# Demo notes for SLURM
 
 ## Concepts
 Show and discuss the slides
@@ -6,14 +6,14 @@ Show and discuss the slides
 ## simple scripts
 Start in `/home/x_joahe/Support/BatchSeminar/`
 
-```
+```bash
 mkdir Demo
 cd Demo
 ```
 
 Make simple script `run_hello.sh`
 
-*Tetralith*
+#### Tetralith
 
 ```
 #!/bin/bash
@@ -23,13 +23,11 @@ Make simple script `run_hello.sh`
 echo "hello from:" $HOSTNAME
 ```
 
-
-
-* Show `projinfo` on Aurora, Kebnekaise or Tetralith
+* Show `projinfo` on Cosmos, Kebnekaise or Tetralith
 * Mention directories, e.g. Kebnekaise you need to run from `/pfs/nobackup/home/u/user/`
 * run `echo "hello from:" $HOSTNAME` on frontend
 
-### interacting with the queue
+### Interacting with the queue
 Submit to the queue using `sbatch`
 
 * add a line: `sleep 120` to the script
@@ -67,7 +65,7 @@ squeue -u x_joahe
 Show commenting, e.g. jobtime
 ### Jobname
 
-```
+```bash
 #SBATCH -J hello_60
 ```
 
@@ -77,27 +75,24 @@ Show commenting, e.g. jobtime
 ### Output/Error file names
 Add output and jobnames 
 
-```
+```bash
 #SBATCH -o result_hello_10.out
 #SBATCH -e result_hello_10.err
 ```
-and change sleep time/job name to 10
 
-show that it overwrites output, change to
+and change sleep time/job name to 10.
 
-```
+Show that it overwrites output: change to
+
+```bash
 #SBATCH -o result_hello_10_%j.out
 #SBATCH -e result_hello_10_%j.err
 ```
+
 to add jobnumber.
 
 ### job script in output
-add a
-
-```
-cat $0
-```
-to the script to get the script into the output.
+add `cat $0` to the script to get the script into the output.
 
 ### get mail from slurm
 
@@ -108,7 +103,7 @@ to the script to get the script into the output.
 
 Final output should look similar to:
 
-```
+```bash
 #!/bin/bash
 
 # specify the jobtime
@@ -144,14 +139,14 @@ echo "hello from:" $HOSTNAME
 
 change directory:
 
-```
+```sh
 cd /home/x_joahe/Support/BatchSeminar/BatchDemo/Fortran
 ```
 
 create script:
 No module loads needed on tetralith - typically they are needed
 
-```
+```bash
 #!/bin/bash
 
 #SBATCH -t 5
@@ -163,7 +158,6 @@ No module loads needed on tetralith - typically they are needed
 
 #SBATCH -o mpi_run_N2_32_%j.out
 #SBATCH -e mpi_run_N2_32_%j.out
-
 
 cat $0
 
