@@ -15,7 +15,6 @@ pdf
 autocompletes
 scrollable
 
-
 github
 HPC
 hpc
@@ -64,4 +63,8 @@ OpenCL
 Slurm
 SLURM
 slurm
+squeue
+scancel
+sinfo
+sacct
 GfxLauncher
