@@ -1,2 +1,3 @@
-# Job monitoring and efficiency 
+# Job monitoring and efficiency
 
+Discuss squeue, scancel, sinfo, sacct, ...
