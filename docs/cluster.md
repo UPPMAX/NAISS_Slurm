@@ -20,7 +20,7 @@ than single computers of comparable speed and size.
 ### What are Nodes, Cores, and CPUs?
 
 A node is the name usually used for one unit (usually one computer) in a
-computer cluster. Generally, this computer will have one or two central 
+computer cluster. Generally, this computer will have one or two central
 processing units, or CPUs, each normally with (many) more than one core. Each
 core is a single processor able to handle a single programmed task. Memory is
 always shared between cores on the same CPU, but generally not between the CPUs.
@@ -36,7 +36,7 @@ are many cores per CPU (usually true for HPC clusters) and each CPU has a lot of
 memory (less often true).
 
 Nodes in computer clusters are usually arranged in racks at a dedicated climate-
-controlled facility, and are connected via a communication network. With few 
+controlled facility, and are connected via a communication network. With few
 exceptions, nearly all computer clusters use the Linux operating system.
 Normally, clusters have some sort of batch or queuing system to handle the jobs.
 On Linux systems, that batch or queuing system is most often Slurm (the Simple
