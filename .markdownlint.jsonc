@@ -54,6 +54,14 @@
     "line_length": 800
   },
 
+  "MD033": {
+    "allowed_elements": [
+      "a",
+      "figure",
+      "figcaption"
+    ]
+  },
+
   // Standard markdown does not allow for valid indent code like this:
   //
   // ???- question "A question"
