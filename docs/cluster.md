@@ -17,26 +17,30 @@ than single computers of comparable speed and size.
 
 ![cluster](../images/cluster.png){: style="width: 400px;float: right"}
 
-### What is a node?
+### What are Nodes, Cores, and CPUs?
 
 A node is the name usually used for one unit (usually one computer) in a
-computer cluster. Generally, this computer will have one or two CPUs, each
-normally with (many) more than one core. The memory is always shared between
-cores on the same CPU, but generally not between the CPUs. Parallelization
-across multiple cores on the same CPU is called **multi-threading**.
+computer cluster. Generally, this computer will have one or two central 
+processing units, or CPUs, each normally with (many) more than one core. Each
+core is a single processor able to handle a single programmed task. Memory is
+always shared between cores on the same CPU, but generally not between the CPUs.
+Computer nodes can also have GPUs (graphical processing units) in addition to
+the CPUs.
 
-Programs using only multi-threaded, shared memory programming interfaces, like
-OpenMP, are not always best-suited for clusters unless there are many cores per
-CPU and each CPU has a lot of memory. Computer nodes can also have GPUs in
-addition to the CPUs.
+Parallelization across multiple cores on the same CPU is called **multi-
+threading**. Many software packages either use multi-threading implicitly or have
+switches that enable multi-threading without having to adapt the affected code.
+However, programs that use only multi-threaded, shared memory programming
+interfaces, like OpenMP, are not always best-suited for clusters unless there
+are many cores per CPU (usually true for HPC clusters) and each CPU has a lot of
+memory (less often true).
 
-Nodes in computer clusters are usually arranged in racks at a dedicated
-facility.
-
-Normally, clusters have some sort of batch or queuing system to handle the jobs,
-as well as a communication network.
-
-With few exceptions, all computer clusters are running Linux.
+Nodes in computer clusters are usually arranged in racks at a dedicated climate-
+controlled facility, and are connected via a communication network. With few 
+exceptions, nearly all computer clusters use the Linux operating system.
+Normally, clusters have some sort of batch or queuing system to handle the jobs.
+On Linux systems, that batch or queuing system is most often Slurm (the Simple
+Linux Utility for Resource Management).
 
 ## What is a Supercomputer? Is it the same as a Cluster?
 
@@ -65,7 +69,9 @@ start a job. A job script is essentially a list of commands to the batch system
 telling it things like: how many nodes to use, how many CPU and/or GPU cores,
 how much memory, how long to run, the program name, any input data, etc. When
 the job has finished running, it should have produced some files, like output
-data, perhaps error messages, etc.
+data, perhaps error messages, etc. The syntax of job scripts depends on the
+queuing system, but that system is so often Slurm that you may see the terms
+"job script" and "slurm script" used interchangeably.
 
 Since jobs are queued internally and will run whenever the resources for them
 become available, programs requiring any kind of user interaction are usually
@@ -142,7 +148,7 @@ sections that can be solved independently of each other and then combined.
 
 What happens in a parallel program is generally the following:
 
-- A "master" process is created to control the distribution of data and tasks. 
+- A "master" process is created to control the distribution of data and tasks.
 - The "master" sends data and instructions to one or more "slave" processes that do the calculations.
 - The "slave" processes then send the results back to the "master".
 - The "master" combines the results and/or may send out further subsections of the problem to be solved.
