@@ -50,8 +50,8 @@
   // rules. Still, some languages do not lend themselves to short lines.
 
   "MD013": {
-    // Line length, CHANGED FROM 80
-    "line_length": 160
+    // Line length, CHANGED FROM 80 to allow indefinite lines and avoid forcing breaking up bullets
+    "line_length": false
   },
 
   // Standard markdown does not allow for valid indent code like this:
