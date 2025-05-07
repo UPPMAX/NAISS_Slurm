@@ -1,6 +1,7 @@
 # Sample job scripts
 
 ## The Simplest Job
+
 The simplest possible batch script would look something like this:
 
 ```bash
@@ -36,6 +37,7 @@ default settings may vary between HPC centers or between partitions at the same
 HPC center.
 
 ## Basic Serial Job
+
 Let's say you have a simple Python script called `mmmult.py` that creates 2
 random-valued matrices, multiplies them together, and prints the shape of the
 result and the computation time. Let's also say that you want to run this code
