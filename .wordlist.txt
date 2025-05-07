@@ -45,6 +45,11 @@ Dardel
 Kebnekaise
 Rackham
 Tetralith
+LUNARC
+PDC
+KTH
+NSC
+HPC2N
 mpi
 MPI
 OpenMP
