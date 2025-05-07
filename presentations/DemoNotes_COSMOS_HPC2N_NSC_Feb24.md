@@ -1,9 +1,11 @@
 # Demo notes for SLURM
 
 ## Concepts
+
 Show and discuss the slides
 
-## simple scripts
+## Simple scripts
+
 Start in `/home/x_joahe/Support/BatchSeminar/`
 
 ```bash
@@ -13,9 +15,9 @@ cd Demo
 
 Make simple script `run_hello.sh`
 
-#### Tetralith
+### Sample with Project ID (Tetralith)
 
-```
+```bash
 #!/bin/bash
 #SBATCH -t 00:05:00
 #SBATCH -A naiss2024-5-11
@@ -28,6 +30,7 @@ echo "hello from:" $HOSTNAME
 * run `echo "hello from:" $HOSTNAME` on frontend
 
 ### Interacting with the queue
+
 Submit to the queue using `sbatch`
 
 * add a line: `sleep 120` to the script
@@ -45,13 +48,15 @@ Add a line `#SBATCH -n 1500` to make the jobs wait
 * Remove the `-n 1500` from the script to clean up!
 
 ### Show slides
+
 * Comments on wall time
 * Dependencies
 
 ### Quick demo dependency
+
 Reduce sleep time to: `sleep 30` and show the following:
 
-```
+```bash
 sbatch run_hello.sh
 squeue -u x_joahe
 
@@ -62,7 +67,9 @@ squeue -u x_joahe
 ```
 
 ## Beautification
+
 Show commenting, e.g. jobtime
+
 ### Jobname
 
 ```bash
@@ -70,9 +77,10 @@ Show commenting, e.g. jobtime
 ```
 
 * mention metadata
-* show it is to long
+* show it is too long
 
 ### Output/Error file names
+
 Add output and jobnames 
 
 ```bash
@@ -92,6 +100,7 @@ Show that it overwrites output: change to
 to add jobnumber.
 
 ### job script in output
+
 add `cat $0` to the script to get the script into the output.
 
 ### get mail from slurm
@@ -127,6 +136,7 @@ echo "hello from:" $HOSTNAME
 ```
 
 ## Node load disks
+
 * show slides
 
 ## Additional resouces
