@@ -68,3 +68,7 @@ scancel
 sinfo
 sacct
 GfxLauncher
+walltime
+Walltime
+Walltimes
+walltimes
