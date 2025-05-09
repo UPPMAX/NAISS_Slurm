@@ -49,7 +49,7 @@ Add a line `#SBATCH -n 1500` to make the jobs wait
 
 ### Show slides
 
-* Comments on wall time
+* Comments on walltime
 * Dependencies
 
 ### Quick demo dependency
@@ -154,7 +154,7 @@ cd /home/x_joahe/Support/BatchSeminar/BatchDemo/Fortran
 ```
 
 create script:
-No module loads needed on tetralith - typically they are needed
+No module loads needed on Tetralith---typically they are needed
 
 ```bash
 #!/bin/bash
