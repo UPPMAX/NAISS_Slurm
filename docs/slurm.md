@@ -100,13 +100,72 @@ This is for requesting an interactive allocation. This is done differently depen
 
     === "NSC" 
 
+        ```bash 
+        [x_birbr@tetralith3 ~]$ interactive -A naiss2025-22-403
+        salloc: Pending job allocation 44252533
+        salloc: job 44252533 queued and waiting for resources
+        salloc: job 44252533 has been allocated resources
+        salloc: Granted job allocation 44252533
+        salloc: Waiting for resource configuration
+        salloc: Nodes n340 are ready for job
+        [x_birbr@n340 ~]$ 
+        ```
+
 !!! note "salloc" 
 
     This is recommended at HPC2N and PDC, and works at UPPMAX. 
 
+    Usage: salloc -A [project_name] -t HHH:MM:SS 
+
+    You have to give project ID and walltime. If you need more CPUs (1 is default) or GPUs, you have to ask for that as well. 
+
+    At PDC, you also have to give the partition: main, shared, gpu 
+
     === "HPC2N" 
 
+        ```bash 
+        b-an01 [~]$ salloc -A hpc2n2025-076 -t 00:10:00 
+        salloc: Pending job allocation 34624444
+        salloc: job 34624444 queued and waiting for resources
+        salloc: job 34624444 has been allocated resources
+        salloc: Granted job allocation 34624444
+        salloc: Nodes b-cn1403 are ready for job
+        b-an01 [~]$ 
+        ```
+   
+        WARNING! This is not true interactivity! Note that we are still on the login node!
+
+        In order to run anything in the allocation, you need to preface with ``srun`` like this: 
+ 
+        ```bash 
+        b-an01 [~]$ srun /bin/hostname
+        b-cn1403.hpc2n.umu.se
+        b-an01 [~]$ 
+        ``` 
+
+        Otherwise anything will run on the login node! Also, interactive sessions (for instance a program that asks for input) will not work correctly as that dialogoue happens on the compute node which you do not have real access to! 
+
     === "PDC" 
+
+        ```bash 
+        bbrydsoe@login1:~> salloc --time=00:10:00 -A naiss2025-22-403 -p main
+        salloc: Pending job allocation 9722449
+        salloc: job 9722449 queued and waiting for resources
+        salloc: job 9722449 has been allocated resources
+        salloc: Granted job allocation 9722449
+        salloc: Waiting for resource configuration
+        salloc: Nodes nid001134 are ready for job
+        bbrydsoe@login1:~> 
+        ``` 
+
+        Again, you are on the login node, and anything you want to run in the allocation must be preface with ``srun``. 
+
+        However, at PDC you have another option; you can ``ssh`` to the allocated compute node and then it will be true interactivity: 
+
+        ```bash 
+        bbrydsoe@login1:~> ssh nid001134
+        bbrydsoe@nid001134:~
+        ``` 
 
 !!! note "srun" 
 
