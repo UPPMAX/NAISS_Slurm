@@ -46,14 +46,18 @@ Let us look at these one at a time.
 
 This is for requesting an interactive allocation. This is done differently depending on the centre. 
 
-| Cluster | interactive | salloc | GfxLauncher or OpenOnDemand | 
-| ------- | ----------- | ------ | --------------------------- | 
-| HPC2N   | Works       | Recommended | Recommended (OOD)      | 
-| UPPMAX  | Recommended | Works | N/A | 
-| LUNARC | Works | N/A | Recommended | 
-| NSC | Recommended | N/A | N/A | 
-| PDC | N/A | Recommended | Possible | 
-| C3SE | | | | 
+| Cluster | interactive | salloc | srun | GfxLauncher or OpenOnDemand | 
+| ------- | ----------- | ------ | ---- | --------------------------- | 
+| HPC2N   | Works       | Recommended | N/A | Recommended (OOD)      | 
+| UPPMAX  | Recommended | Works | N/A | N/A | 
+| LUNARC | Works | N/A | N/A | Recommended (GfxLauncher) | 
+| NSC | Recommended | N/A | N/A | N/A |  
+| PDC | N/A | Recommended | N/A | Possible | 
+| C3SE | N/A | N/A | Works | Recommended (OOD) 
+
+#### Examples 
+
+
 
 ### sbatch
 
