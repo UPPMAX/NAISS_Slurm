@@ -57,7 +57,9 @@ This is for requesting an interactive allocation. This is done differently depen
 
 #### Examples 
 
+!!! note "interactive" 
 
+    This is recommended at UPPMAX and NSC. 
 
 ### sbatch
 
