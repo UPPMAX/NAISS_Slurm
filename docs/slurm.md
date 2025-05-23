@@ -59,7 +59,70 @@ This is for requesting an interactive allocation. This is done differently depen
 
 !!! note "interactive" 
 
-    This is recommended at UPPMAX and NSC. 
+    This is recommended at UPPMAX and NSC, and works at HPC2N and LUNARC.
+
+    Usage: ``interactive -A [project_name]``
+
+    If you want longer walltime, more CPUs/GPUs, etc. you need to ask for that as well. This is the default which gives 1 CPU for 1 hour. 
+
+    === "UPPMAX"
+
+        ```bash 
+        [bbrydsoe@rackham3 ~]$ interactive -A uppmax2025-2-296
+        You receive the high interactive priority.
+        You may run for at most one hour.
+        Your job has been put into the devcore partition and is expected to start at once.
+        (Please remember, you may not simultaneously have more than one devel/devcore job, running or queued, in the batch system.)
+
+        Please, use no more than 6.4 GB of RAM.
+
+        salloc: Pending job allocation 55388069
+        salloc: job 55388069 queued and waiting for resources
+        salloc: job 55388069 has been allocated resources
+        salloc: Granted job allocation 55388069
+        salloc: Waiting for resource configuration
+        salloc: Nodes r483 are ready for job
+         _   _ ____  ____  __  __    _    __  __
+        | | | |  _ \|  _ \|  \/  |  / \   \ \/ /   | System:    r483
+        | | | | |_) | |_) | |\/| | / _ \   \  /    | User:      bbrydsoe
+        | |_| |  __/|  __/| |  | |/ ___ \  /  \    | 
+         \___/|_|   |_|   |_|  |_/_/   \_\/_/\_\   | 
+
+        ###############################################################################
+
+                User Guides: https://docs.uppmax.uu.se/
+
+                Write to support@uppmax.uu.se, if you have questions or comments.
+
+
+        [bbrydsoe@r483 ~]$
+        ```
+
+    === "NSC" 
+
+!!! note "salloc" 
+
+    This is recommended at HPC2N and PDC, and works at UPPMAX. 
+
+    === "HPC2N" 
+
+    === "PDC" 
+
+!!! note "srun" 
+
+    This works at C3SE.  
+
+    === "C3SE" 
+
+!!! note "GfxLauncher and OpenOnDemand" 
+
+    This is recommended at HPC2N, LUNARC, and C3SE, and is possible at PDC. 
+
+    === "HPC2N"
+
+    === "LUNARC" 
+
+    === "C3SE" 
 
 ### sbatch
 
