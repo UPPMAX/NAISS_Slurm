@@ -8,7 +8,8 @@ site_dir: site.build
 theme:
   name: readthedocs
   locale: en
-  logo: images/naiss_logo_white.png
+  logo: images/naiss-slurm-logo.png
+    #  logo: images/naiss_logo_white.png
     #  static_templates:
     #- sitemap.html
   include_sidebar: true
