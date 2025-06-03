@@ -169,9 +169,14 @@ This is for requesting an interactive allocation. This is done differently depen
 
 !!! note "srun" 
 
-    This works at C3SE.  
+    This works at C3SE, but is not recommended as when the login node is restarted the interactive job is also terminated.  
 
     === "C3SE" 
+
+        ```bash
+        [brydso@alvis2 ~]$ srun --account=NAISS2025-22-395 --gpus-per-node=T4:1 --time=01:00:00 --pty=/bin/bash
+        [brydso@alvis2-12 ~]$
+        ```
 
 !!! note "GfxLauncher and OpenOnDemand" 
 
@@ -179,17 +184,40 @@ This is for requesting an interactive allocation. This is done differently depen
 
     === "HPC2N"
 
+        - Go to <a href="https://portal.hpc2n.umu.se/" target="_blank">https://portal.hpc2n.umu.se/</a> and login. 
+        - Documentation here: <a href="https://docs.hpc2n.umu.se/tutorials/connections/#open__ondemand" target="_blank">https://docs.hpc2n.umu.se/tutorials/connections/#open__ondemand</a> 
+
     === "LUNARC" 
+
+        - Login with ThinLinc: <a href="https://lunarc-documentation.readthedocs.io/en/latest/getting_started/using_hpc_desktop/" target="_blank">https://lunarc-documentation.readthedocs.io/en/latest/getting_started/using_hpc_desktop/</a>
+        - Follow the documentation for starting the GfxLauncher for OpenOnDemand: <a href="https://lunarc-documentation.readthedocs.io/en/latest/getting_started/gfxlauncher/" target="_blank">https://lunarc-documentation.readthedocs.io/en/latest/getting_started/gfxlauncher/</a> 
 
     === "C3SE" 
 
+        - Go to <ahref="https://alvis.c3se.chalmers.se/" target="_blank">https://alvis.c3se.chalmers.se/</a> 
+        - There is some documentation here: <a href="https://uppmax.github.io/HPC-python/common/interactive_ondemand.html#start-an-interactive-session-from-ondemand" target="_blank">https://uppmax.github.io/HPC-python/common/interactive_ondemand.html#start-an-interactive-session-from-ondemand</a> 
+
 ### sbatch
 
-submitting jobs to the batch system
+The command ``sbatch`` is used to submit jobs to the batch system. 
+
+This is done from the command line in the same way at all the HPC centres in Sweden: 
+
+```bash
+sbatch <batchscript.sh>
+```
+
+For any <batchscript.sh> named whatever you want to. It is a convention to use the suffix ``.sbatch`` or ``.sh``, but it is not a requirement. You can use any or no suffix. It is merely to make it easier to find the script among the other files. 
+
+!!! note 
+
+    - At centres that have OpenOnDemand installed, you do not have to submit a batch job, but can run directly on the already allocated resources (see interactive jobs). 
+    - At centres that have ThinLinc you can usually submit MATLAB jobs to compute resources from within MATLAB. 
 
 ### squeue
 
-viewing the state of the batch queue
+The command ``squeue`` is for viewing the state of the batch queue. 
+
 
 ### scancel
 
