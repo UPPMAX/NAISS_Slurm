@@ -237,7 +237,7 @@ or cancel all your jobs:
 
 !!! note 
 
-    As before, you get the <job id> either from when you submitted the job or from ``squeue --me``. 
+    As before, you get the ``<job id>`` either from when you submitted the job or from ``squeue --me``. 
 
 !!! warning "Note"
 
