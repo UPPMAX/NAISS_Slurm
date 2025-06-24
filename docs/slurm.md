@@ -223,6 +223,49 @@ If you just give the command, you will get a long list of all jobs in the queue,
 - ``squeue -u <username>``
 - ``squeue --me`` 
 
+**Example**: 
+
+```bash
+b-an01 [~]$ squeue --me
+             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
+          34815904   cpu_sky mpi_gree bbrydsoe  R       0:00      1 b-cn1404
+          34815905   cpu_sky mpi_hell bbrydsoe  R       0:00      2 b-cn[1404,1511]
+          34815906   cpu_sky mpi_hi.s bbrydsoe  R       0:00      2 b-cn[1511-1512]
+          34815907   cpu_sky simple.s bbrydsoe  R       0:00      1 b-cn1512
+          34815908   cpu_sky compiler bbrydsoe  R       0:00      2 b-cn[1415,1512]
+          34815909   cpu_sky mpi_gree bbrydsoe  R       0:00      1 b-cn1415
+          34815910   cpu_sky mpi_hell bbrydsoe  R       0:00      3 b-cn[1415,1421-1422]
+          34815911   cpu_sky mpi_hi.s bbrydsoe  R       0:00      1 b-cn1422
+          34815912   cpu_sky simple.s bbrydsoe  R       0:00      1 b-cn1422
+          34815913   cpu_sky compiler bbrydsoe  R       0:00      2 b-cn[1422,1427]
+          34815902  cpu_zen4 simple.s bbrydsoe CG       0:03      1 b-cn1707
+          34815903  cpu_zen4 compiler bbrydsoe  R       0:00      1 b-cn1708
+          34815898  cpu_zen4 compiler bbrydsoe  R       0:03      2 b-cn[1703,1705]
+          34815899  cpu_zen4 mpi_gree bbrydsoe  R       0:03      2 b-cn[1705,1707]
+          34815900  cpu_zen4 mpi_hell bbrydsoe  R       0:03      1 b-cn1707
+          34815901  cpu_zen4 mpi_hi.s bbrydsoe  R       0:03      1 b-cn1707
+          34815922 cpu_zen4, simple.s bbrydsoe PD       0:00      1 (Priority)
+          34815921 cpu_zen4, mpi_hi.s bbrydsoe PD       0:00      1 (Priority)
+          34815920 cpu_zen4, mpi_hell bbrydsoe PD       0:00      1 (Priority)
+          34815919 cpu_zen4, mpi_gree bbrydsoe PD       0:00      1 (Priority)
+          34815918 cpu_zen4, compiler bbrydsoe PD       0:00      1 (Priority)
+          34815917 cpu_zen4, simple.s bbrydsoe PD       0:00      1 (Priority)
+          34815916 cpu_zen4, mpi_hi.s bbrydsoe PD       0:00      1 (Priority)
+          34815915 cpu_zen4, mpi_hell bbrydsoe PD       0:00      1 (Priority)
+          34815914 cpu_zen4, mpi_gree bbrydsoe PD       0:00      1 (Resources)
+```
+
+Here you also see some of the "states" a job can be in. Some of the more common ones are: 
+
+- **CA**: CANCELLED. Job was explicitly cancelled by the user or system administrator. 
+- **CF**: CONFIGURING. Job has been allocated resources, but are waiting for them to become ready for use (e.g. booting). 
+- **CG**: COMPLETING. Job is in the process of completing. Some processes on some nodes may still be active. 
+- **PD**: PENDING. Job is awaiting resource allocation. 
+- **R**: RUNNING. Job currently has an allocation. 
+- **S**: SUSPENDED. Job has an allocation, but execution has been suspended and resources have been released for other jobs. 
+
+(List above from <a href="https://slurm.schedmd.com/squeue.html" target="_blank">Slurm workload manager page about squeue</a>. 
+
 ### scancel
 
 The command to cancel a job is ``scancel``. 
@@ -249,13 +292,97 @@ The command ``scontrol show`` is used for getting more info on jobs and nodes.
 
 #### scontrol show job
 
+As usual, you get the ``<job id>`` from either when you submit the job or from ``squeue --me``. 
 
+The command is: 
+
+```bash
+scontrol show job <job id>
+```
+
+**Example**: 
+
+```bash 
+b-an01 [~]$ scontrol show job 34815931
+JobId=34815931 JobName=compiler-run
+   UserId=bbrydsoe(2897) GroupId=folk(3001) MCS_label=N/A
+   Priority=2748684 Nice=0 Account=staff QOS=normal
+   JobState=COMPLETED Reason=None Dependency=(null)
+   Requeue=0 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0
+   RunTime=00:00:07 TimeLimit=00:10:00 TimeMin=N/A
+   SubmitTime=2025-06-24T11:36:32 EligibleTime=2025-06-24T11:36:32
+   AccrueTime=2025-06-24T11:36:32
+   StartTime=2025-06-24T11:36:32 EndTime=2025-06-24T11:36:39 Deadline=N/A
+   SuspendTime=None SecsPreSuspend=0 LastSchedEval=2025-06-24T11:36:32 Scheduler=Main
+   Partition=cpu_zen4 AllocNode:Sid=b-an01:626814
+   ReqNodeList=(null) ExcNodeList=(null)
+   NodeList=b-cn[1703,1705]
+   BatchHost=b-cn1703
+   NumNodes=2 NumCPUs=12 NumTasks=12 CPUs/Task=1 ReqB:S:C:T=0:0:*:*
+   ReqTRES=cpu=12,mem=30192M,node=1,billing=12
+   AllocTRES=cpu=12,mem=30192M,node=2,billing=12
+   Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=*
+   MinCPUsNode=1 MinMemoryCPU=2516M MinTmpDiskNode=0
+   Features=(null) DelayBoot=00:02:00
+   OverSubscribe=OK Contiguous=0 Licenses=(null) Network=(null)
+   Command=/pfs/proj/nobackup/fs/projnb10/support-hpc2n/bbrydsoe/intro-course/hands-ons/3.usage/compile-run.sh
+   WorkDir=/pfs/proj/nobackup/fs/projnb10/support-hpc2n/bbrydsoe/intro-course/hands-ons/3.usage
+   StdErr=/pfs/proj/nobackup/fs/projnb10/support-hpc2n/bbrydsoe/intro-course/hands-ons/3.usage/slurm-34815931.out
+   StdIn=/dev/null
+   StdOut=/pfs/proj/nobackup/fs/projnb10/support-hpc2n/bbrydsoe/intro-course/hands-ons/3.usage/slurm-34815931.out
+   Power=
+``` 
+
+Here you get much interesting information: 
+
+- **JobState=COMPLETED**: the job was completed and was not FAILED. It could also have been PENDING or COMPLETING 
+- **RunTime=00:00:07**: the job ran for 7 seconds
+- **TimeLimit=00:10:00**: It could have run for up to 10 min (what you asked for)
+- **SubmitTime=2025-06-24T11:36:32**: when your job was submitted
+- **StartTime=2025-06-24T11:36:32**: when the job started
+- **Partition=cpu_zen4**: what partition/type of node it ran on
+- **NodeList=b-cn[1703,1705]**: which specific nodes it ran on
+- **BatchHost=b-cn1703**: which of the nodes (if several) that was the master 
+- **NumNodes=2 NumCPUs=12 NumTasks=12 CPUs/Task=1**: number of nodes, cpus, tasks 
+- **WorkDir=/pfs/proj/nobackup/fs/projnb10/support-hpc2n/bbrydsoe/intro-course/hands-ons/3.usage**: which directory your job was submitted from/was running in 
+- **StdOut=/pfs/proj/nobackup/fs/projnb10/support-hpc2n/bbrydsoe/intro-course/hands-ons/3.usage/slurm-34815931.out**: which directory the output files will be placed in 
+
+The command ``scontrol show job <job id>`` can be run also while the job is pending, and can be used to get an estimate of when the job will start. Actual start time depends on the jobs priority, any other (people's) jobs starting and completing and being submitted, etc. 
+
+It is often useful to know which nodes a job ran on if something did not work - perhaps the node was faulty. 
 
 #### scontrol show node
 
+This command is used to get information about a specific node. You can for instance see its features, how many cores per socket, uptime, etc. Specifics will vary and depend on the centre you are running jobs at. 
+
+**Example**: 
+
+This if for one of the AMD Zen4 nodes at Kebnekaise, HPC2N. 
+
+```bash
+b-an01 [~]$ scontrol show node b-cn1703
+NodeName=b-cn1703 Arch=x86_64 CoresPerSocket=128 
+   CPUAlloc=253 CPUEfctv=256 CPUTot=256 CPULoad=253.38
+   AvailableFeatures=rack17,amd_cpu,zen4
+   ActiveFeatures=rack17,amd_cpu,zen4
+   Gres=(null)
+   NodeAddr=b-cn1703 NodeHostName=b-cn1703 Version=23.02.7
+   OS=Linux 5.15.0-142-generic #152-Ubuntu SMP Mon May 19 10:54:31 UTC 2025 
+   RealMemory=644096 AllocMem=636548 FreeMem=749623 Sockets=2 Boards=1
+   State=MIXED ThreadsPerCore=1 TmpDisk=0 Weight=100 Owner=N/A MCS_label=N/A
+   Partitions=cpu_zen4 
+   BootTime=2025-06-24T06:32:25 SlurmdStartTime=2025-06-24T06:37:02
+   LastBusyTime=2025-06-24T08:29:45 ResumeAfterTime=None
+   CfgTRES=cpu=256,mem=629G,billing=256
+   AllocTRES=cpu=253,mem=636548M
+   CapWatts=n/a
+   CurrentWatts=0 AveWatts=0
+   ExtSensorsJoules=n/s ExtSensorsWatts=0 ExtSensorsTemp=n/s
+```
+
 ### sinfo
 
-information about the partitions/queues    
+The command ``sinfo`` gives you information about the partitions/queues. 
 
 ## Slurm job scripts 
 
