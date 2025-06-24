@@ -218,10 +218,16 @@ For any <batchscript.sh> named whatever you want to. It is a convention to use t
 
 The command ``squeue`` is for viewing the state of the batch queue. 
 
+If you just give the command, you will get a long list of all jobs in the queue, so it is usually best to constrain it to your own jobs. This can be done in two ways: 
+
+- ``squeue -u <username>``
+- ``squeue --me`` 
 
 ### scancel
 
-cancel a job
+The command to cancel a job is ``scancel``. 
+
+
 
 ### scontrol show
 
