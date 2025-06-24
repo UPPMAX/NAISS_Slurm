@@ -264,7 +264,7 @@ Here you also see some of the "states" a job can be in. Some of the more common 
 - **R**: RUNNING. Job currently has an allocation. 
 - **S**: SUSPENDED. Job has an allocation, but execution has been suspended and resources have been released for other jobs. 
 
-(List above from <a href="https://slurm.schedmd.com/squeue.html" target="_blank">Slurm workload manager page about squeue</a>. 
+List above from <a href="https://slurm.schedmd.com/squeue.html" target="_blank">Slurm workload manager page about squeue</a>. 
 
 ### scancel
 
