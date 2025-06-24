@@ -227,11 +227,21 @@ If you just give the command, you will get a long list of all jobs in the queue,
 
 The command to cancel a job is ``scancel``. 
 
+You can either cancel a specific job:
 
+``scancel <job id>``
+
+or cancel all your jobs: 
+
+``scancel -u <username>``
+
+**NOTE**: you cannot cancel other people's jobs! 
 
 ### scontrol show
 
-getting more info on jobs, nodes
+The command ``scontrol show`` is used for getting more info on jobs and nodes. 
+
+
 
 ### sinfo
 
