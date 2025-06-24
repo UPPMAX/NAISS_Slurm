@@ -235,13 +235,23 @@ or cancel all your jobs:
 
 ``scancel -u <username>``
 
-**NOTE**: you cannot cancel other people's jobs! 
+!!! note 
+
+    As before, you get the <job id> either from when you submitted the job or from ``squeue --me``. 
+
+!!! warning "Note"
+
+    You cannot cancel other people's jobs! 
 
 ### scontrol show
 
 The command ``scontrol show`` is used for getting more info on jobs and nodes. 
 
+#### scontrol show job
 
+
+
+#### scontrol show node
 
 ### sinfo
 
