@@ -212,7 +212,25 @@ For any <batchscript.sh> named whatever you want to. It is a convention to use t
 !!! note 
 
     - At centres that have OpenOnDemand installed, you do not have to submit a batch job, but can run directly on the already allocated resources (see interactive jobs). 
+        - OpenOnDemand is a good option for interactive tasks, graphical applications/visualization, and simpler job submittions. It can also be more user-friendly. 
+        - Regardless, there are many situations where submitting a batch job is the best option instead, including when you want to run jobs that need many resources (time, memory, multiple cores, multiple GPUs) or when you run multiple jobs concurrently or in a specified succession, without need for manual intervention. Batch jobs are often also preferred for automation (scripts) and reproducibility. Many types of application software fall into this category. 
     - At centres that have ThinLinc you can usually submit MATLAB jobs to compute resources from within MATLAB. 
+
+We will talk much more about batch scripts in a short while, but for now we can use <a href="../simple.sh" target="_blank">this small batch script</a> for testing the Slurm commands: 
+
+```bash
+#!/bin/bash
+# Project id - change to your own!
+#SBATCH -A PROJ-ID
+# Asking for 1 core
+#SBATCH -n 1
+# Asking for a walltime of 1 min
+#SBATCH --time=00:01:00
+
+echo "What is the hostname? It is this: "
+
+/bin/hostname
+```
 
 ### squeue
 
