@@ -243,6 +243,8 @@ Submitted batch job 45194426
 
 As you can see, you get the job id when submitting the batch script. 
 
+When it has run, you can see with ``ls`` that you got a file called ``slurm-JOBID.out`` in your directory. 
+
 ### squeue
 
 The command ``squeue`` is for viewing the state of the batch queue. 
