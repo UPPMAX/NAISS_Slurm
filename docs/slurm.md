@@ -232,6 +232,17 @@ echo "What is the hostname? It is this: "
 /bin/hostname
 ```
 
+**Example**: 
+
+Submitting the above batch script on Tetralith (NSC) 
+
+```bash
+[x_birbr@tetralith3 ~]$ sbatch simple.sh
+Submitted batch job 45194426
+```
+
+As you can see, you get the job id when submitting the batch script. 
+
 ### squeue
 
 The command ``squeue`` is for viewing the state of the batch queue. 
@@ -283,6 +294,39 @@ Here you also see some of the "states" a job can be in. Some of the more common 
 - **S**: SUSPENDED. Job has an allocation, but execution has been suspended and resources have been released for other jobs. 
 
 List above from <a href="https://slurm.schedmd.com/squeue.html" target="_blank">Slurm workload manager page about squeue</a>. 
+
+**Example**: 
+
+Submit the "simple.sh" script several times, then do ``squeue --me`` to see that it is running, pending, or completing. 
+
+```bash 
+[x_birbr@tetralith3 ~]$ sbatch simple.sh
+Submitted batch job 45194596
+[x_birbr@tetralith3 ~]$ sbatch simple.sh
+Submitted batch job 45194597
+[x_birbr@tetralith3 ~]$ sbatch simple.sh
+Submitted batch job 45194598
+[x_birbr@tetralith3 ~]$ sbatch simple.sh
+Submitted batch job 45194599
+[x_birbr@tetralith3 ~]$ sbatch simple.sh
+Submitted batch job 45194600
+[x_birbr@tetralith3 ~]$ sbatch simple.sh
+Submitted batch job 45194601
+[x_birbr@tetralith3 ~]$ sbatch simple.sh
+Submitted batch job 45194602
+[x_birbr@tetralith3 ~]$ sbatch simple.sh
+Submitted batch job 45194603
+[x_birbr@tetralith3 ~]$ squeue --me
+             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
+          45194603 tetralith simple.s  x_birbr PD       0:00      1 (None)
+          45194602 tetralith simple.s  x_birbr PD       0:00      1 (None)
+          45194601 tetralith simple.s  x_birbr PD       0:00      1 (None)
+          45194600 tetralith simple.s  x_birbr PD       0:00      1 (None)
+          45194599 tetralith simple.s  x_birbr PD       0:00      1 (None)
+          45194598 tetralith simple.s  x_birbr PD       0:00      1 (None)
+          45194597 tetralith simple.s  x_birbr PD       0:00      1 (None)
+          45194596 tetralith simple.s  x_birbr PD       0:00      1 (None)
+```
 
 ### scancel
 
