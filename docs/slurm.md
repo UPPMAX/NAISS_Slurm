@@ -476,7 +476,55 @@ You can see the full list of states and their meaning with ``man sinfo``.
 
 ## Slurm job scripts 
 
+Now we have looked at the commands to control the job, it is time to look at the job scripts themselves. 
 
+### Serial job 
+
+The simplest example is for a serial job. Here running a small Python script <a href="../mmmult.py" target="_blank">``mmmult.py``</a>. 
+
+=== Tetralith 
+
+    ```bash 
+    #!/bin/bash
+    #SBATCH -A naiss2025-22-934 # Change to your own 
+    #SBATCH --time=00:05:00 # Asking for 5 minutes
+    #SBATCH -n 1 # Asking for 1 core
+
+    # Load any modules you need, here GCC 11.3.0 and Python 3.10.4 
+    module load buildtool-easybuild/4.8.0-hpce082752a2 GCC/11.3.0 OpenMPI/4.1.4 Python/3.10.4 SciPy-bundle/2022.05
+  
+    # Run your Python script
+    python mmmult.py
+    ```
+
+=== Dardel
+
+     
+
+=== HPC2N
+
+=== LUNARC
+
+=== UPPMAX 
+
+=== hello.c 
+
+
+
+```bash 
+#!/bin/bash
+# Project id - change to your own after the course!
+#SBATCH -A hpc2n2025-014
+# Asking for 1 core
+#SBATCH -n 1
+# Asking for a walltime of 1 min
+#SBATCH --time=00:01:00
+ 
+# Purge modules before loading new ones in a script.
+ml purge  > /dev/null 2>&1
+ml foss/2022b
+
+./hello 
 
 ## Information about jobs  
 
