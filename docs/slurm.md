@@ -529,26 +529,65 @@ The simplest example is for a serial job. Here running a small Python script <a 
 
 === "LUNARC" 
 
-=== UPPMAX 
+    ```bash 
+    #!/bin/bash
+    #SBATCH -A luXXXX-Y-ZZ # Change to your own
+    #SBATCH --time=00:10:00 # Asking for 10 minutes
+    #SBATCH -n 1 # Asking for 1 core
 
-=== hello.c 
+    # Load any modules you need, here for Python/3.11.5 and compatible SciPy-bundle
+    module load GCC/13.2.0 Python/3.11.5 SciPy-bundle/2023.11
 
+    # Run your Python script
+    python mmmult.py
+    ``` 
 
+=== "UPPMAX" 
 
-```bash 
-#!/bin/bash
-# Project id - change to your own after the course!
-#SBATCH -A hpc2n2025-014
-# Asking for 1 core
-#SBATCH -n 1
-# Asking for a walltime of 1 min
-#SBATCH --time=00:01:00
- 
-# Purge modules before loading new ones in a script.
-ml purge  > /dev/null 2>&1
-ml foss/2022b
+    ```bash 
+    #!/bin/bash -l
+    #SBATCH -A uppmaxXXXX-Y-ZZZ # Change to your own after the course
+    #SBATCH --time=00:10:00 # Asking for 10 minutes
+    #SBATCH -n 1 # Asking for 1 core
 
-./hello 
+    # Load any modules you need, here Python 3.11.8.
+    module load python/3.11.8
+
+    # Run your Python script
+    python mmmult.py
+    ```
+
+=== "mmmult.py" 
+
+    ```python 
+    import timeit
+    import numpy as np
+
+    starttime = timeit.default_timer()
+
+    np.random.seed(1701)
+
+    A = np.random.randint(-1000, 1000, size=(8,4))
+    B = np.random.randint(-1000, 1000, size =(4,4))
+
+    print("This is matrix A:\n", A)
+    print("The shape of matrix A is ", A.shape)
+    print()
+    print("This is matrix B:\n", B)
+    print("The shape of matrix B is ", B.shape)
+    print()
+    print("Doing matrix-matrix multiplication...")
+    print()
+
+    C = np.matmul(A, B)
+
+    print("The product of matrices A and B is:\n", C)
+    print("The shape of the resulting matrix is ", C.shape)
+    print()
+    print("Time elapsed for generating matrices and multiplying them is ", timeit.default_timer() - starttime)
+    ``` 
+
+You submit the jobscript with ``sbatch <jobscript.sh>`` as was mentioned earlier. 
 
 ## Information about jobs  
 
