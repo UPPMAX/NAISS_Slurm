@@ -487,7 +487,7 @@ The simplest example is for a serial job. Here running a small Python script <a 
     ```bash 
     #!/bin/bash
     #SBATCH -A naiss2025-22-934 # Change to your own 
-    #SBATCH --time=00:05:00 # Asking for 5 minutes
+    #SBATCH --time=00:10:00 # Asking for 10 minutes
     #SBATCH -n 1 # Asking for 1 core
 
     # Load any modules you need, here GCC 11.3.0 and Python 3.10.4 
@@ -512,9 +512,22 @@ The simplest example is for a serial job. Here running a small Python script <a 
      python mmmult.py
      ```
  
-=== "HPC2N" 
+=== "HPC2N"
 
-=== LUNARC
+    ```bash
+    #!/bin/bash
+    #SBATCH -A hpc2n2025-151 # Change to your own
+    #SBATCH --time=00:10:00 # Asking for 10 minutes
+    #SBATCH -n 1 # Asking for 1 core
+
+    # Load any modules you need, here for Python/3.11.3 and compatible SciPy-bundle
+    module load GCC/12.3.0 Python/3.11.3 SciPy-bundle/2023.07
+
+    # Run your Python script
+    python mmmult.py 
+    ``` 
+
+=== "LUNARC" 
 
 === UPPMAX 
 
