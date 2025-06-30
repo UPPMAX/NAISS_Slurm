@@ -482,7 +482,7 @@ Now we have looked at the commands to control the job, it is time to look at the
 
 The simplest example is for a serial job. Here running a small Python script <a href="../mmmult.py" target="_blank">``mmmult.py``</a>. 
 
-=== Tetralith 
+=== "Tetralith"
 
     ```bash 
     #!/bin/bash
@@ -497,7 +497,7 @@ The simplest example is for a serial job. Here running a small Python script <a 
     python mmmult.py
     ```
 
-=== Dardel
+=== "Dardel"
 
      
 
