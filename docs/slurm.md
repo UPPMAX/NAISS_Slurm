@@ -46,14 +46,14 @@ Let us look at these one at a time.
 
 This is for requesting an interactive allocation. This is done differently depending on the centre.
 
-| Cluster | interactive | salloc | srun | GfxLauncher or OpenOnDemand | 
-| ------- | ----------- | ------ | ---- | --------------------------- | 
-| HPC2N   | Works       | Recommended | N/A | Recommended (OOD)      | 
-| UPPMAX  | Recommended | Works | N/A | N/A | 
-| LUNARC | Works | N/A | N/A | Recommended (GfxLauncher) | 
-| NSC | Recommended | N/A | N/A | N/A | 
-| PDC | N/A | Recommended | N/A | Possible | 
-| C3SE | N/A | N/A | Works | Recommended (OOD) | 
+| Cluster | interactive | salloc | srun | GfxLauncher or OpenOnDemand |  
+| ------- | ----------- | ------ | ---- | --------------------------- |  
+| HPC2N   | Works       | Recommended | N/A | Recommended (OOD)      |  
+| UPPMAX  | Recommended | Works | N/A | N/A |  
+| LUNARC | Works | N/A | N/A | Recommended (GfxLauncher) |  
+| NSC | Recommended | N/A | N/A | N/A |  
+| PDC | N/A | Recommended | N/A | Possible |  
+| C3SE | N/A | N/A | Works | Recommended (OOD) |  
 
 #### Examples
 
@@ -141,7 +141,7 @@ This is for requesting an interactive allocation. This is done differently depen
         b-an01 [~]$ srun /bin/hostname
         b-cn1403.hpc2n.umu.se
         b-an01 [~]$
-        ``` 
+        ```
         
         Otherwise anything will run on the login node! Also, interactive sessions (for instance a program that asks for input) will not work correctly as that dialogoue happens on the compute node which you do not have real access to!
 
@@ -157,7 +157,7 @@ This is for requesting an interactive allocation. This is done differently depen
         salloc: Waiting for resource configuration
         salloc: Nodes nid001134 are ready for job
         bbrydsoe@login1:~>
-        ``` 
+        ```
 
         Again, you are on the login node, and anything you want to run in the allocation must be preface with ``srun``.
 
@@ -166,7 +166,7 @@ This is for requesting an interactive allocation. This is done differently depen
         ```bash
         bbrydsoe@login1:~> ssh nid001134
         bbrydsoe@nid001134:~
-        ``` 
+        ```
 
 !!! note "srun"
 
