@@ -149,8 +149,8 @@ sections that can be solved independently of each other and then combined.
 What happens in a parallel program is generally the following:
 
 - A "master" process is created to control the distribution of data and tasks.
-- The "master" sends data and instructions to one or more "slave" processes that do the calculations.
-- The "slave" processes then send the results back to the "master".
+- The "master" sends data and instructions to one or more "worker" processes that do the calculations.
+- The "worker" processes then send the results back to the "master".
 - The "master" combines the results and/or may send out further subsections of the problem to be solved.
 
 Examples of parallel problems:
