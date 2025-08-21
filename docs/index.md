@@ -1,4 +1,4 @@
-# Welcome to the "Running jobs on HPC systems" course materials!
+# Welcome to the "Running jobs on HPC systems" course materials
 
 !!! note "Objectives"
 
