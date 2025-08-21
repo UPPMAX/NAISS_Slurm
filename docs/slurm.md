@@ -195,7 +195,7 @@ This is for requesting an interactive allocation. This is done differently depen
 
     === "C3SE"
 
-        - Go to <ahref="https://alvis.c3se.chalmers.se/" target="_blank">https://alvis.c3se.chalmers.se/</a>
+        - Go to <a href="https://alvis.c3se.chalmers.se/" target="_blank">https://alvis.c3se.chalmers.se/</a>
         - There is some documentation here: <a href="https://uppmax.github.io/HPC-python/common/interactive_ondemand.html#start-an-interactive-session-from-ondemand" target="_blank">https://uppmax.github.io/HPC-python/common/interactive_ondemand.html#start-an-interactive-session-from-ondemand</a>
 
 ### sbatch
@@ -253,7 +253,7 @@ The command ``squeue`` is for viewing the state of the batch queue.
 If you just give the command, you will get a long list of all jobs in the queue, so it is usually best to constrain it to your own jobs. This can be done in two ways:
 
 - ``squeue -u <username>``
-- ``squeue --me`` 
+- ``squeue --me``
 
 **Example**:
 
@@ -365,9 +365,9 @@ The command is:
 scontrol show job <job id>
 ```
 
-**Example**: 
+**Example**:
 
-```bash 
+```bash
 b-an01 [~]$ scontrol show job 34815931
 JobId=34815931 JobName=compiler-run
    UserId=bbrydsoe(2897) GroupId=folk(3001) MCS_label=N/A
@@ -396,7 +396,7 @@ JobId=34815931 JobName=compiler-run
    StdIn=/dev/null
    StdOut=/pfs/proj/nobackup/fs/projnb10/support-hpc2n/bbrydsoe/intro-course/hands-ons/3.usage/slurm-34815931.out
    Power=
-``` 
+```
 
 Here you get much interesting information:
 
@@ -512,7 +512,7 @@ The simplest example is for a serial job. Here running a small Python script <a 
      # Run your Python script
      python mmmult.py
      ```
- 
+
 === "HPC2N"
 
     ```bash
@@ -526,7 +526,7 @@ The simplest example is for a serial job. Here running a small Python script <a 
 
     # Run your Python script
     python mmmult.py 
-    ``` 
+    ```
 
 === "LUNARC"
 
@@ -535,13 +535,13 @@ The simplest example is for a serial job. Here running a small Python script <a 
     #SBATCH -A luXXXX-Y-ZZ # Change to your own
     #SBATCH --time=00:10:00 # Asking for 10 minutes
     #SBATCH -n 1 # Asking for 1 core
-
+    
     # Load any modules you need, here for Python/3.11.5 and compatible SciPy-bundle
     module load GCC/13.2.0 Python/3.11.5 SciPy-bundle/2023.11
-
+    
     # Run your Python script
     python mmmult.py
-    ``` 
+    ```
 
 === "UPPMAX"
 
@@ -579,14 +579,14 @@ The simplest example is for a serial job. Here running a small Python script <a 
     print()
     print("Doing matrix-matrix multiplication...")
     print()
-
+    
     C = np.matmul(A, B)
-
+    
     print("The product of matrices A and B is:\n", C)
     print("The shape of the resulting matrix is ", C.shape)
     print()
     print("Time elapsed for generating matrices and multiplying them is ", timeit.default_timer() - starttime)
-    ``` 
+    ```
 
 You submit the jobscript with ``sbatch <jobscript.sh>`` as was mentioned earlier.
 
