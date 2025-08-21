@@ -26,9 +26,9 @@ Using a job script is often recommended:
 - If you ask for the resources on the command line, you will wait for the program to run before you can use the window again (unless you can send it to the background with ``&``).
 - If you use a job script you have an easy record of the commands you used, to reuse or edit for later use.
 
-In order to run a batch job, you need to create and submit a SLURM submit file (also called a batch submit file, a batch script, or a job script). 
+In order to run a batch job, you need to create and submit a SLURM submit file (also called a batch submit file, a batch script, or a job script).
 
-## Slurm commands 
+## Slurm commands
 
 There are many more commands than the ones we have chosen to look at here, but these are the most commonly used ones. You can find more information on the Slurm homepage: <a href="https://slurm.schedmd.com/documentation.html" target="_blank">Slurm documentation</a>.
 
@@ -46,14 +46,14 @@ Let us look at these one at a time.
 
 This is for requesting an interactive allocation. This is done differently depending on the centre.
 
-| Cluster | interactive | salloc | srun | GfxLauncher or OpenOnDemand |
-| ------- | ----------- | ------ | ---- | --------------------------- |
-| HPC2N   | Works       | Recommended | N/A | Recommended (OOD)      |
-| UPPMAX  | Recommended | Works | N/A | N/A |
-| LUNARC | Works | N/A | N/A | Recommended (GfxLauncher) |
-| NSC | Recommended | N/A | N/A | N/A |
-| PDC | N/A | Recommended | N/A | Possible |
-| C3SE | N/A | N/A | Works | Recommended (OOD)
+| Cluster | interactive | salloc | srun | GfxLauncher or OpenOnDemand | 
+| ------- | ----------- | ------ | ---- | --------------------------- | 
+| HPC2N   | Works       | Recommended | N/A | Recommended (OOD)      | 
+| UPPMAX  | Recommended | Works | N/A | N/A | 
+| LUNARC | Works | N/A | N/A | Recommended (GfxLauncher) | 
+| NSC | Recommended | N/A | N/A | N/A | 
+| PDC | N/A | Recommended | N/A | Possible | 
+| C3SE | N/A | N/A | Works | Recommended (OOD) | 
 
 #### Examples
 
@@ -132,18 +132,19 @@ This is for requesting an interactive allocation. This is done differently depen
         salloc: Nodes b-cn1403 are ready for job
         b-an01 [~]$
         ```
-   
+        
         WARNING! This is not true interactivity! Note that we are still on the login node!
-
-        In order to run anything in the allocation, you need to preface with ``srun`` like this: 
- 
-        ```bash 
+        
+        In order to run anything in the allocation, you need to preface with ``srun`` like this:
+        
+        ```bash
         b-an01 [~]$ srun /bin/hostname
         b-cn1403.hpc2n.umu.se
-        b-an01 [~]$ 
+        b-an01 [~]$
         ``` 
-
+        
         Otherwise anything will run on the login node! Also, interactive sessions (for instance a program that asks for input) will not work correctly as that dialogoue happens on the compute node which you do not have real access to!
+
 
     === "PDC"
 
