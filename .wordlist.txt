@@ -90,16 +90,21 @@ TimeLimit
 SubmitTime
 StartTime
 centre
+centres
 Centre
 uptime
 NodeList
 NumCPUs
 NumNodes
 NumTasks
+JobState
 cpus
 BatchHost
 
 cn
+fs
+ons
+pfs
 CANCELLED
 cancelled
 WorkDir
@@ -111,3 +116,5 @@ plnd
 resv
 proj
 projnb
+mmmult
+py
