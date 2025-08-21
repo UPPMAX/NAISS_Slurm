@@ -126,7 +126,7 @@ at a time, since they are serial, which means each only uses one core.
 
 ### MPI (Message Passing Interface
 
-![mpi](../images/mpi.png){: style="width: 400px;float: right"}
+![mpi](../images/mpi2.png){: style="width: 400px;float: right"}
 
 In order to take advantage of more than one core per job and get speed-up this
 way, you need to do some extra programming. In return, the job will be able to
