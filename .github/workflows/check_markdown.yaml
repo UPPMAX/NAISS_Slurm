@@ -13,8 +13,6 @@ on:
       - 'docs/**'
       - .markdownlintignore
       - .markdownlint.jsonc
-    paths-ignore:
-      - 'presentations/**'
   pull_request:
     paths:
       - .github/workflows/check_markdown.yaml
