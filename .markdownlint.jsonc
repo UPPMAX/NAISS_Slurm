@@ -9,11 +9,8 @@
   // That markdownlint has a different default is the error of markdownlint
   "MD007": { "indent": 4 },
 
-
-  "MD009": {
-    // Disallow trailing spaces (default: allow only 0 or 2 spaces) 
-    "enabled": false
-  },
+  // Standard markdown allows a line to have 0 or 2 trailing white spaces
+  "MD009": false,
 
   // Standard markdown does not allow for two correct consecutive blank lines 
   // i an admonitions (a.o. the 'question' admonition):
