@@ -9,7 +9,7 @@ Discuss squeue, scancel, sinfo, sacct, ...
 - inefficient use of the file system (many small files, open/close many files)
 - running job that could run on GPU on CPU instead
 
-## Job monitoring and efficiency 
+## Job monitoring 
 
 ### Commands valid at all centres 
 
@@ -21,7 +21,7 @@ Discuss squeue, scancel, sinfo, sacct, ...
 | ``projinfo`` | usage of your project, adding ``-vd`` lists member usage | 
 | ``sshare -l -A <proj-account>`` | gives priority/fairshare (LevelIFS) | 
 
-Most up-to-date project usage on a project's SUPR page, linked from here: https://supr.naiss.se/project/ 
+Most up-to-date project usage on a project's SUPR page, linked from here: <a href="https://supr.naiss.se/project/" target="_blank">https://supr.naiss.se/project/</a>
 
 ### Site-specific commands 
 
@@ -35,5 +35,5 @@ Most up-to-date project usage on a project's SUPR page, linked from here: https:
 | ``jobsh NODE`` | login to node, run "top" | NSC |
 | ``seff JOBID`` |  displays memory and CPU usage from job run | NSC, PDC | 
 | ``lastjobs`` | lists 10 most recent job in recent 30 days | NSC |
-| https://pdc-web.eecs.kth.se/cluster_usage/ | Information about project usage | PDC |
+| <a href="https://pdc-web.eecs.kth.se/cluster_usage/" target="_blank">https://pdc-web.eecs.kth.se/cluster_usage/</a> | Information about project usage | PDC |
 
