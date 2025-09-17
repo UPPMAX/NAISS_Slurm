@@ -103,6 +103,3 @@ This is the most different of the Slurm settings, between centers.
 
 ### Example GPU scripts 
 
-
-
-
