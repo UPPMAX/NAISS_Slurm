@@ -596,4 +596,8 @@ Use the following:
 
 - sacct
 - job-info
+- scontrol show job JOBID
+- squeue --me 
+- job_usage (HPC2N) 
 
+See [Job monitoring and efficieny](../monitoring) for more about job info. 
