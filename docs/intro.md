@@ -66,7 +66,7 @@
         - ThinLinc Webaccess:
             - Put ``https://kebnekaise-tl.hpc2n.umu.se:300/`` in browser address bar
             - Put ``<your-hpc2n-username>`` and ``<your-hpc2n-password>`` in th e login box that opens and click ``Login``
-        Open OnDemand: ``https://portal.hpc2n.umu.se`` 
+        - Open OnDemand: ``https://portal.hpc2n.umu.se`` 
 
     === "UPPMAX"
 
