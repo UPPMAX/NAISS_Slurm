@@ -83,7 +83,7 @@ There are some differences between the centres in Sweden what type of GPUs they 
 | -------- | ---------- | -------- | ---- |
 | Tetralith | 32 | 96-384 GB | Nvidia T4 GPUs (1) | 
 | Dardel | 128 | 256-2048 GB | 4 AMD Instinct™ MI250X (2) | 
-| Alvis | 16 (skylake 2xV100), <br>32 (skylake 4xV100, 8xT4), <br>64 (icelake 4xA40, 4xA100) | 256-1024 GB | Nvidia v100 (2), v100 (4), T4 (8), A40 (4), A100 (4) |
+| Alvis | 16 (skylake 2xV100), 32 (skylake 4xV100, 8xT4), 64 (icelake 4xA40, 4xA100) | 256-1024 GB | Nvidia v100 (2), v100 (4), T4 (8), A40 (4), A100 (4) |
 | Kebnekaise | 28 (skylake), 72 (largemem), 128/256 (Zen3/Zen4) | 128-3072 GB | NVidia v100 (2), a100 (2), a6000 (2), l40s (2 or 6), H100 (4), A40 (8), AMD MI100 (2) |
 
 - Alvis also has a small number of nodes without GPUs, for heavy-duty pre- and postprocessing that does not require a GPU. To use, specify the constraint ``-C NOGPU`` in your Slurm script.
@@ -94,11 +94,11 @@ This is the most different of the Slurm settings, between centers.
 
 | Resource | batch settings | Comments |
 | -------- | -------------- | -------- |
-| Tetralith | ``#SBATCH -n 1`` <br> ``#SBATCH -c 32`` <br> ``#SBATCH --gpus-per-task=1`` | |
-| Dardel    | ``#SBATCH -N 1`` <br> ``#SBATCH --ntasks-per-node=1`` <br> ``#SBATCH -p gpu`` | |
-| Alvis | ``#SBATCH -p alvis`` <br> ``#SBATCH -N <nodes>`` <br> ``#SBATCH --gpus-per-node=<type>:x`` | - no node-sharing on multi-node jobs <br> (``--exclusive`` is automatic) <br> - Requesting -N 1 does not mean 1 full node | 
+| Tetralith | ``#SBATCH -n 1``  ``#SBATCH -c 32`` ``#SBATCH --gpus-per-task=1`` | |
+| Dardel    | ``#SBATCH -N 1``  ``#SBATCH --ntasks-per-node=1``  ``#SBATCH -p gpu`` | |
+| Alvis | ``#SBATCH -p alvis``  ``#SBATCH -N <nodes>``  ``#SBATCH --gpus-per-node=<type>:x`` | - no node-sharing on multi-node jobs  (``--exclusive`` is automatic)  - Requesting -N 1 does not mean 1 full node | 
 | Cosmos | | |
-| Kebnekaise | ``#SBATCH --gpus=x`` <br> ``#SBATCH -C <type>`` | | 
+| Kebnekaise | ``#SBATCH --gpus=x``  ``#SBATCH -C <type>`` | | 
 | Pelle | | | 
 
 ### Example GPU scripts 
