@@ -600,4 +600,4 @@ Use the following:
 - squeue --me 
 - job_usage (HPC2N) 
 
-See [Job monitoring and efficieny](../monitoring) for more about job info. 
+See [Job monitoring and efficiency](../monitoring) for more about job info. 
