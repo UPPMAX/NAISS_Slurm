@@ -25,32 +25,32 @@
 
 ### Project number and storage 
 
-=== "NSC (Tetralith)" 
+=== "NSC" 
  
     - Project ID: ``naiss2025-22-934``
     - Project storage: ``/proj/courses-fall-2025/users``    
 
-=== "PDC (Dardel)"
+=== "PDC"
 
     - Project ID: ``naiss2025-22-934``
     - Project storage: ``/cfs/klemming/projects/supr/courses-fall-2025``
 
-=== "C3SE (Alvis)"
+=== "C3SE"
 
     - Project ID: ``naiss2025-22-934``
     - Project storage: ``/mimer/NOBACKUP/groups/courses-fall-2025`` 
 
-=== "HPC2N (Kebnekaise)" 
+=== "HPC2N" 
 
     - Project ID: ``hpc2n2025-151``
     - Project storage: ``/proj/nobackup/fall-courses``
 
-=== "LUNARC (Cosmos)" 
+=== "LUNARC" 
 
     - Project ID: 
     - Project storage: 
 
-=== "UPPMAX (Rackham/Snowy or Pelle)" 
+=== "UPPMAX" 
 
     - Project ID: 
     - Project storage:  
