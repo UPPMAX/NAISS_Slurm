@@ -15,7 +15,7 @@ The advantage of computer clusters over single computers, are that they usually
 improves the performance (and availability) greatly, while still being cheaper
 than single computers of comparable speed and size.
 
-![cluster](../images/cluster.png){: style="width: 400px;float: right"}
+![cluster](./images/clusterlayout.svg){: style="width: 400px;float: right"}
 
 ### What are Nodes, Cores, and CPUs?
 
@@ -26,6 +26,10 @@ core is a single processor able to handle a single programmed task. Memory is
 always shared between cores on the same CPU, but generally not between the CPUs.
 Computer nodes can also have GPUs (graphical processing units) in addition to
 the CPUs.
+
+![cpu node](./images/cpu-core-schema.svg){: style="width: 400px;float: right"}
+
+![gpu node](./images/gpu-core-schema.svg){: style="width: 400px;float: right"}
 
 Parallelization across multiple cores on the same CPU is called **multi-
 threading**. Many software packages either use multi-threading implicitly or have
