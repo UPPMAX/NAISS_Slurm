@@ -61,7 +61,8 @@
     "allowed_elements": [
       "a",
       "figure",
-      "figcaption"
+      "figcaption",
+      "br"
     ]
   },
 
