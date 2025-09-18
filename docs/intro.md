@@ -58,9 +58,9 @@
 ### Login info 
 
 - You will not need a graphical user interface for this course.
-- Even so, if you do not have a favourite SSH client, we recomment using <a href="https://www.cendio.com/thinlinc/download/" target="_blank">ThinLinc</a>
+- Even so, if you do not have a preferred SSH client, we recomment using <a href="https://www.cendio.com/thinlinc/download/" target="_blank">ThinLinc</a>
 
-!!! note "Connection info" 
+!!! important "Connection info" 
 
     - Login to the system you are using (Tetralith/Dardel, other Swedish HPC system)
     - Connection info for some Swedish HPC systems - use the one you have access to: 
