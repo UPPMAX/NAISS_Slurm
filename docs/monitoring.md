@@ -17,7 +17,7 @@ Discuss squeue, scancel, sinfo, sacct, ...
 | ------- | ---- | 
 | ``scontrol show job JOBID`` | info about a job, including *estimated* start time | 
 | ``squeue --me --start`` | your running and queued jobs with *estimated* start time | 
-| ``sacct -l JOBID`` | info about job, pipe to ``less -S`` for scrolling side-ways (it is a wide output) | 
+| ``sacct -l -j JOBID`` | info about job, pipe to ``less -S`` for scrolling side-ways (it is a wide output) | 
 | ``projinfo`` | usage of your project, adding ``-vd`` lists member usage | 
 | ``sshare -l -A <proj-account>`` | gives priority/fairshare (LevelIFS) | 
 
