@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Sample job scripts - Running jobs on HPC systems</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../assets/_markdown_exec_pyodide.css" rel="stylesheet" />
+        <link href="../assets/_markdown_exec_ansi.css" rel="stylesheet" />
+        <link href="../assets/_mkdocstrings.css" rel="stylesheet" />
+        <link href="../css/extra.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Sample job scripts";
+        var mkdocs_page_input_path = "jobscripts.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="..">
+          <img src="../images/naiss-slurm-logo.png" class="logo" alt="Logo"/>
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../intro/">Introduction</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../cluster/">Intro to clusters</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../concepts/">Batch system concepts</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../slurm/">Introduction to Slurm</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">Sample job scripts</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#the__simplest__job">The Simplest Job</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#basic__serial__job">Basic Serial Job</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#openmp">OpenMP</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#mpi">MPI</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#memory-intensive__jobs">Memory-intensive jobs</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#io__intensive__jobs">I/O intensive jobs</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#job__arrays">Job arrays</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#some__array__comments">Some array comments</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#gpu__jobs">GPU jobs</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#allocating__a__gpu">Allocating a GPU</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#example__gpu__scripts">Example GPU scripts</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../monitoring/">Job monitoring and efficiency</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../summary/">Summary</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">Running jobs on HPC systems</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Sample job scripts</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/UPPMAX/NAISS_Slurm/blob/main/docs/jobscripts.md" class="icon icon-github"> Edit on GitHub</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="sample__job__scripts">Sample job scripts<a class="headerlink" href="#sample__job__scripts" title="Permanent link">&para;</a></h1>
+<h2 id="the__simplest__job">The Simplest Job<a class="headerlink" href="#the__simplest__job" title="Permanent link">&para;</a></h2>
+<p>The simplest possible batch script would look something like this:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="ch">#!/bin/bash</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="c1">#SBATCH -A lu20yy-x-xx    ###replace with your project ID</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="c1">#SBATCH -t 00:05:00</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="nb">echo</span><span class="w"> </span><span class="nv">$HOSTNAME</span>
+</span></code></pre></div>
+<p>The first line is called the &ldquo;shebang&rdquo; and it indicates that the script is
+written in the bash shell language.</p>
+<p>The second and third lines are resource statements. The second line above is a
+template resembling typical project IDs at LUNARC. While not technically required
+if you only have one project to your name, we recommend that you make a habit of
+including it. The third line in the example above provides the walltime, the
+maximum amount of time that the program would be allowed to run (5 minutes in
+this example). If a job does not finish within the specified walltime, the
+resource management system terminates it and any data that were not already
+written to a file before time ran out are lost.</p>
+<p>The last line in the above sample is the code to be executed by the batch script.
+In this case, it just prints the name of the server on which the code ran.</p>
+<p>All of the parameters that Slurm needs to determine which resources to allocate,
+under whose account, and for how long, must be given as a series of resource
+statements of the form <code>#SBATCH -&lt;option&gt; &lt;value&gt;</code> or <code>#SBATCH --&lt;key-words&gt;=&lt;value&gt;</code>
+(<em>note: <code>&lt;</code> and <code>&gt;</code> are not typically used in real arguments; they&rsquo;re just used</em>
+<em>here to indicate placeholder text</em>). For most compute nodes, unless otherwise
+specified, a batch script will run on 1 core of 1 node by default. However, the
+default settings may vary between HPC centers or between partitions at the same
+HPC center.</p>
+<h2 id="basic__serial__job">Basic Serial Job<a class="headerlink" href="#basic__serial__job" title="Permanent link">&para;</a></h2>
+<p>Let&rsquo;s say you have a simple Python script called <code>mmmult.py</code> that creates 2
+random-valued matrices, multiplies them together, and prints the shape of the
+result and the computation time. Let&rsquo;s also say that you want to run this code
+in your current working directory. Here is how you might run that program once
+on 1 core and 1 node:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="ch">#!/bin/bash</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="c1">#SBATCH -A lu20yy-x-xx       ### replace with your project ID</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="c1">#SBATCH -t 00:10:00          ### walltime in hh:mm:ss format</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="c1">#SBATCH -J mmmult            ### sample job name; customize as desired or omit</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="c1">#SBATCH -o process_%j.out    ### filename for stderr - customise, include %j</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="c1">#SBATCH -e process_%j.err    ### filename for stderr - customise, include %j</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="c1">#SBATCH -n 1                 ### number of cores to use; same as --ntasks-per-node</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="c1"># write this script to stdout-file - useful for scripting errors</span>
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>cat<span class="w"> </span><span class="nv">$0</span>
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="c1"># Purge any loaded modules</span>
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>ml<span class="w"> </span>purge<span class="w"> </span>&gt;<span class="w"> </span>/dev/null<span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span>
+</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>
+</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="c1"># Load required modules; customize as needed</span>
+</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="c1"># Can omit module version number if prerequisites only allow one version</span>
+</span><span id="__span-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>ml<span class="w"> </span>foss/2023b<span class="w"> </span>Python/3.11.5<span class="w"> </span>SciPy-bundle
+</span><span id="__span-1-18"><a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>
+</span><span id="__span-1-19"><a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="c1">#run the script</span>
+</span><span id="__span-1-20"><a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a>python3<span class="w"> </span>mmmult.py
+</span></code></pre></div>
+<h2 id="openmp">OpenMP<a class="headerlink" href="#openmp" title="Permanent link">&para;</a></h2>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="ch">#!/bin/bash </span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="c1">#SBATCH -A &lt;account&gt;</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="c1">#SBATCH -t HHH:MM:SS </span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="c1">#SBATCH -c &lt;cores-per-task&gt; </span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>module<span class="w"> </span>load<span class="w"> </span>&lt;modules&gt;
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="c1"># Set OMP_NUM_THREADS to the same value as -c with a fallback in case it isn&#39;t set.</span>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="c1"># SLURM_CPUS_PER_TASK is set to the value of -c, but only if -c is explicitly set</span>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$SLURM_CPUS_PER_TASK</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="w">  </span><span class="nv">omp_threads</span><span class="o">=</span><span class="nv">$SLURM_CPUS_PER_TASK</span>
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="k">else</span>
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="w">  </span><span class="nv">omp_threads</span><span class="o">=</span><span class="m">1</span>
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="k">fi</span>
+</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="nb">export</span><span class="w"> </span><span class="nv">OMP_NUM_THREADS</span><span class="o">=</span><span class="nv">$omp_threads</span>
+</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a>
+</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a>./myopenmpprogram
+</span></code></pre></div>
+<ul>
+<li><code>-c</code> is used to set cores per task and should be the same as <code>OMP_NUM_THREADS</code></li>
+<li>Remember, Alvis is only for GPU jobs </li>
+</ul>
+<h2 id="mpi">MPI<a class="headerlink" href="#mpi" title="Permanent link">&para;</a></h2>
+<h2 id="memory-intensive__jobs">Memory-intensive jobs<a class="headerlink" href="#memory-intensive__jobs" title="Permanent link">&para;</a></h2>
+<h2 id="io__intensive__jobs">I/O intensive jobs<a class="headerlink" href="#io__intensive__jobs" title="Permanent link">&para;</a></h2>
+<h2 id="job__arrays">Job arrays<a class="headerlink" href="#job__arrays" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Job arrays: a mechanism for submitting and managing collections of similar jobs.</li>
+<li>All jobs must have the same initial options (e.g. size, time limit, etc.)</li>
+<li>the execution times can vary depending on input data</li>
+<li>You create multiple jobs from one script, using the <code>-- array</code> directive.</li>
+<li>This requires very little BASH scripting abilities</li>
+<li>
+<p>max number of jobs is restricted by max number of jobs/user - centre specific</p>
+</li>
+<li>
+<p>More information here on the official Slurm documentation pages: <a href="https://slurm.schedmd.com/job_array.html" target="_blank">https://slurm.schedmd.com/job_array.html</a>.</p>
+</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Example</p>
+<p>This shows how to run a small Python script <code>hello-world-array.py</code> as an array. </p>
+<div class="language-py highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># import sys library (we need this for the command line args)</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="c1"># print task number</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Hello world! from task number: &#39;</span><span class="p">,</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+</span></code></pre></div>
+<p>You could then make a batch script like this, <code>hello-world-array.sh</code>: </p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="ch">#!/bin/bash</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="c1"># A very simple example of how to run a Python script with a job array</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="c1">#SBATCH -A &lt;account&gt;</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="c1">#SBATCH --time=00:05:00 # Asking for 5 minutes</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="c1">#SBATCH --array=1-10   # how many tasks in the array</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="c1">#SBATCH -c 1 # Asking for 1 core    # one core per task</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="c1"># Create specific output files for each task with the environment variable %j</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="c1"># which contains the job id and %a for each step</span>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="c1">#SBATCH -o hello-world-%j-%a.out</span>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="c1"># Load any modules you need</span>
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>module<span class="w"> </span>load<span class="w"> </span>&lt;module&gt;<span class="w"> </span>&lt;python-module&gt;<span class="w"> </span>
+</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>
+</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="c1"># Run your Python script</span>
+</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>srun<span class="w"> </span>python<span class="w"> </span>hello-world-array.py<span class="w"> </span><span class="nv">$SLURM_ARRAY_TASK_ID</span>
+</span></code></pre></div>
+</div>
+<h3 id="some__array__comments">Some array comments<a class="headerlink" href="#some__array__comments" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Default step of 1<ul>
+<li>Example: <code>#SBATCH --array=4-80</code></li>
+</ul>
+</li>
+<li>Give an index (here steps of 4)<ul>
+<li>Example: <code>#SBATCH --array=1-100:4</code></li>
+</ul>
+</li>
+<li>Give a list instead of a range<ul>
+<li>Example: <code>#SBATCH --array=5,8,33,38</code></li>
+</ul>
+</li>
+<li>Throttle jobs, so only a smaller number of jobs run at a time<ul>
+<li>Example: <code>#SBATCH --array1-400%4</code></li>
+</ul>
+</li>
+<li>Name output/error files so each job (<code>%j</code> or <code>%A</code>) and step (<code>%a</code>) gets  own file<ul>
+<li><code>#SBATCH -o process_%j_%a.out</code></li>
+<li><code>#SBATCH -e process_%j_%a.err</code></li>
+</ul>
+</li>
+<li>There is an environment variable <code>$SLURM_ARRAY_TASK_ID</code> which can be used to check/query with</li>
+</ul>
+<h2 id="gpu__jobs">GPU jobs<a class="headerlink" href="#gpu__jobs" title="Permanent link">&para;</a></h2>
+<p>There are some differences between the centres in Sweden what type of GPUs they have. </p>
+<table>
+<thead>
+<tr>
+<th>Resource</th>
+<th>cores/node</th>
+<th>RAM/node</th>
+<th>GPUs, type (per node)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Tetralith</td>
+<td>32</td>
+<td>96-384 GB</td>
+<td>Nvidia T4 GPUs (1)</td>
+</tr>
+<tr>
+<td>Dardel</td>
+<td>128</td>
+<td>256-2048 GB</td>
+<td>4 AMD Instinct™ MI250X (2)</td>
+</tr>
+<tr>
+<td>Alvis</td>
+<td>16 (skylake 2xV100), <br>32 (skylake 4xV100, 8xT4), <br>64 (icelake 4xA40, <br>4xA100)</td>
+<td>256-1024 GB</td>
+<td>Nvidia v100 (2), <br>v100 (4), <br>T4 (8), <br>A40 (4), <br>A100 (4)</td>
+</tr>
+<tr>
+<td>Kebnekaise</td>
+<td>28 (skylake), <br>72 (largemem), <br>128/256 (Zen3/Zen4)</td>
+<td>128-3072 GB</td>
+<td>NVidia v100 (2), <br>NVidia a100 (2), <br>NVidia a6000 (2), <br>NVidia l40s (2 or 6), <br>NVidia H100 (4), <br>NVidia A40 (8), <br>AMD MI100 (2)</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Alvis also has a small number of nodes without GPUs, for heavy-duty pre- and post-processing that does not require a GPU. To use, specify the constraint <code>-C NOGPU</code> in your Slurm script.</li>
+</ul>
+<h3 id="allocating__a__gpu">Allocating a GPU<a class="headerlink" href="#allocating__a__gpu" title="Permanent link">&para;</a></h3>
+<p>This is the most different of the Slurm settings, between centers.</p>
+<table>
+<thead>
+<tr>
+<th>Resource</th>
+<th>batch settings</th>
+<th>Comments</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Tetralith</td>
+<td><code>#SBATCH -n 1</code>  <br><code>#SBATCH -c 32</code> <br><code>#SBATCH --gpus-per-task=1</code></td>
+<td></td>
+</tr>
+<tr>
+<td>Dardel</td>
+<td><code>#SBATCH -N 1</code>  <br><code>#SBATCH --ntasks-per-node=1</code>  <br><code>#SBATCH -p gpu</code></td>
+<td></td>
+</tr>
+<tr>
+<td>Alvis</td>
+<td><code>#SBATCH -p alvis</code>  <br><code>#SBATCH -N &lt;nodes&gt;</code>  <br><code>#SBATCH --gpus-per-node=&lt;type&gt;:x</code></td>
+<td>- no node-sharing on multi-node jobs  <br> (<code>--exclusive</code> is automatic)  <br>- Requesting -N 1 does not mean 1 full node</td>
+</tr>
+<tr>
+<td>Cosmos</td>
+<td><code>#SBATCH -p gpua100</code> <br><code>#SBATCH --gres=gpu:1</code></td>
+<td></td>
+</tr>
+<tr>
+<td>Kebnekaise</td>
+<td><code>#SBATCH --gpus=x</code>  <br><code>#SBATCH -C &lt;type&gt;</code></td>
+<td></td>
+</tr>
+<tr>
+<td>Pelle</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="example__gpu__scripts">Example GPU scripts<a class="headerlink" href="#example__gpu__scripts" title="Permanent link">&para;</a></h3>
+<p>This shows a simple GPU script, asking for 1 or 2 cards on a single node. </p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:1"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">NSC</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block"></div>
+</div>
+</div>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../slurm/" class="btn btn-neutral float-left" title="Introduction to Slurm"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../monitoring/" class="btn btn-neutral float-right" title="Job monitoring and efficiency">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/UPPMAX/NAISS_Slurm" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href="../slurm/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../monitoring/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../assets/_markdown_exec_pyodide.js"></script>
+      <script src="../search/main.js"></script>
+      <script src="../js/open_in_new_tab.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
