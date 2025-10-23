@@ -140,6 +140,14 @@ se
 SUPR
 supr
 ThinLinc
+
+chalmers
+jobstats
+liu
+nsc
+tetralith
+uu
+www
 favourite
 recomment
 JOBID
