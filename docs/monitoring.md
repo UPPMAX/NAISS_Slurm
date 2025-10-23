@@ -36,7 +36,7 @@ Most up-to-date project usage on a project's SUPR page, linked from here: <a hre
 | ``seff JOBID`` |  displays memory and CPU usage from job run | NSC, PDC | 
 | ``lastjobs`` | lists 10 most recent job in recent 30 days | NSC |
 | <a href="https://pdc-web.eecs.kth.se/cluster_usage/" target="_blank">https://pdc-web.eecs.kth.se/cluster_usage/</a> | Information about project usage | PDC |
-| <a href="https://grafana.c3se.chalmers.se/d/user-jobs/user-jobs" target="_blank">https://grafana.c3se.chalmers.se/d/user-jobs/user-jobs</a> | Graphana dashboard for user jobs | C3SE |
+| <a href="https://grafana.c3se.chalmers.se/d/user-jobs/user-jobs" target="_blank">https://grafana.c3se.chalmers.se/d/user-jobs/user-jobs</a> | Grafana dashboard for user jobs | C3SE |
 | <a href="https://www.nsc.liu.se/support/batch-jobs/tetralith/monitoring/" target="_blank">https://www.nsc.liu.se/support/batch-jobs/tetralith/monitoring/</a> | Job monitoring | NSC |
 | <a href="https://docs.uppmax.uu.se/software/jobstats/" target="_blank">https://docs.uppmax.uu.se/software/jobstats/</a> | Job efficiency | UPPMAX |
 
