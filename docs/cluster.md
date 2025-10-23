@@ -15,7 +15,7 @@ The advantage of computer clusters over single computers, are that they usually
 improves the performance (and availability) greatly, while still being cheaper
 than single computers of comparable speed and size.
 
-![cluster](./images/clusterlayout.svg){: style="width: 400px;float: right"}
+![cluster](./images/clusterlayout.svg){: style="width: 800px}
 
 ### What are Nodes, Cores, and CPUs?
 
