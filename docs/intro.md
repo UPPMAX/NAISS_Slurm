@@ -134,4 +134,16 @@
 
 ## Schedule
 
-TBA
+| Time | Topic | Activity | Teacher | 
+| ---- | ----- | -------- | ------- |
+| 9:00 | Intro to course | Lecture | |
+| | Intro to clusters | Lecture | | 
+| | Batch system concepts / job scheduling | Lecture | | 
+| | Parallelism | Lecture+type along | | 
+| | Intro to Slurm (sbatch, squeue, scontrol, …) | Lecture+type along | |
+| | BREAK | | |
+| | Additional sample scripts, including job arrays, task farms??? | | |
+| | Job monitoring and efficiency | | |
+| | Summary | | |
+
+
