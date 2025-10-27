@@ -107,7 +107,7 @@ export OMP_NUM_THREADS=$omp_threads
 - This requires very little BASH scripting abilities
 - max number of jobs is restricted by max number of jobs/user - centre specific
 
-- More information here on the official Slurm documentation pages: <a href="https://slurm.schedmd.com/job_array.html" target="_blank">https://slurm.schedmd.com/job_array.html</a>.
+- [More information here on the official Slurm documentation pages.](https://slurm.schedmd.com/job_array.html)
 
 !!! note "Example"
 
