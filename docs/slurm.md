@@ -479,114 +479,32 @@ You can see the full list of states and their meaning with ``man sinfo``.
 
 Now we have looked at the commands to control the job, it is time to look at the job scripts themselves.
 
-### Serial job
+### Simplest job 
 
-The simplest example is for a serial job. Here running a small Python script <a href="../mmmult.py" target="_blank">``mmmult.py``</a>.
+The simplest possible batch script would look something like this:
 
-=== "Tetralith"
+```bash
+#!/bin/bash
+#SBATCH -A <proj-id>    ###replace with your project ID
+#SBATCH -t 00:05:00
 
-    ```bash
-    #!/bin/bash
-    #SBATCH -A naiss2025-22-934 # Change to your own 
-    #SBATCH --time=00:10:00 # Asking for 10 minutes
-    #SBATCH -n 1 # Asking for 1 core
+echo $HOSTNAME
+```
 
-    # Load any modules you need, here GCC 11.3.0 and Python 3.10.4 
-    module load buildtool-easybuild/4.8.0-hpce082752a2 GCC/11.3.0 OpenMPI/4.1.4 Python/3.10.4 SciPy-bundle/2022.05
-  
-    # Run your Python script
-    python mmmult.py
-    ```
+The first line is called the “shebang” and it indicates that the script is written in the bash shell language.
 
-=== "Dardel"
+The second and third lines are resource statements to the Slurm batch scheduler. 
 
-     ```bash
-     #!/bin/bash
-     #SBATCH -A naiss2025-22-934 # Change to your own
-     #SBATCH --time=00:10:00 # Asking for 10 minutes
-     #SBATCH -n 1 # Asking for 1 core
+The second line above is where you put your project ID. 
+Depending on centre, this is either always required or not technically required if you only have one project to your name. Regardless, we recommend that you make a habit of including it. 
 
-     # Load any modules you need, here for cray-python/3.11.7.
-     module load cray-python/3.11.7
+The third line in the example above provides the walltime, the maximum amount of time that the program would be allowed to run (5 minutes in this example). If a job does not finish within the specified walltime, the resource management system terminates it and any data that were not already written to a file before time ran out are lost.
 
-     # Run your Python script
-     python mmmult.py
-     ```
+The last line in the above sample is the code to be executed by the batch script. In this case, it just prints the name of the server on which the code ran.
 
-=== "HPC2N"
+All of the parameters that Slurm needs to determine which resources to allocate, under whose account, and for how long, must be given as a series of resource statements of the form ``#SBATCH -<option> <value>`` or ``#SBATCH --<key-words>=<value>`` (note: `<` and `>` are not typically used in real arguments; they are just used here to indicate placeholder text). 
 
-    ```bash
-    #!/bin/bash
-    #SBATCH -A hpc2n2025-151 # Change to your own
-    #SBATCH --time=00:10:00 # Asking for 10 minutes
-    #SBATCH -n 1 # Asking for 1 core
-
-    # Load any modules you need, here for Python/3.11.3 and compatible SciPy-bundle
-    module load GCC/12.3.0 Python/3.11.3 SciPy-bundle/2023.07
-
-    # Run your Python script
-    python mmmult.py 
-    ```
-
-=== "LUNARC"
-
-    ```bash
-    #!/bin/bash
-    #SBATCH -A luXXXX-Y-ZZ # Change to your own
-    #SBATCH --time=00:10:00 # Asking for 10 minutes
-    #SBATCH -n 1 # Asking for 1 core
-    
-    # Load any modules you need, here for Python/3.11.5 and compatible SciPy-bundle
-    module load GCC/13.2.0 Python/3.11.5 SciPy-bundle/2023.11
-    
-    # Run your Python script
-    python mmmult.py
-    ```
-
-=== "UPPMAX"
-
-    ```bash
-    #!/bin/bash -l
-    #SBATCH -A uppmaxXXXX-Y-ZZZ # Change to your own after the course
-    #SBATCH --time=00:10:00 # Asking for 10 minutes
-    #SBATCH -n 1 # Asking for 1 core
-
-    # Load any modules you need, here Python 3.11.8.
-    module load python/3.11.8
-
-    # Run your Python script
-    python mmmult.py
-    ```
-
-=== "mmmult.py"
-
-    ```python
-    import timeit
-    import numpy as np
-
-    starttime = timeit.default_timer()
-
-    np.random.seed(1701)
-
-    A = np.random.randint(-1000, 1000, size=(8,4))
-    B = np.random.randint(-1000, 1000, size =(4,4))
-
-    print("This is matrix A:\n", A)
-    print("The shape of matrix A is ", A.shape)
-    print()
-    print("This is matrix B:\n", B)
-    print("The shape of matrix B is ", B.shape)
-    print()
-    print("Doing matrix-matrix multiplication...")
-    print()
-    
-    C = np.matmul(A, B)
-    
-    print("The product of matrices A and B is:\n", C)
-    print("The shape of the resulting matrix is ", C.shape)
-    print()
-    print("Time elapsed for generating matrices and multiplying them is ", timeit.default_timer() - starttime)
-    ```
+Depending on centre, for most compute nodes, unless otherwise specified, a batch script will run on 1 core of 1 node by default. However, at some centres it is required to always give the number of cores or nodes, so you should make it a habit to include it. 
 
 You submit the jobscript with ``sbatch <jobscript.sh>`` as was mentioned earlier.
 
@@ -599,5 +517,6 @@ Use the following:
 - scontrol show job JOBID
 - squeue --me 
 - job_usage (HPC2N) 
+- and several more 
 
 See [Job monitoring and efficiency](../monitoring) for more about job info. 

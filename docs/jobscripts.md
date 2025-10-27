@@ -41,8 +41,11 @@ HPC center.
 Let's say you have a simple Python script called `mmmult.py` that creates 2
 random-valued matrices, multiplies them together, and prints the shape of the
 result and the computation time. Let's also say that you want to run this code
-in your current working directory. Here is how you might run that program once
-on 1 core and 1 node:
+in your current working directory. 
+
+You can find the small Python script here: <a href="../mmmult.py" target="_blank">``mmmult.py``</a>.
+
+Here is how you might run that program once on 1 core and 1 node:
 
 ```bash
 #!/bin/bash
@@ -66,6 +69,115 @@ ml foss/2023b Python/3.11.5 SciPy-bundle
 #run the script
 python3 mmmult.py
 ```
+
+### Examples by centre 
+
+=== "Tetralith"
+
+    ```bash
+    #!/bin/bash
+    #SBATCH -A naiss2025-22-934 # Change to your own
+    #SBATCH --time=00:10:00 # Asking for 10 minutes
+    #SBATCH -n 1 # Asking for 1 core
+
+    # Load any modules you need, here GCC 11.3.0 and Python 3.10.4
+    module load buildtool-easybuild/4.8.0-hpce082752a2 GCC/11.3.0 OpenMPI/4.1.4 Python/3.10.4 SciPy-bundle/2022.05
+
+    # Run your Python script
+    python mmmult.py
+    ```
+
+=== "Dardel"
+
+     ```bash
+     #!/bin/bash
+     #SBATCH -A naiss2025-22-934 # Change to your own
+     #SBATCH --time=00:10:00 # Asking for 10 minutes
+     #SBATCH -n 1 # Asking for 1 core
+
+     # Load any modules you need, here for cray-python/3.11.7.
+     module load cray-python/3.11.7
+
+     # Run your Python script
+     python mmmult.py
+     ```
+
+=== "HPC2N"
+
+    ```bash
+    #!/bin/bash
+    #SBATCH -A hpc2n2025-151 # Change to your own
+    #SBATCH --time=00:10:00 # Asking for 10 minutes
+    #SBATCH -n 1 # Asking for 1 core
+
+    # Load any modules you need, here for Python/3.11.3 and compatible SciPy-bundle
+    module load GCC/12.3.0 Python/3.11.3 SciPy-bundle/2023.07
+
+    # Run your Python script
+    python mmmult.py
+    ```
+
+=== "LUNARC"
+
+    ```bash
+    #!/bin/bash
+    #SBATCH -A luXXXX-Y-ZZ # Change to your own
+    #SBATCH --time=00:10:00 # Asking for 10 minutes
+    #SBATCH -n 1 # Asking for 1 core
+
+    # Load any modules you need, here for Python/3.11.5 and compatible SciPy-bundle
+    module load GCC/13.2.0 Python/3.11.5 SciPy-bundle/2023.11
+
+    # Run your Python script
+    python mmmult.py
+    ```
+
+=== "UPPMAX"
+
+    ```bash
+    #!/bin/bash -l
+    #SBATCH -A uppmaxXXXX-Y-ZZZ # Change to your own after the course
+    #SBATCH --time=00:10:00 # Asking for 10 minutes
+    #SBATCH -n 1 # Asking for 1 core
+
+    # Load any modules you need, here Python 3.11.8.
+    module load python/3.11.8
+
+    # Run your Python script
+    python mmmult.py
+    ```
+
+=== "mmmult.py"
+
+    ```python
+    import timeit
+    import numpy as np
+
+    starttime = timeit.default_timer()
+
+    np.random.seed(1701)
+
+    A = np.random.randint(-1000, 1000, size=(8,4))
+    B = np.random.randint(-1000, 1000, size =(4,4))
+
+    print("This is matrix A:\n", A)
+    print("The shape of matrix A is ", A.shape)
+    print()
+    print("This is matrix B:\n", B)
+    print("The shape of matrix B is ", B.shape)
+    print()
+    print("Doing matrix-matrix multiplication...")
+    print()
+
+    C = np.matmul(A, B)
+
+    print("The product of matrices A and B is:\n", C)
+    print("The shape of the resulting matrix is ", C.shape)
+    print()
+    print("Time elapsed for generating matrices and multiplying them is ", timeit.default_timer() - starttime)
+    ```
+
+There is no example for Alvis since you should only use that for running GPU jobs. 
 
 ## OpenMP 
 
