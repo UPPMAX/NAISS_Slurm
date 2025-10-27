@@ -506,6 +506,10 @@ All of the parameters that Slurm needs to determine which resources to allocate,
 
 Depending on centre, for most compute nodes, unless otherwise specified, a batch script will run on 1 core of 1 node by default. However, at some centres it is required to always give the number of cores or nodes, so you should make it a habit to include it. 
 
+!!! note
+
+    There are many more resource statements and other commands that can go into the Slurm batch script. We will look at some of them in the next section, where we show some sample job scripts. 
+
 You submit the jobscript with ``sbatch <jobscript.sh>`` as was mentioned earlier.
 
 ## Information about jobs
