@@ -31,14 +31,6 @@ the CPUs.
 
 ![gpu node](./images/gpu-core-schema.svg){: style="width: 400px;float: right"}
 
-Parallelization across multiple cores on the same CPU is called **multi-
-threading**. Many software packages either use multi-threading implicitly or have
-switches that enable multi-threading without having to adapt the affected code.
-However, programs that use only multi-threaded, shared memory programming
-interfaces, like OpenMP, are not always best-suited for clusters unless there
-are many cores per CPU (usually true for HPC clusters) and each CPU has a lot of
-memory (less often true).
-
 Nodes in computer clusters are usually arranged in racks at a dedicated climate-
 controlled facility, and are connected via a communication network. With few
 exceptions, nearly all computer clusters use the Linux operating system.
