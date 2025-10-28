@@ -477,7 +477,9 @@ You can see the full list of states and their meaning with ``man sinfo``.
 
 ## Slurm job scripts
 
-Now we have looked at the commands to control the job, it is time to look at the job scripts themselves.
+Now we have looked at the commands to control the job, but what about the jobscripts? 
+
+We had a small example further up on the page, which we used to test the commands, but now we will look more at the job scripts themselves. 
 
 ### Simplest job 
 
@@ -505,6 +507,15 @@ The last line in the above sample is the code to be executed by the batch script
 All of the parameters that Slurm needs to determine which resources to allocate, under whose account, and for how long, must be given as a series of resource statements of the form ``#SBATCH -<option> <value>`` or ``#SBATCH --<key-words>=<value>`` (note: `<` and `>` are not typically used in real arguments; they are just used here to indicate placeholder text). 
 
 Depending on centre, for most compute nodes, unless otherwise specified, a batch script will run on 1 core of 1 node by default. However, at some centres it is required to always give the number of cores or nodes, so you should make it a habit to include it. 
+
+!!! note "Time/walltime"
+
+    - the job **will** terminate when the time runs out, whether it has finished or not
+    - you will only be "charged" for the consumed time
+    - asking for more time than needed will generally make the job take longer to start
+    - short jobs can start quicker (backfill)
+    - if you have no idea how long your job takes, ask for "long" time
+    - Conclusion: Ask for "a bit" more time than needed, but not too much
 
 !!! note
 
