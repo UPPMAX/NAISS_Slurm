@@ -16,8 +16,8 @@
         - OpenMP and MPI jobs
         - job arrays
         - simple example for task farming
-    - increasing the memory per task / memory hungry jobs
-    - Running on GPUs
+        - increasing the memory per task / memory hungry jobs
+        - Running on GPUs
     - job monitoring, job efficiency
     - how to find optimal sbatch options
 
