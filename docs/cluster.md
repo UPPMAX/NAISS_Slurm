@@ -128,22 +128,11 @@ at a time, since they are serial, which means each only uses one core.
     time between batches of jobs, etc. so the speed-up will not be as great, but it
     will certainly run faster.
 
-### MPI (Message Passing Interface
+## Parallelization
 
-![mpi](../images/mpi_v2.png){: style="width: 400px;float: right"}
+### Distributed memory 
 
-In order to take advantage of more than one core per job and get speed-up this
-way, you need to do some extra programming. In return, the job will be able to
-run across several processors that communicate over the local network.
-
-MPI is a language-independent communications protocol used to program parallel
-computers. There are several MPI implementations, but most of them consists of a
-set of routines that can be called from Fortran, C, C++, and Python, as well as
-any language that can interface with their libraries. MPI is very portable and
-generally optimized for the hardware it runs on, so it will be reasonably fast.
-
-Programs that are parallelizable should be reasonably easy to convert to MPI
-programs by adding MPI routines to it.
+WRITE SOMETHING HERE! 
 
 #### What kinds of programs can be parallelized?
 
@@ -181,7 +170,7 @@ MPI and OpenMP are often advantageous.
 
 ### GPUs
 
-Many computer clusters now have GPUs in several of their nodes that jobs may
+Many computer clusters have GPUs in several of their nodes that jobs may
 take advantage of.
 
 Originally, GPUs were used for computer graphics, but now they are also used

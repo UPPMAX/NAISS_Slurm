@@ -46,7 +46,9 @@ nav:
   - Sample job scripts: jobscripts.md
   - Job monitoring and efficiency: monitoring.md
   - Summary: summary.md
-    #  - Extras: 
+  - Extras: 
+      - A bit about MPI: mpi.md
+      - Short about OpenMP: openmp.md  
 #    - More scripting: more_script.md
 #    - Books: books/README.md
 
