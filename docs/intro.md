@@ -151,10 +151,10 @@
 
 | Time | Topic | Activity | Teacher | 
 | ---- | ----- | -------- | ------- |
-| 9:00 | Intro to course | Lecture | |
-| 9:05 | Intro to clusters | Lecture | | 
-| 9:25 | Batch system concepts / job scheduling | Lecture | | 
-| | Parallelism | Lecture+type along | | 
+| 9:00 - 9:05 | Intro to course | Lecture | |
+| 9:05 - 9.25 | Intro to clusters | Lecture | | 
+| 9:25 - 9:40 | Batch system concepts / job scheduling | Lecture | | 
+| 9:40 - | Parallelism | Lecture+type along | | 
 | | Intro to Slurm (sbatch, squeue, scontrol, …) | Lecture+type along | |
 | | BREAK | | |
 | | Additional sample scripts, including job arrays, task farms??? | | |
