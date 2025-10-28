@@ -119,6 +119,7 @@ proj
 projnb
 mmmult
 py
+ALU
 
 LevelIFS
 fairshare
