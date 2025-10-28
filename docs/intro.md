@@ -29,6 +29,7 @@
 
     This part is only relevant for people attending the course. It should be ignored if you are doing it as self-study later. 
 
+<!-- markdownlint-disable MD036 -->
 === "Tetralith" 
    
     **Tetralith at NSC**
@@ -68,7 +69,9 @@
     **Pelle at UPPMAX**
 
     - Project ID: 
-    - Project storage:  
+    - Project storage:
+    
+<!-- markdownlint-restore -->
 
 ### Login info 
 
