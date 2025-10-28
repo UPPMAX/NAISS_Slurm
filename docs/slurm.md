@@ -477,7 +477,7 @@ You can see the full list of states and their meaning with ``man sinfo``.
 
 ## Slurm job scripts
 
-Now we have looked at the commands to control the job, but what about the jobscripts? 
+Now we have looked at the commands to control the job, but what about the job scripts? 
 
 We had a small example further up on the page, which we used to test the commands, but now we will look more at the job scripts themselves. 
 
@@ -521,7 +521,7 @@ Depending on centre, for most compute nodes, unless otherwise specified, a batch
 
     There are many more resource statements and other commands that can go into the Slurm batch script. We will look at some of them in the next section, where we show some sample job scripts. 
 
-You submit the jobscript with ``sbatch <jobscript.sh>`` as was mentioned earlier.
+You submit the job script with ``sbatch <jobscript.sh>`` as was mentioned earlier.
 
 ## Information about jobs
 
