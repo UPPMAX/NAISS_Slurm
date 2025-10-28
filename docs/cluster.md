@@ -80,17 +80,17 @@ should be configured, and what options regular users will be allowed to set.
 ## Which programs can be run effectively on a computer cluster?
 
 Computer clusters are made up of many interconnected nodes, each with a limited
-number of cores and limited memory capacity. A problem must be parallelisable
+number of cores and limited memory capacity. A problem must be parallelizable
 in order to get any speed-up.
 
-Parallelisation can be done in several ways. The simplest method is what would
+Parallelization can be done in several ways. The simplest method is what would
 usually be done for a parameter sweep: just run the program repeatedly for every
 desired combination of input parameters. Each task is the same serial program
 running on a single core, but many copies of the task are running at the same
-time. Another option is to use a more complex parallelisation that requires
+time. Another option is to use a more complex parallelization that requires
 changes to the program to split its work between multiple processors or nodes
 that communicate over the network. This is generally done with MPI or similar.
-It is also possible to parallelise over multiple cores and multiple nodes at the
+It is also possible to parallelize over multiple cores and multiple nodes at the
 same time, e.g., using multi-threading *within* CPUs and communicating *between*
 nodes with MPI.
 
@@ -120,15 +120,15 @@ at a time, since they are serial, which means each only uses one core.
     time between batches of jobs, etc. so the speed-up will not be as great, but it
     will certainly run faster.
 
-## Parallelisation
+## Parallelization
 
 ### Distributed memory 
 
 WRITE SOMETHING HERE! 
 
-#### What kinds of programs can be parallelised?
+#### What kinds of programs can be parallelized?
 
-For a problem to be parallelisable, it must be possible to split it into smaller
+For a problem to be parallelizable, it must be possible to split it into smaller
 sections that can be solved independently of each other and then combined.
 
 What happens in a parallel program is generally the following:
@@ -179,14 +179,14 @@ GPU-driven parallel computing is, among other things, used for:
 - machine learning
 - graphical rendering
 
-and other parallelisable jobs.
+and other parallelizable jobs.
 
 #### Difference between CPUs and GPUs
 
-CPUs (Central Processing Units) are latency-optimised general-purpose processors
+CPUs (Central Processing Units) are latency-optimized general-purpose processors
 designed to handle a wide range of distinct tasks sequentially.
 
-GPUs (Graphics Processing Units) are throughput-optimised specialised processors
+GPUs (Graphics Processing Units) are throughput-optimized specialized processors
 designed for high-end parallel computing.
 
 Whether you should use a CPU, a GPU, or both depends on the specifics of the
