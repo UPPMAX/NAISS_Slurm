@@ -172,6 +172,23 @@ export OMP_NUM_THREADS=$omp_threads
 
 ## MPI 
 
+```bash
+#!/bin/bash 
+#SBATCH -A <account>
+#SBATCH -t HHH:MM:SS 
+#SBATCH -n <tasks> 
+
+module load <modules>
+
+srun ./mympiprogram
+```
+
+- Asking for whole nodes (``- N``) and possibly ``--tasks-per-node``
+- ``srun`` and ``mpirun`` should be interchangeable at many centres. Tetralith uses ``mpprun`` and Dardel uses ``srun``
+- Remember, you need to load modules with MPI
+- At some centres ``mpirun --bind-to-core`` or ``srun --cpu-bind=cores`` is recommended for MPI jobs 
+- NOTE: Alvis is **only** used for GPU jobs
+
 ## Memory-intensive jobs 
 
 ## I/O intensive jobs 
