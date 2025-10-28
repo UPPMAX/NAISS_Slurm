@@ -33,10 +33,10 @@ the CPUs.
 
 Nodes in computer clusters are usually arranged in racks at a dedicated climate-
 controlled facility, and are connected via a communication network. With few
-exceptions, nearly all computer clusters use the Linux operating system.
-Normally, clusters have some sort of batch or queuing system to handle the jobs.
-On Linux systems, that batch or queuing system is most often Slurm (the Simple
-Linux Utility for Resource Management).
+exceptions, nearly all high-performance computer clusters use the Linux operating
+system. Normally, clusters have some sort of batch or queuing system to handle
+scheduling of jobs. On Linux systems, that batch or queuing system is most often
+Slurm (the Simple Linux Utility for Resource Management).
 
 ## What is a Supercomputer? Is it the same as a Cluster?
 
@@ -80,17 +80,17 @@ should be configured, and what options regular users will be allowed to set.
 ## Which programs can be run effectively on a computer cluster?
 
 Computer clusters are made up of many interconnected nodes, each with a limited
-number of cores and limited memory capacity. A problem must be parallelizable
+number of cores and limited memory capacity. A problem must be parallelisable
 in order to get any speed-up.
 
-Parallelization can be done in several ways. The simplest method is what would
+Parallelisation can be done in several ways. The simplest method is what would
 usually be done for a parameter sweep: just run the program repeatedly for every
 desired combination of input parameters. Each task is the same serial program
 running on a single core, but many copies of the task are running at the same
-time. Another option is to use a more complex parallelization that requires
+time. Another option is to use a more complex parallelisation that requires
 changes to the program to split its work between multiple processors or nodes
 that communicate over the network. This is generally done with MPI or similar.
-It is also possible to parallelize over multiple cores and multiple nodes at the
+It is also possible to parallelise over multiple cores and multiple nodes at the
 same time, e.g., using multi-threading *within* CPUs and communicating *between*
 nodes with MPI.
 
@@ -120,15 +120,15 @@ at a time, since they are serial, which means each only uses one core.
     time between batches of jobs, etc. so the speed-up will not be as great, but it
     will certainly run faster.
 
-## Parallelization
+## Parallelisation
 
 ### Distributed memory 
 
 WRITE SOMETHING HERE! 
 
-#### What kinds of programs can be parallelized?
+#### What kinds of programs can be parallelised?
 
-For a problem to be parallelizable, it must be possible to split it into smaller
+For a problem to be parallelisable, it must be possible to split it into smaller
 sections that can be solved independently of each other and then combined.
 
 What happens in a parallel program is generally the following:
@@ -170,7 +170,7 @@ extensively for general-purpose computing (GPGPU computing).
 
 <figure class="inline end" markdown>
 ![gpu-vs-cpu](../images/cpu-vs-gpu.png)
-<figcaption>Image from NVidia</figcaption>
+<figcaption>Image of CPU and GPU components from NVidia. ALU = Arithmetic Logic Unit, and DRAM = Dynamic Random-Access Memory.</figcaption>
 </figure>
 
 GPU-driven parallel computing is, among other things, used for:
@@ -179,14 +179,14 @@ GPU-driven parallel computing is, among other things, used for:
 - machine learning
 - graphical rendering
 
-and other parallelizable jobs.
+and other parallelisable jobs.
 
 #### Difference between CPUs and GPUs
 
-CPUs (Central Processing Units) are latency-optimized general-purpose processors
+CPUs (Central Processing Units) are latency-optimised general-purpose processors
 designed to handle a wide range of distinct tasks sequentially.
 
-GPUs (Graphics Processing Units) are throughput-optimized specialized processors
+GPUs (Graphics Processing Units) are throughput-optimised specialised processors
 designed for high-end parallel computing.
 
 Whether you should use a CPU, a GPU, or both depends on the specifics of the
