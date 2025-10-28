@@ -21,36 +21,51 @@
     - job monitoring, job efficiency
     - how to find optimal sbatch options
 
-## Login info, project number, project storage
+## Login info, project number, project directory
 
-### Project number and storage 
+### Project number and project directory
 
-=== "NSC" 
- 
+!!! warning 
+
+    This part is only relevant for people attending the course. It should be ignored if you are doing it as self-study later. 
+
+=== "Tetralith" 
+   
+    **Tetralith at NSC**
+
     - Project ID: ``naiss2025-22-934``
     - Project storage: ``/proj/courses-fall-2025/users``    
 
-=== "PDC"
+=== "Dardel"
+
+    **Dardel at PDC**
 
     - Project ID: ``naiss2025-22-934``
     - Project storage: ``/cfs/klemming/projects/supr/courses-fall-2025``
 
-=== "C3SE"
+=== "Alvis"
+
+    **Alvis at C3SE**
 
     - Project ID: ``naiss2025-22-934``
     - Project storage: ``/mimer/NOBACKUP/groups/courses-fall-2025`` 
 
-=== "HPC2N" 
+=== "Kebnekaise" 
+
+    **Kebnekaise at HPC2N**
 
     - Project ID: ``hpc2n2025-151``
     - Project storage: ``/proj/nobackup/fall-courses``
 
-=== "LUNARC" 
+=== "Cosmos" 
+
+    **Cosmos at LUNARC**
 
     - Project ID: 
-    - Project storage: 
 
-=== "UPPMAX" 
+=== "Pelle" 
+
+    **Pelle at UPPMAX**
 
     - Project ID: 
     - Project storage:  
@@ -65,7 +80,7 @@
     - Login to the system you are using (Tetralith/Dardel, other Swedish HPC system)
     - Connection info for some Swedish HPC systems - use the one you have access to: 
 
-    === "NSC"
+    === "Tetralith"
 
         - SSH: ``ssh <user>@tetralith.nsc.liu.se``
         - ThinLinc:
@@ -74,40 +89,7 @@
             - Password: ``<your-nsc-password>``
         - Note that you need to setup <a href="https://www.nsc.liu.se/support/2fa/" target="_blank">TFA</a> to use NSC!
 
-    === "HPC2N"
-
-        - SSH: ``ssh <user>@kebnekaise.hpc2n.umu.se``
-        - ThinLinc:
-            - Server: ``kebnekaise-tl.hpc2n.umu.se``
-            - Username: ``<your-hpc2n-username>``
-            - Password: ``<yout-hpc2n-password>``
-        - ThinLinc Webaccess:
-            - Put ``https://kebnekaise-tl.hpc2n.umu.se:300/`` in browser address bar
-            - Put ``<your-hpc2n-username>`` and ``<your-hpc2n-password>`` in th e login box that opens and click ``Login``
-        - Open OnDemand: ``https://portal.hpc2n.umu.se`` 
-
-    === "UPPMAX"
-
-        - SSH: ``ssh <user>@rackham.uppmax.uu.se``
-        - ThinLinc:
-            - Server: ``rackham-gui.uppmax.uu.se``
-            - Username: ``<your-uppmax-username>``
-            - Password: ``<your-uppmax-password>``
-        - ThinLinc Webaccess:
-            - Put ``https://rackham-gui.uppmax.uu.se`` in browser address bar
-            - Put ``<your-uppmax-username>`` and ``<your-uppmax-password>`` in the login box that opens and click ``Login``
-        - Note that you may have to setup <a href="https://docs.uppmax.uu.se/getting_started/get_uppmax_2fa/" target="_blank">TFA for Uppmax</a> when using either of the ThinLinc connections.
-
-    === "LUNARC"
-
-        - SSH: ``ssh <user>@cosmos.lunarc.lu.se``
-        - ThinLinc:
-            - Server: ``cosmos-dt.lunarc.lu.se``
-            - Username: ``<your-lunarc-username>``
-            - Password: ``<your-lunarc-password>``
-        - Note that you need to setup <a href="https://lunarc-documentation.readthedocs.io/en/latest/getting_started/login_howto/" target="_blank">TFA (PocketPass)</a> to use LUNARC!
-
-    === "PDC"
+    === "Dardel"
 
         - SSH: ``ssh <user>@dardel.pdc.kth.se``
         - ThinLinc:
@@ -116,7 +98,7 @@
             - Password: ``<your-pdc-password>``
         - Note that you need to setup <a href="https://support.pdc.kth.se/doc/login/ssh_login/" target="_blank">SSH keys</a> or kerberos in order to login to PDC!
 
-    === "C3SE"
+    === "Alvis"
 
         - SSH: ``ssh <user>@alvis1.c3se.chalmers.se``
                or
@@ -132,12 +114,45 @@
             - Put ``<your-c3se-username>`` and ``<your-c3se-password>`` in the login box
         - Note that Alvis is accessible via SUNET networks (i.e. most Swedish university networks). If you are not on one of those networks you need to use a VPN - preferrably your own Swedish university VPN. If this is not possible, contact ``support@chalmers.se`` and ask to be added to the Chalmers's eduVPN.
 
+    === "Kebnekaise"
+
+        - SSH: ``ssh <user>@kebnekaise.hpc2n.umu.se``
+        - ThinLinc:
+            - Server: ``kebnekaise-tl.hpc2n.umu.se``
+            - Username: ``<your-hpc2n-username>``
+            - Password: ``<yout-hpc2n-password>``
+        - ThinLinc Webaccess:
+            - Put ``https://kebnekaise-tl.hpc2n.umu.se:300/`` in browser address bar
+            - Put ``<your-hpc2n-username>`` and ``<your-hpc2n-password>`` in th e login box that opens and click ``Login``
+        - Open OnDemand: ``https://portal.hpc2n.umu.se`` 
+
+    === "Pelle"
+
+        - SSH: ``ssh <user>@rackham.uppmax.uu.se``
+        - ThinLinc:
+            - Server: ``rackham-gui.uppmax.uu.se``
+            - Username: ``<your-uppmax-username>``
+            - Password: ``<your-uppmax-password>``
+        - ThinLinc Webaccess:
+            - Put ``https://rackham-gui.uppmax.uu.se`` in browser address bar
+            - Put ``<your-uppmax-username>`` and ``<your-uppmax-password>`` in the login box that opens and click ``Login``
+        - Note that you may have to setup <a href="https://docs.uppmax.uu.se/getting_started/get_uppmax_2fa/" target="_blank">TFA for Uppmax</a> when using either of the ThinLinc connections.
+
+    === "Cosmos"
+
+        - SSH: ``ssh <user>@cosmos.lunarc.lu.se``
+        - ThinLinc:
+            - Server: ``cosmos-dt.lunarc.lu.se``
+            - Username: ``<your-lunarc-username>``
+            - Password: ``<your-lunarc-password>``
+        - Note that you need to setup <a href="https://lunarc-documentation.readthedocs.io/en/latest/getting_started/login_howto/" target="_blank">TFA (PocketPass)</a> to use LUNARC's systems!
+
 ## Schedule
 
 | Time | Topic | Activity | Teacher | 
 | ---- | ----- | -------- | ------- |
 | 9:00 | Intro to course | Lecture | |
-| | Intro to clusters | Lecture | | 
+| 9:10 | Intro to clusters | Lecture | | 
 | | Batch system concepts / job scheduling | Lecture | | 
 | | Parallelism | Lecture+type along | | 
 | | Intro to Slurm (sbatch, squeue, scontrol, …) | Lecture+type along | |
