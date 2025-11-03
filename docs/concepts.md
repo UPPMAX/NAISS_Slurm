@@ -6,7 +6,7 @@ A batch system provides a mechanism register (submit) your computational jobs (p
 
 In the following animation we illustrate how a batch system might execute jobs.   Imagine a system with 4 nodes, 8 cores each.
 
-![queue_annimation](./images/queueanimation.gif){: style="width: 947px}
+![queue_animation](./images/queueanimation.gif){: style="width: 947px}
 
 ## Description of the animation
 
@@ -27,11 +27,11 @@ In the following animation we illustrate how a batch system might execute jobs. 
     - System schedules job 5 to be run on nodes 1 once job 1 has finished
 - Sixth job, asking for 2 nodes, 8 cores each for 4 hours
     - The job has **higher priority** than jobs 4 & 5
-    - If possilbe it should start before jobs 4 & 5
+    - If possible it should start before jobs 4 & 5
     - System **re-schedules jobs 4 & 5** for a later time
     - System schedules job 6 to be run on nodes 1 & 3 once job 1 has finished
-    - Job 5 gets rescheduled to run on node 2
-    - Job 4 gets rescheduled to run on nodes 1, 3 & 4
+    - Job 5 gets re-scheduled to run on node 2
+    - Job 4 gets re-scheduled to run on nodes 1, 3 & 4
     - The expected start time of jobs 4 & 5 is **pushed back** in time due to the submission of job six
 - Seventh job, asking 1 core for 6 hours
     - While there are currently enough idle cores, the job can not be started since there are less then 6 hours until the start of job 6
@@ -41,4 +41,21 @@ In the following animation we illustrate how a batch system might execute jobs. 
     - It is finished before the scheduled start time of job 6
     - It starts executing before the jobs 4, 5, 6 & 7, which were submitted earlier
     - This is called **backfill**
-    - This is not priority - no job got re-schedueled for job 8 to run early
+    - This is not priority - no job got re-scheduled for job 8 to run early
+
+!!! Important
+
+   - Computational work needs to be submitted to the job scheduler.  
+   - The submitted job joins a waiting queue
+   - Jobs start executing once it is their turn
+   - The anticipated start time can move forward and backward depending on other users actions
+   - You need to describe the computational work at the time of the job submission, since you might not be there (out of hours) once your job starts executing.
+   - The description of the computational work is typically done by a script (this course)
+
+   ## Comment on priorities
+   The priority of a jobs is affected by a number of factors.  These include:
+
+   - The time the job has already spent in queue
+   - How many resources (e.g. CPU hours) the project has used in relation to the allocated resources
+
+   System administrators frequently adjust the batch system rules to ensure all user group regularly submitting jobs can run jobs in line with the resources allocated to the project. 
