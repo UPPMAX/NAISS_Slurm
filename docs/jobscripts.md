@@ -273,6 +273,10 @@ srun ./mympiprogram
 
 ## I/O intensive jobs 
 
+!!! NOTE
+
+    This section comes with many caveats; it depends a lot on the type of job and the system. Often, if you are in the situation where you have an I/O intensive job, you need to talk to support as it will be very individualized. 
+
 - In most cases, you should use the project storage
 - Centre-dependent. If needed you can use node-local disk for **single-node** jobs
     - Remember you need to copy data to/from the node-local scratch (``$SNIC_TMP``)! 
