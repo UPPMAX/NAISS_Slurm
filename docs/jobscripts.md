@@ -273,6 +273,41 @@ srun ./mympiprogram
 
 ## I/O intensive jobs 
 
+- In most cases, you should use the project storage
+- Centre-dependent. If needed you can use node-local disk for **single-node** jobs
+    - Remember you need to copy data to/from the node-local scratch (``$SNIC_TMP``)! 
+    - On some systems ``$TMPDIR`` also points to the node local disk
+    - The environment variable ``$SLURM_SUBMIT_DIR`` is the directory you submitted from
+- On Tetralith, the data access between /home or /proj and GPU/CPU compute nodes are **not** suitable for I/O intensive jobs => use /scratch/local (``$SNIC_TMP``)
+
+### Example 
+
+```bash
+#!/bin/bash 
+#SBATCH -A <account>
+#SBATCH -t HHH:MM:SS 
+#SBATCH -n <cores>
+
+module load <modules>
+
+# Copy your data etc. to node local scratch disk
+cp -p mydata.dat $SNIC_TMP
+cp -p myprogram $SNIC_TMP
+
+# Change to that directory
+cd $SNIC_TMP
+
+# Run your program
+./myprogram
+
+# Copy the results back to the submission directory 
+cp -p mynewdata.dat $SLURM_SUBMIT_DIR
+```
+
+!!! warning "NOTE"
+
+    When using node local disk it is important to remember to copy the output data back, since it will go away when the job ends!
+
 ## Job arrays 
 
 - Job arrays: a mechanism for submitting and managing collections of similar jobs.
