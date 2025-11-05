@@ -43,6 +43,7 @@ nav:
   - Intro to clusters: cluster.md
   - Batch system concepts: concepts.md
   - Introduction to Slurm: slurm.md
+  - Interactive jobs: interactive.md
   - Sample job scripts: jobscripts.md
   - Job monitoring and efficiency: monitoring.md
   - Summary: summary.md
