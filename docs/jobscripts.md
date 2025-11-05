@@ -402,6 +402,4 @@ This shows a simple GPU script, asking for 1 or 2 cards on a single node.
 
 === "NSC"
 
-## Dependencies 
-
 ## Miscellaneous  

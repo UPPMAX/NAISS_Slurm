@@ -371,6 +371,34 @@ Depending on centre, for most compute nodes, unless otherwise specified, a batch
 
 You submit the job script with ``sbatch <jobscript.sh>`` as was mentioned earlier.
 
+## Dependencies 
+
+Sometimes your workflow has jobs that depend on a previous job (a pipeline). This can be handled through Slurm (if many, make a script):
+
+- Submit your first job: ``sbatch my-job.sh``
+- Wait for that job to finish before starting next job: ``sbatch -d afterok:<prev-JOBID> my-next-job.sh``
+
+Generally: 
+- **after:jobid[:jobid...]** begin after specified jobs have started
+- **afterany:jobid[:jobid...]** begin after specified jobs have terminated
+- **afternotok:jobid[:jobid...]** begin after specified jobs have failed
+- **afterok:jobid[:jobid...]**  begin after specified jobs have run to completion with exit code zero
+- **singleton** begin execution after all previously launched jobs with the same name and user have ended 
+
+### Script 
+
+```bash
+#!/bin/bash
+
+# first job - no dependencies
+jid1=$(sbatch --parsable run_matrix-gen.sh)
+
+# Next job depend on first job 
+sbatch --dependency=afterany:${jid1} run_mmmult-v2.sh
+```
+
+If you want to test it, the scripts for this can be found in the tarball with the exercises or downloaded here: <a href="../run_matrix-gen.sh" target="_blank">run_matrix-gen.sh</a> and <a href="../run_mmmult-v2.sh" target="_blank">run_mmmult-v2.sh</a>. 
+
 ## Information about jobs
 
 Use the following:
