@@ -400,4 +400,8 @@ This is the most different of the Slurm settings, between centers.
 
 This shows a simple GPU script, asking for 1 or 2 cards on a single node. 
 
-=== "NSC" 
+=== "NSC"
+
+## Dependencies 
+
+## Miscellaneous  
