@@ -191,7 +191,85 @@ srun ./mympiprogram
 
 ## Memory-intensive jobs 
 
+- Running out of memory ("OOM"):
+    - usually the job stops ("crashes")
+    - check the Slurm error/log files
+    - check with sacct/seff/jobstats/job-usage depending on cluster
+- Fixes:
+    - use "fat" nodes
+    - allocate more cores just for memory
+    - tweak mem usage in app, if possible
 
+### Increasing memory per task
+
+=== "Tetralith"
+
+    96 GB/node:
+    ```bash
+    -C thin --exclusive
+    ```
+
+    384 GB/node:
+    ```bash
+    -C fat --exclusive
+    ```
+
+    More cores/task, some just giving memory (MPI):
+
+    ```bash
+    sbatch --ntasks-per-node=16 --cpus-per-task=2
+    ```
+
+    You can write ``--cpus-per-task=#num`` in short form as ``-c #num``. 
+
+=== "Dardel"
+
+    | Type | RAM | Partition | Available | Example flag |
+    | ---- | --- | --------- | --------- | ------------ |
+    | Thin | 256 GB | main, shared, long | 227328 MB | |
+    | Large | 512 GB | main, memory | 456704 MB | ``--mem=440GB`` |
+    | Huge | 1 TB | main, memory | 915456 MB | ``--mem=880GB`` |
+    | Giant | 2 TB | memory | 1832960 MB | ``--mem=1760GB`` |
+    | GPU | 512 GB | gpu | 456704 MB | ``--mem=440GB`` |
+
+    On shared partitions you need to give number of cores and will get RAM equivalent for that
+
+=== "Alvis" 
+
+    | RAM | GPUs | Example flag | 
+    | --- | ---- | ------------ | 
+    | 768 | V100 (2) <br> V100 (4) <br> and a no GPU skylake | ``#SBATCH -C MEM768`` <br> ``#SBATCH --gpus-per-node=V100:[1-4]`` |
+    | 576 | T4 (8) | ``#SBATCH -C MEM576`` <br> ``#SBATCH --gpus-per-node=T4:[1-8]`` |
+    | **1536** | T4 (8) | ``#SBATCH -C MEM1536`` <br> ``#SBATCH --gpus-per-node=A40:[1-4]`` |
+    | **512** | A100 (4) <br> and a no GPU icelake | ``#SBATCH -C mem512`` <br> ``#SBATCH --gpus-per-node=A100:[1-4]`` |
+    | 256 | A40 (4, no IB) <br> A100 (4) | ``#SBATCH -C mem256`` and either <br> ``#SBATCH --gpus-per-node=A40[1-4]`` <br> or ``#SBATCH --gpus-per-node=A100[1-4]`` |
+    | 1024 | A100fat (4) | ``#SBATCH -C mem1024`` <br> ``#SBATCH --gpus-per-node=A100fat:[1-4]`` |
+
+    - **Note** though that you also need to ask for a GPU, as usual, unless you need the pre/post processing CPU nodes (``-C NOGPU``).
+    - You only really need to give the mem constraint for those bolded as the others follow from the GPU choice
+    - ``sinfo -o "%20N  %9P %4c  %24f  %50G"`` will give you a full list of all nodes and features 
+
+=== "Kebnekaise" 
+
+    | Type | RAM/core | cores/node | requesting flag |
+    | ---- | -------- | ---------- | --------------- |
+    | Intel Skylake | 6785 MB | 28 | ``-C skylake`` |
+    | AMD Zen3 | 8020 MB | 128 | ``-C zen3`` |
+    | AMD Zen4 | 2516 MB | 256 | ``-C zen4`` |
+    | V100 | 6785 MB | 28 | ``--gpus=<#num> -C v100`` |
+    | A100 | 10600 MB | 48 | ``--gpus=<#num> -C a100`` |
+    | MI100 | 10600 MB | 48 | ``--gpus=<#num> -C mi100`` |
+    | A6000 | 6630 MB | 48 | ``--gpus=<#num> -C a6000`` |
+    | H100 | 6630 MB | 96 | ``--gpus=<#num> -C h100`` |
+    | L40s | 11968 MB | 64 | ``--gpus=<#num> -C l40s`` |
+    | A40 | 11968 MB | 64 | ``--gpus=<#num> -C a40`` |
+    | Largemem | 41666 MB | 72 | ``-C largemem`` |
+
+    - Can also ask for more cores/task with ``-c <#cores/task>`` just to add memory
+
+=== "Cosmos" 
+
+=== "Pelle" 
 
 ## I/O intensive jobs 
 
