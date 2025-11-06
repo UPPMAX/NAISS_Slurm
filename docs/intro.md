@@ -131,15 +131,12 @@
 
     === "Pelle"
 
-        - SSH: ``ssh <user>@rackham.uppmax.uu.se``
+        - SSH: ``ssh <user>@pelle.uppmax.uu.se``
         - ThinLinc:
-            - Server: ``rackham-gui.uppmax.uu.se``
+            - Server: ``pelle-gui.uppmax.uu.se``
             - Username: ``<your-uppmax-username>``
             - Password: ``<your-uppmax-password>``
-        - ThinLinc Webaccess:
-            - Put ``https://rackham-gui.uppmax.uu.se`` in browser address bar
-            - Put ``<your-uppmax-username>`` and ``<your-uppmax-password>`` in the login box that opens and click ``Login``
-        - Note that you may have to setup <a href="https://docs.uppmax.uu.se/getting_started/get_uppmax_2fa/" target="_blank">TFA for Uppmax</a> when using either of the ThinLinc connections.
+        - Note that you have to setup <a href="https://docs.uppmax.uu.se/getting_started/get_uppmax_2fa/" target="_blank">TFA for Uppmax</a>.
 
     === "Cosmos"
 
