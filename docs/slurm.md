@@ -337,24 +337,27 @@ The simplest possible batch script would look something like this:
 #!/bin/bash
 #SBATCH -A <proj-id>    ###replace with your project ID
 #SBATCH -t 00:05:00
+#SBATCH -n 1
 
 echo $HOSTNAME
 ```
 
 The first line is called the “shebang” and it indicates that the script is written in the bash shell language.
 
-The second and third lines are resource statements to the Slurm batch scheduler. 
+The second, third, and fourth lines are resource statements to the Slurm batch scheduler. 
 
 The second line above is where you put your project ID. 
 Depending on centre, this is either always required or not technically required if you only have one project to your name. Regardless, we recommend that you make a habit of including it. 
 
 The third line in the example above provides the walltime, the maximum amount of time that the program would be allowed to run (5 minutes in this example). If a job does not finish within the specified walltime, the resource management system terminates it and any data that were not already written to a file before time ran out are lost.
 
+The fourth line asks for compute resources, here one core (or rather one task, but cores-per-task is one as default). You could ask for more cores if it was a parallel job, or for GPUs and so on. More about that later.  
+
 The last line in the above sample is the code to be executed by the batch script. In this case, it just prints the name of the server on which the code ran.
 
 All of the parameters that Slurm needs to determine which resources to allocate, under whose account, and for how long, must be given as a series of resource statements of the form ``#SBATCH -<option> <value>`` or ``#SBATCH --<key-words>=<value>`` (note: `<` and `>` are not typically used in real arguments; they are just used here to indicate placeholder text). 
 
-Depending on centre, for most compute nodes, unless otherwise specified, a batch script will run on 1 core of 1 node by default. However, at some centres it is required to always give the number of cores or nodes, so you should make it a habit to include it. 
+Depending on centre, for most compute nodes, unless otherwise specified, a batch script will run on 1 core of 1 node by default. However, at several centres it is required to always give the number of cores or nodes, so you should make it a habit to include it. 
 
 !!! note "Time/walltime"
 
@@ -385,7 +388,9 @@ Generally:
 - **afterok:jobid[:jobid...]**  begin after specified jobs have run to completion with exit code zero
 - **singleton** begin execution after all previously launched jobs with the same name and user have ended 
 
-### Script 
+### Script example 
+
+This simple script is just for starting one job; waiting for it to finish, then start a second job.  
 
 ```bash
 #!/bin/bash
@@ -399,15 +404,20 @@ sbatch --dependency=afterany:${jid1} run_mmmult-v2.sh
 
 If you want to test it, the scripts for this can be found in the tarball with the exercises or downloaded here: <a href="../run_matrix-gen.sh" target="_blank">run_matrix-gen.sh</a> and <a href="../run_mmmult-v2.sh" target="_blank">run_mmmult-v2.sh</a>. 
 
+The first job it runs generate a matrix and then the second job does matrix-matrix multiplication. 
+
 ## Information about jobs
+
+Unless mentioned, these are valid at all centres. 
 
 Use the following:
 
-- sacct
-- job-info
-- scontrol show job JOBID
-- squeue --me 
-- job_usage (HPC2N) 
+- `sacct`: `sacct -l -j JOBID`. Lots of (wide format) info about a job with job-id JOBID
+- `job-info` (UPPMAX, LUNARC, C3SE): wrapper around `squeue`
+- `scontrol show job JOBID`: info about a job, including estimated start time, assigned nodes, working directory, etc. 
+- `squeue --me --start`: your running and queued jobs with estimated start time
+- `job_usage` (HPC2N): grafana graphics of resource use for job (> few minutes)
 - and several more 
 
-See [Job monitoring and efficiency](../monitoring) for more about job info. 
+See [Job monitoring and efficiency](../monitoring) for more about job info, including several commands that are site-specific and very useful. 
+
