@@ -122,9 +122,10 @@ at a time, since they are serial, which means each only uses one core.
 
 ## Parallelization
 
-### Distributed memory 
+Parallelization is when you are doing more things at the same time. This can be done in several ways.
 
-WRITE SOMETHING HERE! 
+- Inside a node: threaded/shared memory
+- Across several nodes: distributed parallelism
 
 #### What kinds of programs can be parallelized?
 
@@ -145,7 +146,7 @@ Examples of parallel problems:
 - Computer simulations comparing many independent scenarios, like climate models
 - Matrix Multiplication
 
-### Shared memory
+### Shared memory/thread parallelism
 
 Shared memory is memory that can be accessed by several programs at the same
 time, enabling them to communicate quickly and avoid redundant copies. Shared
@@ -159,6 +160,18 @@ supercomputers. This means they are more suited for programs using MPI than
 OpenMP. However, the number of cores per node is going up and many-core chips
 are now common. This means that OpenMP programs as well as programs combining
 MPI and OpenMP are often advantageous.
+
+### Distributed parallelism
+
+While shared memory parallelism works well inside a node, you need distributed parallelism if you want to scale to more cores than are in a node. 
+
+This is often done with MPI (Message Passing Interface) libraries. Processes/workers exchange information by sending and receiving messages/data. They can also share some memory. 
+
+You need to write your code so it uses MPI or use software that is already prepared for it. 
+
+### Hybrid parallelism
+
+Sometimes code can be more efficient when using both OpenMP and MPI. This is called hybrid parallelism. 
 
 ### GPUs
 
