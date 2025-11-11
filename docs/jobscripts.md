@@ -170,7 +170,19 @@ export OMP_NUM_THREADS=$omp_threads
 - ``-c`` is used to set cores per task and should be the same as ``OMP_NUM_THREADS``
 - Remember, Alvis is only for GPU jobs 
 
-## MPI 
+## Applications using MPI
+
+Some form of message passing is required when utilising multiple nodes for a simulation.  One has multiple programs, called tasks, running.  Typically these are multiple copies of the same executable with each getting its own dedicated core.  Each task has its own memory, which is called distributed memory.  Data exchange is facilitated by coping data between the tasks. This can accomplished inside the node if both task are running on the same node or has to utilise the network if the tasks in question are located on different nodes.  The **Message Passing Interface (MPI)** is the most commonly used API in scientific computing, when programming message passing applications.
+
+The illustration shows 5 tasks being executed, with the time running from the top to the bottom.  At the beginning, data (e.g. read from an input file) is distributed from task 0 to the other tasks, indicated by the blue arrows.  Following this, the tasks exchange data at regular intervalls.   In a real application the communication patterns are typically more complex than this.
+
+![mpi illustration](./images/mpi_illustration.png){: style="width: 600px;float: right"}
+
+!!! Important
+
+    When runing an executable that utilises MPI you need to start multiple executables.  Typically you start one executable of each requested core. Most of the time multiple copies of the same excutable are used.  
+
+    To start multiple copies of the same executable a special program, a so called **job launcher** is required.  Depending on the system and libraries used the name of the jobs launcher differs.
 
 ```bash
 #!/bin/bash 

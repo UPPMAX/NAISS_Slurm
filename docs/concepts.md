@@ -45,7 +45,7 @@ In the following animation we illustrate how a batch system might execute jobs. 
 
 !!! Important
 
-    - Computational work needs to be submitted to the job scheduler.  
+    - Computational work needs to be submitted using the job scheduler.  
     - The submitted job joins a waiting queue
     - Jobs start executing once it is their turn
     - The anticipated start time can move forward and backward depending on other users actions
