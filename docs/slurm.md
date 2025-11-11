@@ -381,7 +381,7 @@ All of the parameters that Slurm needs to determine which resources to allocate,
 
 Depending on centre, for most compute nodes, unless otherwise specified, a batch script will run on 1 core of 1 node by default. However, at several centres it is required to always give the number of cores or nodes, so you should make it a habit to include it. 
 
-!!! note 
+!!! Note
 
     You find the above job script in the exercises tarball. It is named "first.sh". 
 
@@ -415,6 +415,10 @@ Generally:
 - **afternotok:jobid[:jobid...]** begin after specified jobs have failed
 - **afterok:jobid[:jobid...]**  begin after specified jobs have run to completion with exit code zero
 - **singleton** begin execution after all previously launched jobs with the same name and user have ended 
+
+!!! hint
+
+    Try it! You can use `run_matrix-gen.sh` as the first and `run_mmmult-v2.sh` as the dependent job. 
 
 ### Script example 
 

@@ -1,11 +1,12 @@
 #!/bin/bash
 # Project id - change to your own!
-#SBATCH -A PROJ-ID
+#SBATCH -A <proj-ID>
 # Asking for 1 core
 #SBATCH -n 1
 # Asking for a walltime of 1 min
 #SBATCH --time=00:01:00
+ 
+# We do not need any modules for this example
 
-echo "What is the hostname? It is this: "
+/usr/bin/hostname
 
-/bin/hostname
