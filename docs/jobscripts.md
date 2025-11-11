@@ -16,7 +16,7 @@ Here is how you might run that program once on 1 core and 1 node:
 #SBATCH -J mmmult            ### sample job name; customize as desired or omit
 #SBATCH -o process_%j.out    ### filename for stderr - customise, include %j
 #SBATCH -e process_%j.err    ### filename for stderr - customise, include %j
-#SBATCH -n 1                 ### number of cores to use; same as --ntasks-per-node
+#SBATCH -n 1                 ### number of cores to use
 
 # write this script to stdout-file - useful for scripting errors
 cat $0
@@ -42,12 +42,25 @@ Let us look at the above batch script as it might be written for some other cent
 
     ```bash
     #!/bin/bash
-    #SBATCH -A naiss2025-22-934 # Change to your own
-    #SBATCH --time=00:10:00 # Asking for 10 minutes
+
+    # Set account 
+    #SBATCH -A <project ID> 
+
+    # Set the time, 
+    #SBATCH -t 00:10:00
+
+    # ask for 1 core, serial running 
     #SBATCH -n 1 # Asking for 1 core
 
-    # Load any modules you need, here GCC 11.3.0 and Python 3.10.4
-    module load buildtool-easybuild/4.8.0-hpce082752a2 GCC/11.3.0 OpenMPI/4.1.4 Python/3.10.4 SciPy-bundle/2022.05
+    # name output and error file
+    #SBATCH -o process_%j.out
+    #SBATCH -e process_%j.err
+
+    # write this script to stdout-file - useful for scripting errors
+    cat $0
+
+    # load a modern Python distribution and make NumPy available
+    module load buildtool-easybuild/4.9.4-hpc71cbb0050 GCC/13.2.0 Python/3.11.5 SciPy-bundle/2023.11
 
     # Run your Python script
     python mmmult.py
@@ -183,6 +196,11 @@ The illustration shows 5 tasks being executed, with the time running from the to
     When runing an executable that utilises MPI you need to start multiple executables.  Typically you start one executable of each requested core. Most of the time multiple copies of the same excutable are used.  
 
     To start multiple copies of the same executable a special program, a so called **job launcher** is required.  Depending on the system and libraries used the name of the jobs launcher differs.
+
+
+=== Tetralith
+
+
 
 ```bash
 #!/bin/bash 

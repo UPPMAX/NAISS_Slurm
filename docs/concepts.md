@@ -41,7 +41,7 @@ In the following animation we illustrate how a batch system might execute jobs. 
     - It is finished before the scheduled start time of job 6
     - It starts executing before the jobs 4, 5, 6 & 7, which were submitted earlier
     - This is called **backfill**
-    - This is not priority - no job got re-scheduled for job 8 to run early
+    - This is not to be confused with priority - this job started because a slot was available to run it now.
 
 !!! Important
 
