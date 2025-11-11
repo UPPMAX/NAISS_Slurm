@@ -176,7 +176,7 @@ Some form of message passing is required when utilising multiple nodes for a sim
 
 The illustration shows 5 tasks being executed, with the time running from the top to the bottom.  At the beginning, data (e.g. read from an input file) is distributed from task 0 to the other tasks, indicated by the blue arrows.  Following this, the tasks exchange data at regular intervalls.   In a real application the communication patterns are typically more complex than this.
 
-![mpi illustration](./images/mpi_illustration.png){: style="width: 600px;float: right"}
+![mpi illustration](./images/mpi_illustration.png){: style="width: 500px;float: right"}
 
 !!! Important
 
