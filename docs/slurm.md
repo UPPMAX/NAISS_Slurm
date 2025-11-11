@@ -81,6 +81,12 @@ echo "What is the hostname? It is this: "
 /bin/hostname
 ```
 
+!!! hint 
+
+    You find the above batch script named "simple" in the exercises tarball. 
+
+    REMEMBER TO CHANGE THE PROJECT ID TO YOUR OWN! 
+
 **Example**:
 
 Submitting the above batch script on Tetralith (NSC)
@@ -93,6 +99,10 @@ Submitted batch job 45194426
 As you can see, you get the job id when submitting the batch script.
 
 When it has run, you can see with ``ls`` that you got a file called ``slurm-JOBID.out`` in your directory.
+
+!!! hint
+
+    Try it out! 
 
 ### squeue
 
@@ -179,6 +189,10 @@ Submitted batch job 45194603
           45194596 tetralith simple.s  x_birbr PD       0:00      1 (None)
 ```
 
+!!! hint
+
+    Try it! Remember, "arrow up" lets you quickly access a previous command. 
+
 ### scancel
 
 The command to cancel a job is ``scancel``.
@@ -264,13 +278,17 @@ The command ``scontrol show job <job id>`` can be run also while the job is pend
 
 It is often useful to know which nodes a job ran on if something did not work - perhaps the node was faulty.
 
+!!! hint "Exercise" 
+
+    Try it! Submit the "simple.sh" batch script and then do ``scontrol show job JOBID`` using the job ID you got when you submitted the batch script. Try to find the "SubmitTime", "StartTime", and "NodeList" in the output. 
+
 #### scontrol show node
 
 This command is used to get information about a specific node. You can for instance see its features, how many cores per socket, uptime, etc. Specifics will vary and depend on the centre you are running jobs at.
 
 **Example**:
 
-This if for one of the AMD Zen4 nodes at Kebnekaise, HPC2N.
+This is for one of the AMD Zen4 nodes at Kebnekaise, HPC2N.
 
 ```bash
 b-an01 [~]$ scontrol show node b-cn1703
@@ -323,6 +341,10 @@ As you can see, it shows partitions, nodes, and states. State can be drain, idle
 
 You can see the full list of states and their meaning with ``man sinfo``.
 
+!!! hint
+
+    Try it! Give the command ``sinfo`` and look at the output from your chosen HPC centre. 
+
 ## Slurm job scripts
 
 Now we have looked at the commands to control the job, but what about the job scripts? 
@@ -358,6 +380,12 @@ The last line in the above sample is the code to be executed by the batch script
 All of the parameters that Slurm needs to determine which resources to allocate, under whose account, and for how long, must be given as a series of resource statements of the form ``#SBATCH -<option> <value>`` or ``#SBATCH --<key-words>=<value>`` (note: `<` and `>` are not typically used in real arguments; they are just used here to indicate placeholder text). 
 
 Depending on centre, for most compute nodes, unless otherwise specified, a batch script will run on 1 core of 1 node by default. However, at several centres it is required to always give the number of cores or nodes, so you should make it a habit to include it. 
+
+!!! note 
+
+    You find the above job script in the exercises tarball. It is named "first.sh". 
+
+    Remember to change the project ID to your own! 
 
 !!! note "Time/walltime"
 
