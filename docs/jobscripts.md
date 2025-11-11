@@ -200,7 +200,11 @@ The illustration shows 5 tasks being executed, with the time running from the to
 
 === Tetralith
 
+    *Sample scipt to come*
 
+=== Dardel
+        
+    *Sample scritp to come*
 
 ```bash
 #!/bin/bash 
