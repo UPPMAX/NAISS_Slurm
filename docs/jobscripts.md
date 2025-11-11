@@ -60,7 +60,8 @@ Let us look at the above batch script as it might be written for some other cent
     cat $0
 
     # load a modern Python distribution and make NumPy available
-    module load buildtool-easybuild/4.9.4-hpc71cbb0050 GCC/13.2.0 Python/3.11.5 SciPy-bundle/2023.11
+    module load buildtool-easybuild/4.9.4-hpc71cbb0050 
+    module load GCC/13.2.0 Python/3.11.5 SciPy-bundle/2023.11
 
     # Run your Python script
     python mmmult.py
