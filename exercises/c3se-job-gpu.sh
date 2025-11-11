@@ -1,6 +1,6 @@
 #!/bin/bash
-# Remember to change this to your own project ID after the course!
-#SBATCH -A NAISS2025-22-934
+# Remember to change this to your own project ID!
+#SBATCH -A <proj ID>
 #SBATCH -t 00:15:00
 #SBATCH -p alvis
 #SBATCH -N 1 --gpus-per-node=T4:4

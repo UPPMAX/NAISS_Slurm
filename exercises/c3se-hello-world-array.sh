@@ -1,7 +1,7 @@
 #!/bin/bash
 # This is a very simple example of how to run a Python script with a job array
-# Project id - change to your own after the workshop!
-#SBATCH -A NAISS2025-22-934
+# Project id - change to your own!
+#SBATCH -A <proj ID>
 #SBATCH --time=00:05:00 # Asking for 5 minutes
 #SBATCH -p alvis
 #SBATCH --array=1-10   # how many tasks in the array 

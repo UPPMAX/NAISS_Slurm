@@ -1,6 +1,6 @@
 #!/bin/bash
-# Project id - change to your own after the workshop!
-#SBATCH -A NAISS2025-22-934
+# Project id - change to your own!
+#SBATCH -A <proj ID>
 #SBATCH -p alvis
 # You need to ask for a GPU to run on alvis.
 # This is a CPU job. Do not do things like this normally!
