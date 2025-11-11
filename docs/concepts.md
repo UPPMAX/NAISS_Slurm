@@ -45,17 +45,17 @@ In the following animation we illustrate how a batch system might execute jobs. 
 
 !!! Important
 
-   - Computational work needs to be submitted to the job scheduler.  
-   - The submitted job joins a waiting queue
-   - Jobs start executing once it is their turn
-   - The anticipated start time can move forward and backward depending on other users actions
-   - You need to describe the computational work at the time of the job submission, since you might not be there (out of hours) once your job starts executing.
-   - The description of the computational work is typically done by a script (this course)
+    - Computational work needs to be submitted to the job scheduler.  
+    - The submitted job joins a waiting queue
+    - Jobs start executing once it is their turn
+    - The anticipated start time can move forward and backward depending on other users actions
+    - You need to describe the computational work at the time of the job submission, since you might not be there (out of hours) once your job starts executing.
+    - The description of the computational work is typically done by a script (this course)
 
-   ## Comment on priorities
-   The priority of a jobs is affected by a number of factors.  These include:
+## Comment on priorities
+The priority of a jobs is affected by a number of factors.  These include:
 
    - The time the job has already spent in queue
    - How many resources (e.g. CPU hours) the project has used in relation to the allocated resources
 
-   System administrators frequently adjust the batch system rules to ensure all user group regularly submitting jobs can run jobs in line with the resources allocated to the project. 
+System administrators frequently adjust the batch system rules to ensure all user group regularly submitting jobs can run jobs in line with the resources allocated to the project. 
