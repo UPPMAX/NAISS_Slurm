@@ -83,9 +83,11 @@ echo "What is the hostname? It is this: "
 
 !!! hint 
 
-    You find the above batch script named "simple" in the exercises tarball. 
+    You find the above batch script named "simple.sh" in the exercises tarball. 
 
     REMEMBER TO CHANGE THE PROJECT ID TO YOUR OWN! 
+
+    - If you are on Dardel, you also need to add a partition in order to make it run. Use the "dardel-simple.sh" from the tarball in that case. 
 
 **Example**:
 
