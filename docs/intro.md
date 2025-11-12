@@ -110,7 +110,7 @@
         - SSH: ``ssh <user>@alvis1.c3se.chalmers.se``
                or
                ``ssh <user>@alvis2.c3se.chalmers.se``
-        - ThinLinc:
+        - Remote Desktop Protocol (RDP):
             - Server: ``alvis1.c3se.chalmers.se``
                       or
                       ``alvis2.c3se.chalmers.se``
