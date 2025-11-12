@@ -43,14 +43,17 @@ In the following animation we illustrate how a batch system might execute jobs. 
     - This is called **backfill**
     - This is not to be confused with priority - this job started because a slot was available to run it now.
 
+## Key points
+
+- The submitted job joins a waiting queue
+- Jobs start executing once it is their turn
+- The anticipated start time can move forward and backward depending on other users actions
+- The description of the computational work is typically done by a script (this course)
+
 !!! Important
 
-    - Computational work needs to be submitted using the job scheduler.  
-    - The submitted job joins a waiting queue
-    - Jobs start executing once it is their turn
-    - The anticipated start time can move forward and backward depending on other users actions
-    - You need to describe the computational work at the time of the job submission, since you might not be there (out of hours) once your job starts executing.
-    - The description of the computational work is typically done by a script (this course)
+    - Computational work needs to be submitted using the job scheduler
+    - You need to describe the computational work at the time of the job submission, since you might not be there (out of hours) once your job starts executing
 
 ## Comment on priorities
 The priority of a jobs is affected by a number of factors.  These may include:

@@ -194,7 +194,7 @@ The illustration shows 5 tasks being executed, with the time running from the to
 
 !!! Important
 
-    When runing an executable that utilises MPI you need to start multiple executables.  Typically you start one executable of each requested core. Most of the time multiple copies of the same excutable are used.  
+    When runing an executable that utilises MPI you need to start multiple executables.  Typically you start one executable on each requested core. Most of the time multiple copies of the same excutable are used.  
 
     To start multiple copies of the same executable a special program, a so called **job launcher** is required.  Depending on the system and libraries used the name of the jobs launcher differs.
 
