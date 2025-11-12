@@ -83,9 +83,11 @@ echo "What is the hostname? It is this: "
 
 !!! hint 
 
-    You find the above batch script named "simple" in the exercises tarball. 
+    You find the above batch script named "simple.sh" in the exercises tarball. 
 
     REMEMBER TO CHANGE THE PROJECT ID TO YOUR OWN! 
+
+    - If you are on Dardel, you also need to add a partition in order to make it run. Use the "dardel-simple.sh" from the tarball in that case. 
 
 **Example**:
 
@@ -355,14 +357,32 @@ We had a small example further up on the page, which we used to test the command
 
 The simplest possible batch script would look something like this:
 
-```bash
-#!/bin/bash
-#SBATCH -A <proj-id>    ###replace with your project ID
-#SBATCH -t 00:05:00
-#SBATCH -n 1
+=== "Other" 
 
-echo $HOSTNAME
-```
+    This works for most of the centres, except Dardel which also requires you to give the partition. 
+
+    ```bash
+    #!/bin/bash
+    #SBATCH -A <proj-id>    ###replace with your project ID
+    #SBATCH -t 00:05:00
+    #SBATCH -n 1
+
+    echo $HOSTNAME
+    ```
+
+=== "Dardel" 
+
+    Dardel requires you to give the partition. There are several: "main", "shared", "long", "memory", "gpu". In most cases when you are running a regular CPU job on less than all cores on a node, you should use "shared". 
+
+    ```bash
+    #!/bin/bash
+    #SBATCH -A <proj-id>    ###replace with your project ID
+    #SBATCH -t 00:05:00
+    #SBATCH -n 1
+    #SBATCH -p shared 
+
+    echo $HOSTNAME
+    ```
 
 The first line is called the “shebang” and it indicates that the script is written in the bash shell language.
 

@@ -73,6 +73,10 @@
     
 <!-- markdownlint-restore -->
 
+!!! hint 
+
+    If you are at a centre that does not have a course project and/or you do not know what your project id is, you can use the command `projinfo` which works at all centres. 
+
 ### Login info 
 
 - You will not need a graphical user interface for this course.
