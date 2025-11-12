@@ -170,7 +170,10 @@ It is now time to login and download the exercises.
 
 1. Login to your cluster. You find login info for several <a href="https://uppmax.github.io/NAISS_Slurm/intro/#login__info" target="_blank">Swedish HPC clusters here</a>. 
 2. Create a directory to work in: ``mkdir cluster-intro``
-3. Fetch the exercises tarball: ``wget ``
-4. Unpack the tarball: 
-5. Change to the directory of your cluster. If it is not listed, pick "other". 
-6. 
+3. Fetch the exercises tarball: ``wget https://github.com/UPPMAX/NAISS_Slurm/raw/refs/heads/main/exercises.tar.gz``
+4. Unpack the tarball: ``tar zxvf exercises.tar.gz``
+5. You will get a directory ``exercises``. Go into it: ``cd exercises``
+6. You will find some sub directories for most of the Swedish HPC centres. 
+7. Change to the directory of the centre of your cluster. If it is not listed, pick "other". 
+8. There should be various batch script examples (and some .py and .c files for the test scripts). 
+
