@@ -53,7 +53,7 @@ In the following animation we illustrate how a batch system might execute jobs. 
     - The description of the computational work is typically done by a script (this course)
 
 ## Comment on priorities
-The priority of a jobs is affected by a number of factors.  These include:
+The priority of a jobs is affected by a number of factors.  These may include:
 
    - The time the job has already spent in queue
    - How many resources (e.g. CPU hours) the project has used in relation to the allocated resources
