@@ -58,4 +58,4 @@ The priority of a jobs is affected by a number of factors.  These may include:
    - The time the job has already spent in queue
    - How many resources (e.g. CPU hours) the project has used in relation to the allocated resources
 
-System administrators frequently adjust the batch system rules to ensure all user group regularly submitting jobs can run jobs in line with the resources allocated to the project. 
+System administrators may adjust the batch system rules to ensure all user group can run jobs in line with the resources allocated to the project.
