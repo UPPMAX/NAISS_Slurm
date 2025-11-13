@@ -21,9 +21,9 @@ The Slurm commands ``salloc`` and ``interactive`` are for requesting an interact
 
     This is recommended at UPPMAX and NSC, and works at HPC2N and LUNARC.
 
-    Usage: ``interactive -A [project_name]``
+    Usage: ``interactive -A [project_name] -t HHH:MM:SS``
 
-    If you want longer walltime, more CPUs/GPUs, etc. you need to ask for that as well. This is the default which gives 1 CPU for 1 hour.
+    If you need more CPUs/GPUs, etc. you need to ask for that as well. The default which gives 1 CPU.
 
     === "UPPMAX"
 
