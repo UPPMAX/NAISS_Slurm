@@ -75,7 +75,9 @@
 
 !!! hint 
 
-    If you are at a centre that does not have a course project and/or you do not know what your project id is, you can use the command `projinfo` which works at all centres. 
+    If you are at a centre that does not have a course project and/or you do not know what your project id is, you can use the command `projinfo` which works at all centres.
+
+    You can also find the project id in SUPR, if you are a member of a project. See the page for <a href="https://supr.naiss.se/project/" target="_blank">Active Projects You Belong To</a>.   
 
 ### Login info 
 
@@ -174,6 +176,6 @@ It is now time to login and download the exercises.
 4. Unpack the tarball: ``tar zxvf exercises.tar.gz``
 5. You will get a directory ``exercises``. Go into it: ``cd exercises``
 6. You will find some sub directories for most of the Swedish HPC centres. 
-7. Change to the directory of the centre of your cluster. If it is not listed, pick "other". 
+7. Change to the directory of your cluster. If it is not listed, pick "other". 
 8. There should be various batch script examples (and some .py and .c files for the test scripts). 
 

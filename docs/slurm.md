@@ -384,14 +384,33 @@ The simplest possible batch script would look something like this:
     echo $HOSTNAME
     ```
 
+!!! note
+
+    A job submission file can either be very simple, with most of the job attributes specified on the command line, or it may consist of several Slurm directives, comments and executable statements. 
+
+    A Slurm directive provides a way of specifying job attributes in addition to the command line options. All Slurm directives are prefaced with `#SBATCH` which *must* be written with capital letters. 
+
+    Comments are added with a `#` in front - an extra `#` in front of the Slurm directive comment that out. 
+
+    Some of the most commonly used arguments are:
+
+    - **-A PROJ-ID**: The project that should be accounted. It is a simple conversion from the SUPR project id. You can also find your project account with the command projinfo. The PROJ-ID argument is of the form **naissXXXX-YY-ZZZ** 
+    - *-N**: number of nodes
+    - **-n**, **--ntasks**: number of tasks. Since cores-per-task is 1 as default, this then translates to number of cores. 
+    - **-t**, **--time=**: walltime. How long your job is allowed to run. Given as HHH:MM:SS (example: 4 hours and 20 min is given as 4:20:00). Different centres have different maximum walltime, but it is usually at least a week. 
+    - **-p**: partition. Only used at some centres. Dardel is one of them. 
+    - **-c**, **--cores-per-task**: This changes the number of cores each task may use. Can also be used for getting more memory, with some cores only providing memory. (example: **-c 2 -n 4** allocates 4 tasks and 2 cores per task, totally 8 cores). More about this argument later. 
+
+Now for the example script above: 
+
 The first line is called the “shebang” and it indicates that the script is written in the bash shell language.
 
-The second, third, and fourth lines are resource statements to the Slurm batch scheduler. 
+The second, third, and fourth lines are resource statements to the Slurm batch scheduler. Also called Slurm directives. 
 
-The second line above is where you put your project ID. 
+The second line above is where you put your **project ID**. 
 Depending on centre, this is either always required or not technically required if you only have one project to your name. Regardless, we recommend that you make a habit of including it. 
 
-The third line in the example above provides the walltime, the maximum amount of time that the program would be allowed to run (5 minutes in this example). If a job does not finish within the specified walltime, the resource management system terminates it and any data that were not already written to a file before time ran out are lost.
+The third line in the example above provides the **walltime**, the maximum amount of time that the program would be allowed to run (5 minutes in this example). If a job does not finish within the specified walltime, the resource management system terminates it and any data that were not already written to a file before time ran out are lost.
 
 The fourth line asks for compute resources, here one core (or rather one task, but cores-per-task is one as default). You could ask for more cores if it was a parallel job, or for GPUs and so on. More about that later.  
 
@@ -407,14 +426,14 @@ Depending on centre, for most compute nodes, unless otherwise specified, a batch
 
     Remember to change the project ID to your own! 
 
-!!! note "Time/walltime"
+!!! note "Some comments on time/walltime"
 
     - the job **will** terminate when the time runs out, whether it has finished or not
     - you will only be "charged" for the consumed time
-    - asking for more time than needed will generally make the job take longer to start
+    - asking for a lot more time than needed will generally make the job take longer to start
     - short jobs can start quicker (backfill)
     - if you have no idea how long your job takes, ask for "long" time
-    - Conclusion: Ask for "a bit" more time than needed, but not too much
+    - **Conclusion**: It is typically a good idea to overbook your job with perhaps 30% (or more). 
 
 !!! note
 
@@ -430,35 +449,39 @@ Sometimes your workflow has jobs that depend on a previous job (a pipeline). Thi
 - Wait for that job to finish before starting next job: ``sbatch -d afterok:<prev-JOBID> my-next-job.sh``
 
 Generally: 
-- **after:jobid[:jobid...]** begin after specified jobs have started
-- **afterany:jobid[:jobid...]** begin after specified jobs have terminated
-- **afternotok:jobid[:jobid...]** begin after specified jobs have failed
-- **afterok:jobid[:jobid...]**  begin after specified jobs have run to completion with exit code zero
-- **singleton** begin execution after all previously launched jobs with the same name and user have ended 
+
+- **`after:jobid[:jobid...]`** begin after specified jobs have started
+- **`afterany:jobid[:jobid...]`** begin after specified jobs have terminated
+- **`afternotok:jobid[:jobid...]`** begin after specified jobs have failed
+- **??afterok:jobid[:jobid...]`**  begin after specified jobs have run to completion with exit code zero
+- **`singleton`** begin execution after all previously launched jobs with the same name and user have ended 
 
 !!! hint
 
-    Try it! You can use `run_matrix-gen.sh` as the first and `run_mmmult-v2.sh` as the dependent job. 
+    **Try it!** You can use `matrix-gen.sh` as the first and `mmmult-v2.sh` as the dependent job. You find these batch scripts in the exercises tarball, under your cluster. 
+
+    - Remember to change the project ID of the scripts to be your project ID. 
+    - Remember, you can use `squeue --me` to see if your jobs are running - and probably also that one of them is now marked as being dependent on another. 
 
 ### Script example 
 
-This simple script is just for starting one job; waiting for it to finish, then start a second job.  
+This simple script can be run from the command line. It starts one job; gets the job ID, then tell Slurm to wait until job one has finished before starting a second job which is dependent on the first.  
 
 ```bash
 #!/bin/bash
 
 # first job - no dependencies
-jid1=$(sbatch --parsable run_matrix-gen.sh)
+jid1=$(sbatch --parsable matrix-gen.sh)
 
 # Next job depend on first job 
-sbatch --dependency=afterany:${jid1} run_mmmult-v2.sh
+sbatch --dependency=afterany:${jid1} mmmult-v2.sh
 ```
 
-If you want to test it, the scripts for this can be found in the tarball with the exercises or downloaded here: <a href="../run_matrix-gen.sh" target="_blank">run_matrix-gen.sh</a> and <a href="../run_mmmult-v2.sh" target="_blank">run_mmmult-v2.sh</a>. 
+If you want to test it, the scripts for this can be found in <a href="https://github.com/UPPMAX/NAISS_Slurm/raw/refs/heads/main/exercises.tar.gz" target="_blank">the tarball with the exercises</a>. 
 
-The first job it runs generate a matrix and then the second job does matrix-matrix multiplication. 
+The first job it runs generates two matrices and then the second job does matrix-matrix multiplication, but not until the first has finished. 
 
-## Information about jobs
+## How to monitor jobs
 
 Unless mentioned, these are valid at all centres. 
 
