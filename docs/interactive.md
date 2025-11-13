@@ -17,6 +17,120 @@ The Slurm commands ``salloc`` and ``interactive`` are for requesting an interact
 
 ### Examples
 
+=== "Kebnekaise"
+
+    The command `salloc` (or OpenOnDemand) is recommended at HPC2N.
+
+    Usage: ``salloc -A [project_name] -t HHH:MM:SS``
+
+    You have to give project ID and walltime. If you need more CPUs (1 is default) or GPUs, you have to ask for that as well.
+
+    ```bash
+    b-an01 [~]$ salloc -A hpc2n2025-151 -t 00:10:00
+    salloc: Pending job allocation 34624444
+    salloc: job 34624444 queued and waiting for resources
+    salloc: job 34624444 has been allocated resources
+    salloc: Granted job allocation 34624444
+    salloc: Nodes b-cn1403 are ready for job
+    b-an01 [~]$
+    ```
+        
+        WARNING! This is not true interactivity! Note that we are still on the login node!
+        
+        In order to run anything in the allocation, you need to preface with ``srun`` like this:
+        
+        ```bash
+        b-an01 [~]$ srun /bin/hostname
+        b-cn1403.hpc2n.umu.se
+        b-an01 [~]$
+        ```
+        
+        Otherwise anything will run on the login node! Also, interactive sessions (for instance a program that asks for input) will not work correctly as that dialogoue happens on the compute node which you do not have real access to!
+
+
+    === "PDC"
+
+        ```bash
+        bbrydsoe@login1:~> salloc --time=00:10:00 -A naiss2025-22-403 -p main
+        salloc: Pending job allocation 9722449
+        salloc: job 9722449 queued and waiting for resources
+        salloc: job 9722449 has been allocated resources
+        salloc: Granted job allocation 9722449
+        salloc: Waiting for resource configuration
+        salloc: Nodes nid001134 are ready for job
+        bbrydsoe@login1:~>
+        ```
+
+        Again, you are on the login node, and anything you want to run in the allocation must be preface with ``srun``.
+
+        However, at PDC you have another option; you can ``ssh`` to the allocated compute node and then it will be true interactivity:
+
+        ```bash
+        bbrydsoe@login1:~> ssh nid001134
+        bbrydsoe@nid001134:~
+        ```
+
+!!! note "srun"
+
+    This works at C3SE, but is not recommended as when the login node is restarted the interactive job is also terminated.
+
+    === "C3SE"
+
+        ```bash
+        [brydso@alvis2 ~]$ srun --account=NAISS2025-22-395 --gpus-per-node=T4:1 --time=01:00:00 --pty=/bin/bash
+        [brydso@alvis2-12 ~]$
+        ```
+
+## GfxLauncher and OpenOnDemand
+
+!!! note "GfxLauncher and OpenOnDemand"
+
+    This is the recommended way to do interactive jobs at HPC2N, LUNARC, and C3SE, and is possible at PDC.
+
+    === "HPC2N"
+
+        - Go to <a href="https://portal.hpc2n.umu.se/" target="_blank">https://portal.hpc2n.umu.se/</a> and login.
+        - Documentation here: <a href="https://docs.hpc2n.umu.se/tutorials/connections/#open__ondemand" target="_blank">https://docs.hpc2n.umu.se/tutorials/connections/#open__ondemand</a>
+
+=== "Pelle"
+
+    **At UPPMAX, "interactive" is recommended.**
+
+    Usage: ``interactive -A [project_name] -t HHH:MM:SS``
+
+    If you need more CPUs/GPUs, etc. you need to ask for that as well. The default which gives 1 CPU.
+
+    ```bash
+    [bbrydsoe@pelle1 ~]$ interactive -A uppmax2025-2-393 -t 00:15:00
+    This is a temporary version of interactive-script for Pelle
+    Most interactive-script functionality is removed
+    salloc: Pending job allocation 205612
+    salloc: job 205612 queued and waiting for resources
+    salloc: job 205612 has been allocated resources
+    salloc: Granted job allocation 205612
+    salloc: Waiting for resource configuration
+    salloc: Nodes p115 are ready for job
+    [bbrydsoe@p115 ~]$ 
+    ```
+
+    **salloc also works.** 
+
+    Usage: ``salloc -A [project_name] -t HHH:MM:SS``
+
+    You have to give project ID and walltime. If you need more CPUs (1 is default) or GPUs, you have to ask for that as well.
+
+    ```bash
+    [bbrydsoe@pelle1 ~]$ salloc -A uppmax2025-2-393 -t 00:15:00
+    salloc: Pending job allocation 205613
+    salloc: job 205613 queued and waiting for resources
+    salloc: job 205613 has been allocated resources
+    salloc: Granted job allocation 205613
+    salloc: Nodes p115 are ready for job
+    [bbrydsoe@p115 ~]$ 
+    ```
+
+=== "Cosmos" 
+
 !!! note "interactive"
 
     This is recommended at UPPMAX and NSC, and works at HPC2N and LUNARC.
