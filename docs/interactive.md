@@ -8,18 +8,65 @@ The Slurm commands ``salloc`` and ``interactive`` are for requesting an interact
 
 | Cluster | interactive | salloc | srun | GfxLauncher or OpenOnDemand |  
 | ------- | ----------- | ------ | ---- | --------------------------- |  
-| HPC2N   | Works       | Recommended | N/A | Recommended (OOD)      |  
-| UPPMAX  | Recommended | Works | N/A | N/A |  
-| LUNARC | Works | N/A | N/A | Recommended (GfxLauncher) |  
-| NSC | Recommended | N/A | N/A | N/A |  
-| PDC | N/A | Recommended | N/A | Possible |  
-| C3SE | N/A | N/A | Works | Recommended (OOD) |  
+| Tetralith (NSC) | Recommended | N/A | N/A | N/A |  
+| Dardel (PDC) | N/A | Recommended | N/A | Possible |  
+| Alvis (C3SE) | N/A | N/A | Works | Recommended (OOD) |  
+| Kebnekaise (HPC2N)   | Works       | Recommended | N/A | Recommended (OOD)      |  
+| Pelle (UPPMAX)  | Recommended | Works | N/A | N/A |  
+| Cosmos (LUNARC) | Works | N/A | N/A | Recommended (GfxLauncher) |  
 
 ### Examples
 
+=== "Tetralith"
+
+    **The command "interactive" is recommended at NSC.** 
+
+    Usage: ``interactive -A [project_name] -t HHH:MM:SS``
+
+    If you need more CPUs/GPUs, etc. you need to ask for that as well. The default which gives 1 CPU.
+
+    ```bash
+    [x_birbr@tetralith3 ~]$ interactive -A naiss2025-22-403
+    salloc: Pending job allocation 44252533
+    salloc: job 44252533 queued and waiting for resources
+    salloc: job 44252533 has been allocated resources
+    salloc: Granted job allocation 44252533
+    salloc: Waiting for resource configuration
+    salloc: Nodes n340 are ready for job
+    [x_birbr@n340 ~]$ 
+    ```
+
+=== "Dardel"
+
+    **The command `salloc` (or OpenOnDemand) is recommended at PDC.**
+
+    ```bash
+    bbrydsoe@login1:~> salloc --time=00:10:00 -A naiss2025-22-403 -p main
+    salloc: Pending job allocation 9722449
+    salloc: job 9722449 queued and waiting for resources
+    salloc: job 9722449 has been allocated resources
+    salloc: Granted job allocation 9722449
+    salloc: Waiting for resource configuration
+    salloc: Nodes nid001134 are ready for job
+    bbrydsoe@login1:~>
+    ```
+
+    Again, you are on the login node, and anything you want to run in the allocation must be preface with ``srun``.
+
+    However, you have another option; you can ``ssh`` to the allocated compute node and then it will be true interactivity:
+
+    ```bash
+    bbrydsoe@login1:~> ssh nid001134
+    bbrydsoe@nid001134:~
+    ```    
+
+    **It is also possible to use OpenOnDemand.** 
+
+=== "Alvis" 
+
 === "Kebnekaise"
 
-    The command `salloc` (or OpenOnDemand) is recommended at HPC2N.
+    **The command `salloc` (or OpenOnDemand) is recommended at HPC2N.**
 
     Usage: ``salloc -A [project_name] -t HHH:MM:SS``
 
@@ -35,62 +82,25 @@ The Slurm commands ``salloc`` and ``interactive`` are for requesting an interact
     b-an01 [~]$
     ```
         
-        WARNING! This is not true interactivity! Note that we are still on the login node!
+    WARNING! This is not true interactivity! Note that we are still on the login node!
         
-        In order to run anything in the allocation, you need to preface with ``srun`` like this:
+    In order to run anything in the allocation, you need to preface with ``srun`` like this:
         
-        ```bash
-        b-an01 [~]$ srun /bin/hostname
-        b-cn1403.hpc2n.umu.se
-        b-an01 [~]$
-        ```
+    ```bash
+    b-an01 [~]$ srun /bin/hostname
+    b-cn1403.hpc2n.umu.se
+    b-an01 [~]$
+    ```
         
-        Otherwise anything will run on the login node! Also, interactive sessions (for instance a program that asks for input) will not work correctly as that dialogoue happens on the compute node which you do not have real access to!
+    Otherwise anything will run on the login node! Also, interactive sessions (for instance a program that asks for input) will not work correctly as that dialogoue happens on the compute node which you do not have real access to!
 
 
-    === "PDC"
+    **OpenOnDemand**
 
-        ```bash
-        bbrydsoe@login1:~> salloc --time=00:10:00 -A naiss2025-22-403 -p main
-        salloc: Pending job allocation 9722449
-        salloc: job 9722449 queued and waiting for resources
-        salloc: job 9722449 has been allocated resources
-        salloc: Granted job allocation 9722449
-        salloc: Waiting for resource configuration
-        salloc: Nodes nid001134 are ready for job
-        bbrydsoe@login1:~>
-        ```
+    This is the recommended way to do interactive jobs at HPC2N. 
 
-        Again, you are on the login node, and anything you want to run in the allocation must be preface with ``srun``.
-
-        However, at PDC you have another option; you can ``ssh`` to the allocated compute node and then it will be true interactivity:
-
-        ```bash
-        bbrydsoe@login1:~> ssh nid001134
-        bbrydsoe@nid001134:~
-        ```
-
-!!! note "srun"
-
-    This works at C3SE, but is not recommended as when the login node is restarted the interactive job is also terminated.
-
-    === "C3SE"
-
-        ```bash
-        [brydso@alvis2 ~]$ srun --account=NAISS2025-22-395 --gpus-per-node=T4:1 --time=01:00:00 --pty=/bin/bash
-        [brydso@alvis2-12 ~]$
-        ```
-
-## GfxLauncher and OpenOnDemand
-
-!!! note "GfxLauncher and OpenOnDemand"
-
-    This is the recommended way to do interactive jobs at HPC2N, LUNARC, and C3SE, and is possible at PDC.
-
-    === "HPC2N"
-
-        - Go to <a href="https://portal.hpc2n.umu.se/" target="_blank">https://portal.hpc2n.umu.se/</a> and login.
-        - Documentation here: <a href="https://docs.hpc2n.umu.se/tutorials/connections/#open__ondemand" target="_blank">https://docs.hpc2n.umu.se/tutorials/connections/#open__ondemand</a>
+    - Go to <a href="https://portal.hpc2n.umu.se/" target="_blank">https://portal.hpc2n.umu.se/</a> and login.
+    - Documentation here: <a href="https://docs.hpc2n.umu.se/tutorials/connections/#open__ondemand" target="_blank">https://docs.hpc2n.umu.se/tutorials/connections/#open__ondemand</a>
 
 === "Pelle"
 
@@ -130,6 +140,22 @@ The Slurm commands ``salloc`` and ``interactive`` are for requesting an interact
     ```
 
 === "Cosmos" 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 !!! note "interactive"
 
