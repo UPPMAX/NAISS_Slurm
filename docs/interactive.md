@@ -68,12 +68,12 @@ The Slurm commands ``salloc`` and ``interactive`` are for requesting an interact
 
 === "Alvis" 
 
-    **The command "srun" from command line works at C3Se** It is not recommended as when the login node is restarted the interactive job is also terminated.
+    **The command "srun" from command line works at C3Se**. It is not recommended as when the login node is restarted the interactive job is also terminated.
 
     ```bash
-        [brydso@alvis2 ~]$ srun --account=NAISS2025-22-395 --gpus-per-node=T4:1 --time=01:00:00 --pty=/bin/bash
-        [brydso@alvis2-12 ~]$
-        ```
+    [brydso@alvis2 ~]$ srun --account=NAISS2025-22-395 --gpus-per-node=T4:1 --time=01:00:00 --pty=/bin/bash
+    [brydso@alvis2-12 ~]$
+    ```
 
     **The recommended way to do interactive jobs at Alvis is with OpenOnDemand.**
 
