@@ -392,6 +392,8 @@ The simplest possible batch script would look something like this:
 
     Comments are added with a `#` in front - an extra `#` in front of the Slurm directive comment that out. 
 
+!!! note "Common Slurm arguments" 
+
     Some of the most commonly used arguments are:
 
     - **-A PROJ-ID**: The project that should be accounted. It is a simple conversion from the SUPR project id. You can also find your project account with the command projinfo. The PROJ-ID argument is of the form **naissXXXX-YY-ZZZ** 
@@ -401,7 +403,19 @@ The simplest possible batch script would look something like this:
     - **-p**: partition. Only used at some centres. Dardel is one of them. 
     - **-c**, **--cores-per-task**: This changes the number of cores each task may use. Can also be used for getting more memory, with some cores only providing memory. (example: **-c 2 -n 4** allocates 4 tasks and 2 cores per task, totally 8 cores). More about this argument later. 
 
-Now for the example script above: 
+    In addition, these can be quite useful: 
+
+    - **-o**, **--output=**: Used for naming the output differently that ``slurm-<job-id>.out`` and splitting it from errors and such. The environment variable ``%j`` is very useful since adding it to the output name prevents it being overwritten next time you run the job. 
+    - **-e**, **--error=**: Used for naming and splitting the error from the other output. Adding the environment variable ``%j``to the name is useful, like it is for the output file. 
+
+    Example: 
+
+    ```bash
+    #SBATCH -o process_%j.out    
+    #SBATCH -e process_%j.err    
+    ``` 
+
+**Now for the example script, "Simplest job", above**:
 
 The first line is called the “shebang” and it indicates that the script is written in the bash shell language.
 
