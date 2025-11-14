@@ -9,9 +9,9 @@ The Slurm commands ``salloc`` and ``interactive`` are for requesting an interact
 | Cluster | interactive | salloc | srun | GfxLauncher or OpenOnDemand |  
 | ------- | ----------- | ------ | ---- | --------------------------- |  
 | Tetralith (NSC) | Recommended | N/A | N/A | N/A |  
-| Dardel (PDC) | N/A | Recommended | N/A | Possible |  
+| Dardel (PDC) | N/A | Recommended | N/A | Possible (GfxLauncher) |  
 | Alvis (C3SE) | N/A | N/A | Works | Recommended (OOD) |  
-| Kebnekaise (HPC2N)   | Works       | Recommended | N/A | Recommended (OOD)      |  
+| Kebnekaise (HPC2N) | N/A | Recommended | N/A | Recommended (OOD)      |  
 | Pelle (UPPMAX)  | Recommended | Works | N/A | N/A |  
 | Cosmos (LUNARC) | Works | N/A | N/A | Recommended (GfxLauncher) |  
 
@@ -181,7 +181,9 @@ The Slurm commands ``salloc`` and ``interactive`` are for requesting an interact
     **GfxLauncher**
 
     This is the recommended wait to work interactively at LUNARC. 
-    
+
+    - Login with ThinLinc: <a href="https://lunarc-documentation.readthedocs.io/en/latest/getting_started/using_hpc_desktop/" target="_blank">https://lunarc-documentation.readthedocs.io/en/latest/getting_started/using_hpc_desktop/</a>
+    - Follow the documentation for starting the GfxLauncher for OpenOnDemand: <a href="https://lunarc-documentation.readthedocs.io/en/latest/getting_started/gfxlauncher/" target="_blank">https://lunarc-documentation.readthedocs.io/en/latest/getting_started/gfxlauncher/</a>
 
 ## GfxLauncher and OpenOnDemand
 
