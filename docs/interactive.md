@@ -208,7 +208,7 @@ While these are mentioned above, the information is gathered here for ease.
         - Go to <a href="https://alvis.c3se.chalmers.se/" target="_blank">https://alvis.c3se.chalmers.se/</a>
         - There is some documentation here: <a href="https://uppmax.github.io/HPC-python/common/interactive_ondemand.html#start-an-interactive-session-from-ondemand" target="_blank">https://uppmax.github.io/HPC-python/common/interactive_ondemand.html#start-an-interactive-session-from-ondemand</a>
 
-   === "PDC"
+    === "PDC"
 
         - Login with ThinLinc and follow the documentation for starting the Gfxlauncher for OpenOnDemand: <a href="https://support.pdc.kth.se/doc/login/interactive_hpc/" target="_blank">Interactive HPC at PDC</a>.
 
