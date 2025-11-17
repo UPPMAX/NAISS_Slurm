@@ -46,7 +46,7 @@ Let us look at the above batch script as it might be written for some other cent
     # Set account 
     #SBATCH -A <project ID> 
 
-    # Set the time, 
+    # Set the time 
     #SBATCH -t 00:10:00
 
     # ask for 1 core, serial running 
@@ -198,10 +198,36 @@ The illustration shows 5 tasks being executed, with the time running from the to
 
     To start multiple copies of the same executable a special program, a so called **job launcher** is required.  Depending on the system and libraries used the name of the jobs launcher differs.
 
+In the following we have sample scripts for a number of services, including NAISS' Tetralith and Dardel services.   The sample script assumes an mpi executable name `integration2D_f90` in the submission directory.   The executable takes the problem size as a number as a commandline argument.  In the example the problem size is 10000.
 
 === "Tetralith"
 
-    *Sample scipt to come*
+    On Tetralith the user does not need to specify the compiler version and the version of the MPI library used to compile the application.
+
+    ```bash
+    #!/bin/bash
+
+    # Set account 
+    #SBATCH -A <project ID> 
+
+    # Set the time 
+    #SBATCH -t 00:10:00
+
+    # ask for 10 core, experiment for what works best 
+    #SBATCH -n 10
+
+    # name output and error file
+    #SBATCH -o mpi_process_%j.out
+    #SBATCH -e mpi_process_%j.err
+
+    # write this script to stdout-file - useful for scripting errors
+    cat $0
+
+    # Run your mpi_executable
+    mpprun ./integration2D_f90 10000
+    ```
+
+
 
 === "Dardel"
         
