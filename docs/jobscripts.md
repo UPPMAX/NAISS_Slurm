@@ -675,10 +675,10 @@ This shows a simple GPU script, asking for 1 or 2 cards on a single node.
    Some of them requires installing some Python packages in a virtual environment. It is described in the ``.sh`` file for each 
 
    - alvis, cosmos, kebnekaise, pelle, tetralith
-       - add-list.py and add-list.sh 
+       - add-list.py, add-list.sh 
        - pytorch_fitting_gpu.py, pytorch_fitting_gpu.sh
        - integration2d_gpu.py, integration2d_gpu_shared.py, job-gpu.sh   
    - dardel
-       - 
+       - hello_world_gpu.cpp, hello_world_gpu.sh 
 
 ## Miscellaneous  
