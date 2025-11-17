@@ -533,10 +533,10 @@ This is the most different of the Slurm settings, between centers.
 | -------- | -------------- | -------- |
 | Tetralith | ``#SBATCH -n 1``<br>``#SBATCH -c 32``<br>``#SBATCH --gpus-per-task=1`` | |
 | Dardel    | ``#SBATCH -N 1``<br>``#SBATCH --ntasks-per-node=1``<br>``#SBATCH -p gpu`` | |
-| Alvis | ``#SBATCH -p alvis``<br>``#SBATCH -N <nodes>``<br>``#SBATCH --gpus-per-node=<type>:x`` | - no node-sharing on multi-node jobs  <br> (``--exclusive`` is automatic)  <br>- Requesting -N 1 does not mean 1 full node <br> - type is V100, A40, A100, or A100fat <br>- x is number of GPUs, 1-4 | 
+| Alvis | ``#SBATCH -p alvis``<br>``#SBATCH -N <nodes>``<br>``#SBATCH --gpus-per-node=<type>:x`` | - no node-sharing on multi-node jobs<br>(``--exclusive`` is automatic)<br>- Requesting -N 1 does not mean 1 full node<br>- type is V100, A40, A100, or A100fat<br>- x is number of GPUs, 1-4 | 
 | Cosmos | ``#SBATCH -p gpua100``<br>``#SBATCH --gres=gpu:1`` | |
-| Kebnekaise | ``#SBATCH --gpus=x``<br>``#SBATCH -C <type>`` | - type is the type of GPU in lower case while x is the number of that type of GPU. See above table for both | 
-| Pelle | ``-p gpu --gpus=<type>:x`` | - type is the type of GPU in lower case while x is the number of that type of GPU. See above table for both | 
+| Kebnekaise | ``#SBATCH --gpus=x``<br>``#SBATCH -C <type>`` | - type is the type of GPU in lower case<br>- x is the number of that type of GPU.<br>See above table for both | 
+| Pelle | ``-p gpu --gpus=<type>:x`` | - type is the type of GPU in lower case<br> - x is the number of that type of GPU.<br>See above table for both | 
 
 ### Example GPU scripts 
 
