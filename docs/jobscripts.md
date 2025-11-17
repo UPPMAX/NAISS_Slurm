@@ -301,7 +301,6 @@ Another way of getting extra memory is to use nodes that have more memory. Here 
     | Type | RAM/node | RAM/core | cores/node | Requesting flag | 
     | Intel Xeon Gold 6130 thin | 96 GB | 3 GB | 32 | ``-C thin --exclusive`` | 
     | Intel Xeon Gold 6130 fat | 384 GB | 12 GB | 32 | ``-C fat --exclusive`` | 
-    ```
 
 === "Dardel"
 
