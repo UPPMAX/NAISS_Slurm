@@ -326,18 +326,18 @@ Another way of getting extra memory is to use nodes that have more memory. Here 
 
     | Type | RAM/node | RAM/core | cores/node | Requesting flag | 
     | ---- | -------- | -------- | ---------- | --------------- |
-    | Intel Xeon Gold 6130 thin | 96 GB | 3 GB | 32 | ``-C thin --exclusive`` | 
-    | Intel Xeon Gold 6130 fat | 384 GB | 12 GB | 32 | ``-C fat --exclusive`` | 
+    | Intel Xeon Gold <br>6130 thin | 96 GB | 3 GB | 32 | ``-C thin --exclusive`` | 
+    | Intel Xeon Gold <br>6130 fat | 384 GB | 12 GB | 32 | ``-C fat --exclusive`` | 
 
 === "Dardel"
 
     | Type | RAM/node | RAM/core | cores/node | Partition | Available | Requesting flag |
     | ---- | -------- | -------- | ---------- | --------- | --------- | ------------ |
-    | AMD EPYC™ Zen2 Thin | 256 GB | 2 GB | 128 | main, shared, long | 227328 MB | |
-    | AMD EPYC™ Zen2 Large | 512 GB | 4 GB | 128 | main, memory | 456704 MB | ``--mem=440GB`` |
-    | AMD EPYC™ Zen2 Huge | 1 TB | 7.8 GB | 128 | main, memory | 915456 MB | ``--mem=880GB`` |
-    | AMD EPYC™ Zen2 Giant | 2 TB | 15.6 GB | 128 | memory | 1832960 MB | ``--mem=1760GB`` |
-    | 4 x AMD Instinct™ MI250X dual GPUs | 512 GB | gpu | 8 GB | 64 | 456704 MB | ``--mem=440GB`` |
+    | AMD EPYC™ <br>Zen2 Thin | 256 GB | 2 GB | 128 | main, shared, long | 227328 MB | |
+    | AMD EPYC™ <br>Zen2 Large | 512 GB | 4 GB | 128 | main, memory | 456704 MB | ``--mem=440GB`` |
+    | AMD EPYC™ <br>Zen2 Huge | 1 TB | 7.8 GB | 128 | main, memory | 915456 MB | ``--mem=880GB`` |
+    | AMD EPYC™ <br>Zen2 Giant | 2 TB | 15.6 GB | 128 | memory | 1832960 MB | ``--mem=1760GB`` |
+    | 4 x AMD Instinct™ <br>MI250X dual GPUs | 512 GB | gpu | 8 GB | 64 | 456704 MB | ``--mem=440GB`` |
 
     On shared partitions you need to give number of cores and will get RAM equivalent for that
 
@@ -385,10 +385,10 @@ Another way of getting extra memory is to use nodes that have more memory. Here 
 
     | Type | RAM/node | RAM/core | cores/node | requesting flag | 
     | ---- | -------- | -------- | ---------- | --------------- | 
-    | AMD EPYC 9454P (Zen4) | 768 GB | 16 GB | 48 | ``-p pelle``
-    | AMD EPYC 9454P (Zen4) | 2 or 3 TB | 41.67 or 62.5 GB | 48 | ``-p fat`` | 
-    | 2xAMD EPYC 9124 (Zen4), 10xL40s | 384 GB | 12 GB | 32 | ``-p gpu --gpus=l40s:[1-10]`` | 
-    | 2xAMD EPYC 9124 (Zen4), 2xH100 | 384 GB | 12 GB | 32 | ``-p gpu --gpus=h100:[1-2]`` | 
+    | AMD EPYC <br>9454P (Zen4) | 768 GB | 16 GB | 48 | ``-p pelle``
+    | AMD EPYC <br>9454P (Zen4) | 2 or 3 TB | 41.67 or 62.5 GB | 48 | ``-p fat`` | 
+    | 2xAMD EPYC <br>9124 (Zen4), 10xL40s | 384 GB | 12 GB | 32 | ``-p gpu --gpus=l40s:[1-10]`` | 
+    | 2xAMD EPYC <br>9124 (Zen4), 2xH100 | 384 GB | 12 GB | 32 | ``-p gpu --gpus=h100:[1-2]`` | 
 
     In addition you can use all the Slurm options for memory: 
 
@@ -491,7 +491,9 @@ cp -p mynewdata.dat $SLURM_SUBMIT_DIR
     srun python hello-world-array.py $SLURM_ARRAY_TASK_ID
     ```
 
-    You can find the above script under one of the cluster resources folders in the exercise tarball. 
+!!! hint 
+
+    Try it! You can find the above script under any of the cluster resources folders in the exercise tarball. 
 
 ### Some array comments 
 
@@ -531,15 +533,152 @@ This is the most different of the Slurm settings, between centers.
 | -------- | -------------- | -------- |
 | Tetralith | ``#SBATCH -n 1``  <br>``#SBATCH -c 32`` <br>``#SBATCH --gpus-per-task=1`` | |
 | Dardel    | ``#SBATCH -N 1``  <br>``#SBATCH --ntasks-per-node=1``  <br>``#SBATCH -p gpu`` | |
-| Alvis | ``#SBATCH -p alvis``  <br>``#SBATCH -N <nodes>``  <br>``#SBATCH --gpus-per-node=<type>:x`` | - no node-sharing on multi-node jobs  <br> (``--exclusive`` is automatic)  <br>- Requesting -N 1 does not mean 1 full node | 
+| Alvis | ``#SBATCH -p alvis``  <br>``#SBATCH -N <nodes>``  <br>``#SBATCH --gpus-per-node=<type>:x`` | - no node-sharing on multi-node jobs  <br> (``--exclusive`` is automatic)  <br>- Requesting -N 1 does not mean 1 full node <br> - type is V100, A40, A100, or A100fat <br>- x is number of GPUs, 1-4 | 
 | Cosmos | ``#SBATCH -p gpua100`` <br>``#SBATCH --gres=gpu:1`` | |
-| Kebnekaise | ``#SBATCH --gpus=x``  <br>``#SBATCH -C <type>`` | | 
-| Pelle | | | 
+| Kebnekaise | ``#SBATCH --gpus=x``  <br>``#SBATCH -C <type>`` | - type is the type of GPU in lower case while x is the number of that type of GPU. See above table for both | 
+| Pelle | ``-p gpu --gpus=<type>:x | - type is the type of GPU in lower case while x is the number of that type of GPU. See above table for both | 
 
 ### Example GPU scripts 
 
 This shows a simple GPU script, asking for 1 or 2 cards on a single node. 
 
-=== "NSC"
+=== "Tetralith"
+
+    ```bash 
+    #!/bin/bash
+    # Remember to change this to your own project ID!
+    #SBATCH -A naissXXXX-YY-ZZZ
+    # Asking for runtime: hours, minutes, seconds. At most 1 week
+    #SBATCH --time=HHH:MM:SS
+    # Ask for resources, including GPU resources
+    #SBATCH -n 1
+    #SBATCH -c 32
+    #SBATCH --gpus-per-task=1
+    # Writing output and error files
+    #SBATCH --output=output%J.out
+    #SBATCH --error=error%J.error
+
+    # Load any needed GPU modules and any prerequisites 
+    module load <MODULES> 
+   
+    <run-my-GPU-code> 
+    ```
+
+=== "Dardel" 
+    
+    ```bash 
+    #!/bin/bash -l
+    # Remember to change this to your own project ID!
+    #SBATCH -A naissXXXX-YY-ZZZ
+    # Asking for runtime: hours, minutes, seconds. At most 1 week
+    #SBATCH --time=HHH:MM:SS
+    # Ask for resources, including GPU resources
+    #SBATCH -N 1
+    #SBATCH --ntasks-per-node=1
+    #SBATCH -p gpu
+    # Writing output and error files
+    #SBATCH --output=output%J.out
+    #SBATCH --error=error%J.error
+
+    # Load any needed GPU modules and any prerequisites
+    module load <MODULES>
+
+    <run-my-GPU-code - REMEMBER NOT NVIDIA/CUDA!> 
+    ```
+
+=== "Alvis" 
+
+    ```bash 
+    #!/bin/bash
+    # Remember to change this to your own project ID!
+    #SBATCH -A naissXXXX-YY-ZZZ
+    #SBATCH -t HHH:MM:SS
+    #SBATCH -p alvis
+    #SBATCH -N 1 --gpus-per-node=T4:4
+    # Writing output and error files
+    #SBATCH --output=output%J.out
+    #SBATCH --error=error%J.error
+
+    # Load any needed GPU modules and any prerequisites
+    module load <MODULES>
+   
+    <run-my-GPU-code>
+    ``` 
+
+=== "Kebnekaise" 
+
+    ```bash 
+    #!/bin/bash
+    #SBATCH -A hpc2nXXXX-YYY # Change to your own project ID
+    #Asking for runtime: hours, minutes, seconds. At most 1 week
+    #SBATCH -t HHH:MM:SS
+    # Ask for GPU resources. You pick type as one of the ones shown above
+    # and how many cards you want, at most as many as shown above. Here 2 L40s
+    #SBATCH --gpus:2
+    #SBATCH -C l40s
+    # Writing output and error files
+    #SBATCH --output=output%J.out
+    #SBATCH --error=error%J.error
+
+    # Purge unneeded modules. Load any needed GPU modules and any prerequisites
+    ml purge > /dev/null 2>&1
+    module load <MODULES>
+   
+    <run-my-GPU-code>
+    ```
+                       
+=== "Cosmos" 
+ 
+    ```bash 
+    #!/bin/bash
+    # Remember to change this to your own project ID!
+    #SBATCH -A luXXXX-Y-ZZ
+    # Asking for runtime: hours, minutes, seconds. At most 1 week
+    #SBATCH --time=HHH:MM:SS
+    # Ask for GPU resources - x is how many cards, 1 or 2
+    #SBATCH -p gpua100
+    #SBATCH --gres=gpu:1
+    # Writing output and error files
+    #SBATCH --output=output%J.out
+    #SBATCH --error=error%J.error
+
+    # Remove any loaded modules and load the GPU modules and prerequisites ones we need
+    module purge  > /dev/null 2>&1
+    module load <MODULES> 
+
+    <run-my-GPU-code>
+    ```
+
+=== "Pelle" 
+
+    ```bash 
+    #!/bin/bash -l
+    #SBATCH -A uppmaxXXXX-Y-ZZZZ # Change to your own! 
+    #Asking for runtime: hours, minutes, seconds. At most 1 week
+    #SBATCH -t HHH:MM:SS
+    #SBATCH -p gpu
+    #SBATCH --gpus:l40s:1
+    # Writing output and error files
+    #SBATCH --output=output%J.out
+    #SBATCH --error=error%J.error
+
+    # Load the GPU modules we need
+    module load <MODULES>                     
+                        
+    <run-my-GPU-code>
+    ```
+
+!!! hint
+
+   You can find a few example GPU batch scripts and corresponding programs in the cluster subfolders in the exercises tarball. 
+
+   Some of them requires installing some Python packages in a virtual environment. It is described in the ``.sh`` file for each 
+
+   - alvis, cosmos, kebnekaise, pelle, tetralith
+       - add-list.py and add-list.sh 
+       - pytorch_fitting_gpu.py, pytorch_fitting_gpu.sh
+       - integration2d_gpu.py, integration2d_gpu_shared.py, job-gpu.sh   
+   - dardel
+       - 
 
 ## Miscellaneous  
