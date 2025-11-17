@@ -237,41 +237,60 @@ srun ./mympiprogram
 
 ### Increasing memory per task
 
+A way to increase memory per task that works generally is to simply ask for more cores per task, where some are just giving memory.
+
+!!! note "Example"
+
+    In this case, we are asking for 16 tasks, with 2 cores per task. This means we are asking for 32 cores in total. We do this by adding this to our batch script: 
+
+    ```bash
+    #SBATCH --ntasks-per-node=16 --cpus-per-task=2
+    ```
+
+    In order to use the extra memory from the extra cores, we would then run our program this way in the batch script:
+
+    ```bash
+    srun -n 16 <my-program>
+    ```
+
+    **NOTE** You can also write 
+
+    - ``--cpus-per-task=#num`` in short form as ``-c #num``
+    - ``--ntasks-per-node=#numtasks`` in short form as ``-n #numtasks``  
+
+
+!!! note 
+
+    At some centres, you can also use ``#SBATCH --mem-per-cpu=<MEMORY>``. If you ask for more memory than is on one core, some cores will have to remain idle while only providing memory. You will also be charged for these cores, of course.
+
+    To see the amount of available memory per core, see the next section. 
+
+### Memory availability 
+
+Another way of getting extra memory is to use nodes that have more memory. Here is an overview of some of the available nodes at the Swedish HPC centres: 
+
 === "Tetralith"
 
-    96 GB/node:
-    ```bash
-    -C thin --exclusive
+    | Type | RAM/node | RAM/core | cores/node | Requesting flag | 
+    | Intel Xeon Gold 6130 thin | 96 GB | 3 GB | 32 | ``-C thin --exclusive`` | 
+    | Intel Xeon Gold 6130 fat | 384 GB | 12 GB | 32 | ``-C fat --exclusive`` | 
     ```
-
-    384 GB/node:
-    ```bash
-    -C fat --exclusive
-    ```
-
-    More cores/task, some just giving memory (MPI):
-
-    ```bash
-    sbatch --ntasks-per-node=16 --cpus-per-task=2
-    ```
-
-    You can write ``--cpus-per-task=#num`` in short form as ``-c #num``. 
 
 === "Dardel"
 
-    | Type | RAM | Partition | Available | Example flag |
-    | ---- | --- | --------- | --------- | ------------ |
-    | Thin | 256 GB | main, shared, long | 227328 MB | |
-    | Large | 512 GB | main, memory | 456704 MB | ``--mem=440GB`` |
-    | Huge | 1 TB | main, memory | 915456 MB | ``--mem=880GB`` |
-    | Giant | 2 TB | memory | 1832960 MB | ``--mem=1760GB`` |
-    | GPU | 512 GB | gpu | 456704 MB | ``--mem=440GB`` |
+    | Type | RAM/node | RAM/core | cores/node | Partition | Available | Requesting flag |
+    | ---- | -------- | -------- | ---------- | --------- | --------- | ------------ |
+    | AMD EPYC™ Zen2 Thin | 256 GB | 2 GB | 128 | main, shared, long | 227328 MB | |
+    | AMD EPYC™ Zen2 Large | 512 GB | 4 GB | 128 | main, memory | 456704 MB | ``--mem=440GB`` |
+    | AMD EPYC™ Zen2 Huge | 1 TB | 7.8 GB | 128 | main, memory | 915456 MB | ``--mem=880GB`` |
+    | AMD EPYC™ Zen2 Giant | 2 TB | 15.6 GB | 128 | memory | 1832960 MB | ``--mem=1760GB`` |
+    | 4 x AMD Instinct™ MI250X dual GPUs | 512 GB | gpu | 8 GB | 64 | 456704 MB | ``--mem=440GB`` |
 
     On shared partitions you need to give number of cores and will get RAM equivalent for that
 
 === "Alvis" 
 
-    | RAM | GPUs | Example flag | 
+    | RAM | GPUs | Requesting flag | 
     | --- | ---- | ------------ | 
     | 768 | V100 (2) <br> V100 (4) <br> and a no GPU skylake | ``#SBATCH -C MEM768`` <br> ``#SBATCH --gpus-per-node=V100:[1-4]`` |
     | 576 | T4 (8) | ``#SBATCH -C MEM576`` <br> ``#SBATCH --gpus-per-node=T4:[1-8]`` |
@@ -280,7 +299,7 @@ srun ./mympiprogram
     | 256 | A40 (4, no IB) <br> A100 (4) | ``#SBATCH -C mem256`` and either <br> ``#SBATCH --gpus-per-node=A40[1-4]`` <br> or ``#SBATCH --gpus-per-node=A100[1-4]`` |
     | 1024 | A100fat (4) | ``#SBATCH -C mem1024`` <br> ``#SBATCH --gpus-per-node=A100fat:[1-4]`` |
 
-    - **Note** though that you also need to ask for a GPU, as usual, unless you need the pre/post processing CPU nodes (``-C NOGPU``).
+    - **Note** be aware, though that you also need to ask for a GPU, as usual, unless you need the pre/post processing CPU nodes (``-C NOGPU``).
     - You only really need to give the mem constraint for those bolded as the others follow from the GPU choice
     - ``sinfo -o "%20N  %9P %4c  %24f  %50G"`` will give you a full list of all nodes and features 
 
@@ -300,11 +319,18 @@ srun ./mympiprogram
     | A40 | 11968 MB | 64 | ``--gpus=<#num> -C a40`` |
     | Largemem | 41666 MB | 72 | ``-C largemem`` |
 
-    - Can also ask for more cores/task with ``-c <#cores/task>`` just to add memory
-
 === "Cosmos" 
 
+    | Type | RAM/core | cores/node | requesting flag | 
+    | ---- | -------- | ---------- | --------------- |
+    | AMD 7413 | 5.3 GB | 48 | |  
+    | Intel / A100 | 12 GB | 32 | ``-p gpua100i``
+    | AMD / A100 | 10.7 GB | 48 | ``-p gpua100`` | 
+
+
 === "Pelle" 
+
+    | Type | RAM/core | cores/node | requesting flag | 
 
 ## I/O intensive jobs 
 
