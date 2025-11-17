@@ -247,12 +247,6 @@ A way to increase memory per task that works generally is to simply ask for more
     #SBATCH --ntasks=16 --cpus-per-task=2
     ```
 
-    In order to use the extra memory from the extra cores, we would then run our program this way in the batch script:
-
-    ```bash
-    srun -n 16 <my-program>
-    ```
-
     **NOTE** You can also write 
 
     - ``--cpus-per-task=#num`` in short form as ``-c #num``
