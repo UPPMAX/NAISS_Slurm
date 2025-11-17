@@ -244,7 +244,7 @@ A way to increase memory per task that works generally is to simply ask for more
     In this case, we are asking for 16 tasks, with 2 cores per task. This means we are asking for 32 cores in total. We do this by adding this to our batch script: 
 
     ```bash
-    #SBATCH --ntasks-per-node=16 --cpus-per-task=2
+    #SBATCH --ntasks=16 --cpus-per-task=2
     ```
 
     In order to use the extra memory from the extra cores, we would then run our program this way in the batch script:
@@ -256,7 +256,40 @@ A way to increase memory per task that works generally is to simply ask for more
     **NOTE** You can also write 
 
     - ``--cpus-per-task=#num`` in short form as ``-c #num``
-    - ``--ntasks-per-node=#numtasks`` in short form as ``-n #numtasks``  
+    - ``--ntasks=#numtasks`` in short form as ``-n #numtasks``  
+
+**Example script template**
+
+Here asking for 8 tasks, 2 cores per task. 
+
+```bash 
+#!/bin/bash
+#SBATCH -A <account>
+#SBATCH -t HHH:MM:SS
+#SBATCH -n 8
+#SBATCH -c 2
+
+module load <modules>
+
+srun ./myprogram
+```
+
+**Example script template**
+
+Here we have a non-threaded code which needs more memory (up to twice the amount we have on two cores). 
+
+```bash 
+#!/bin/bash
+#SBATCH -A <account>
+#SBATCH -t HHH:MM:SS
+#SBATCH -c 2
+
+module load <modules>
+
+./myprogram
+```
+
+**Remember**: if you are on Dardel, you also need to add a partition. 
 
 
 !!! note 
@@ -330,7 +363,29 @@ Another way of getting extra memory is to use nodes that have more memory. Here 
 
 === "Pelle" 
 
-    | Type | RAM/core | cores/node | requesting flag | 
+    | Type | RAM/node | RAM/core | cores/node | requesting flag | 
+    | ---- | -------- | -------- | ---------- | --------------- | 
+    | AMD EPYC 9454P (Zen4) | 768 GB | 16 GB | 48 | ``-p pelle``
+    | AMD EPYC 9454P (Zen4) | 2 or 3 TB | 41.67 or 62.5 GB | 48 | ``-p fat`` | 
+    | 2xAMD EPYC 9124 (Zen4), 10xL40s | 384 GB | 12 GB | 32 | ``-p gpu --gpus=l40s:[1-10]`` | 
+    | 2xAMD EPYC 9124 (Zen4), 2xH100 | 384 GB | 12 GB | 32 | ``-p gpu --gpus=h100:[1-2]`` | 
+
+    In addition you can use all the Slurm options for memory: 
+
+    - ``--mem``
+    - ``--mem-per-cpu``
+    - ``--mem-per-gpu`` 
+
+    to specify memory requirements.
+
+
+!!! note "Pelle at UPPMAX" 
+
+    The compute node CPUs have Simultaneous multithreading (SMT) enabled. Each CPU core runs two Threads. In Slurm the Threads are referred to as CPUs. 
+
+    If you suspect SMT degrades the performance of your jobs, you can you can specify ``--threads-per-core=1`` in your job.
+
+    More information here: <a href="https://docs.uppmax.uu.se/cluster_guides/slurm_on_pelle/#smt" target="_blank">Simultaneous multi-threading</a>. 
 
 ## I/O intensive jobs 
 
@@ -415,6 +470,8 @@ cp -p mynewdata.dat $SLURM_SUBMIT_DIR
     # Run your Python script
     srun python hello-world-array.py $SLURM_ARRAY_TASK_ID
     ```
+
+    You can find the above script under one of the cluster resources folders in the exercise tarball. 
 
 ### Some array comments 
 
