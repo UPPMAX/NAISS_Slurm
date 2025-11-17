@@ -465,7 +465,9 @@ cp -p mynewdata.dat $SLURM_SUBMIT_DIR
     srun python hello-world-array.py $SLURM_ARRAY_TASK_ID
     ```
 
-    You can find the above script under one of the cluster resources folders in the exercise tarball. 
+!!! hint 
+
+    Try it! You can find the above script under any of the cluster resources folders in the exercise tarball. 
 
 ### Some array comments 
 
