@@ -6,9 +6,9 @@
 # Set the time, 
 #SBATCH -t 00:10:00
 
-# ask for 10 core here, modify for your needs.
+# ask for 16 core here, modify for your needs.
 # Aim to use multiples of 32 for larger jobs
-#SBATCH -n 20 # Asking for 10 core
+#SBATCH -n 16
 
 # name output and error file
 #SBATCH -o mpi_process_%j.out
