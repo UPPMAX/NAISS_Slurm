@@ -1,15 +1,30 @@
 # Job monitoring and efficiency
 
-Discuss squeue, scancel, sinfo, sacct, ...
+This section looks at how to monitor your job(s), including to see if they are efficient. 
 
-## Why is a job ineffective?
+Many of the relevant commands have already been discussed in previous parts: 
 
-- more threads than allocated cores
+- `squeue`: for viewing the state of the batch queue. More here: <a href="https://uppmax.github.io/NAISS_Slurm/slurm/#squeue" target="_blank">https://uppmax.github.io/NAISS_Slurm/slurm/#squeue</a>
+- `scancel`: to cancel a job. More info here: <a href="https://uppmax.github.io/NAISS_Slurm/slurm/#scancel" target="_blank">https://uppmax.github.io/NAISS_Slurm/slurm/#scancel</a>
+- `sinfo`: information about the partitions/queues. More info here: <a href="https://uppmax.github.io/NAISS_Slurm/slurm/#sinfo" target="_blank">https://uppmax.github.io/NAISS_Slurm/slurm/#sinfo</a>
+- `scontrol show job`: lots of information about a job. More info here: <a href="https://uppmax.github.io/NAISS_Slurm/slurm/#scontrol__show__job" target="_blank">https://uppmax.github.io/NAISS_Slurm/slurm/#scontrol__show__job</a>
+
+But there are several others that have either not been mentioned or only done so briefly, including `sacct`, `projinfo`, `sshare`` and a number of center specific commands. We will look more into all of them here. 
+
+## Why is a job ineffective? 
+
+There are several reasons that a job might be ineffective. Some of those could be: 
+
+- using more threads than the allocated number of cores
 - not using all the cores you have allocated (unless on purpose/for memory)
 - inefficient use of the file system (many small files, open/close many files)
-- running job that could run on GPU on CPU instead
+- running a job that could run on GPUs on CPUs instead
+
+Job monitoring is (also) about detecting signs the job is not running efficiently. This can be done with many different commands. 
 
 ## Job monitoring 
+
+Now let us look at some of the commands that are genereally available, as well as those that are specific to one or more centres. 
 
 ### Commands valid at all centres 
 

@@ -10,6 +10,8 @@ They should all run out of the box, except that you need to add your project ID 
 - `first.sh`: Example (serial) script to use for testing many of the Slurm commands in the section "Introduction to Slurm". Also example script for a first job in same section. 
 - `hello-world-array.py`: Python script used by `hello-world-array.sh`. 
 - `hello-world-array.sh`: Batch script for an array job (running `hello-world-array.sh`). Used in the section "Sample job scripts" under "Job Arrays". 
+- `hello_world_gpu.cpp`: C++ job using Hip 
+- `hello_world_gpu.sh`: Batch script for running the `hello_world_gpu.cpp` code (that code is also being compiled within the batch script) 
 - `hip-example.py`: Python HIP script that uses GPUs. 
 - `hip-example.sh`: GPU batch script for Python script that use hip (the above script). Used in the section "Sample job scripts" under "GPU jobs". 
 - `matrix-gen.py`: Python script for generating two matrices. 
