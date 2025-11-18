@@ -17,6 +17,7 @@
 ## Prerequisites 
 
 - An account at an HPC centre
+    - If you do not have an account, you can still listen to the presentations. 
 - Knowledge of logging in to your chosen HPC centre
     - The login and file transfer course <a href="https://uppmax.github.io/naiss_file_transfer_course/sessions/login_terminal/" target="_blank">has some information about logging in</a>
     - We have listed <a href="https://uppmax.github.io/NAISS_Slurm/intro/#login__info" target="_blank">login info for several Swedish HPC centres</a> 
