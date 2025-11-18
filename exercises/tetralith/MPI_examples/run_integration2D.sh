@@ -18,5 +18,4 @@
 cat $0
 
 # Run your mpi_executable
-#mpprun ./integration2D_f90 10000
-mpprun ./integration2D_c 10000
+mpprun ./integration2D_f90 10000
