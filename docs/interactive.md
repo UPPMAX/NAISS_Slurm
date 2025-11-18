@@ -193,22 +193,22 @@ While these are mentioned above, the information is gathered here for ease.
 
     This is the recommended way to do interactive jobs at HPC2N, LUNARC, and C3SE, and is possible at PDC.
 
-    === "HPC2N"
+    === "Kebnekaise"
 
         - Go to <a href="https://portal.hpc2n.umu.se/" target="_blank">https://portal.hpc2n.umu.se/</a> and login.
         - Documentation here: <a href="https://docs.hpc2n.umu.se/tutorials/connections/#open__ondemand" target="_blank">https://docs.hpc2n.umu.se/tutorials/connections/#open__ondemand</a>
 
-    === "LUNARC"
+    === "Cosmos"
 
         - Login with ThinLinc: <a href="https://lunarc-documentation.readthedocs.io/en/latest/getting_started/using_hpc_desktop/" target="_blank">https://lunarc-documentation.readthedocs.io/en/latest/getting_started/using_hpc_desktop/</a>
         - Follow the documentation for starting the GfxLauncher for OpenOnDemand: <a href="https://lunarc-documentation.readthedocs.io/en/latest/getting_started/gfxlauncher/" target="_blank">https://lunarc-documentation.readthedocs.io/en/latest/getting_started/gfxlauncher/</a>
 
-    === "C3SE"
+    === "Alvis"
 
         - Go to <a href="https://alvis.c3se.chalmers.se/" target="_blank">https://alvis.c3se.chalmers.se/</a>
         - There is some documentation here: <a href="https://uppmax.github.io/HPC-python/common/interactive_ondemand.html#start-an-interactive-session-from-ondemand" target="_blank">https://uppmax.github.io/HPC-python/common/interactive_ondemand.html#start-an-interactive-session-from-ondemand</a>
 
-    === "PDC"
+    === "Dardel"
 
         - Login with ThinLinc and follow the documentation for starting the Gfxlauncher for OpenOnDemand: <a href="https://support.pdc.kth.se/doc/login/interactive_hpc/" target="_blank">Interactive HPC at PDC</a>.
 
