@@ -681,4 +681,71 @@ This shows a simple GPU script, asking for 1 or 2 cards on a single node.
    - dardel
        - hello_world_gpu.cpp, hello_world_gpu.sh 
 
-## Miscellaneous  
+## Miscellaneous 
+
+There are many other types of jobs in Slurm. Here are a few more examples. 
+
+!!! note 
+
+    If you are on Dardel, you also need to add a partition. 
+
+### Multiple serial jobs, simultaneously 
+
+```bash
+#!/bin/bash
+#SBATCH -A <job ID>
+# Add enough cores that all jobs can run at the same time 
+#SBATCH -n <cores>
+# Make sure the time is long enough that the longest job have time to finish 
+#SBATCH --time=HHH:MM:SS
+
+module load <modules>
+
+srun -n 1 --exclusive ./program data1 &
+srun -n 1 --exclusive ./program2 data2 &
+srun -n 1 --exclusive ./program3 data3 &
+...
+srun -n 1 --exclusive ./program4 data4 &
+wait
+```
+
+### Multiple simultaneous jobs (serial or parallel) 
+
+In this example, 3 jobs each with 14 cores
+
+```bash
+#!/bin/bash
+#SBATCH -A <job ID>
+# Since the files run simultaneously I need enough cores for all of them to run
+#SBATCH -n 56
+# Remember to ask for enough time for all jobs to complete
+#SBATCH --time=00:10:00
+
+module load <modules>
+
+srun -n 14 --exclusive ./mympiprogram data &
+srun -n 14 --exclusive ./my2mpi data2 &
+srun -n 14 --exclusive ./my3mpi data3 &
+wait
+```
+
+### Multiple sequential jobs (serial or parallel) 
+
+This example is for jobs where some are with 14 tasks with 2 cores per task and some are 4 tasks with 4 cores per task 
+
+```bash
+#!/bin/bash
+#SBATCH -A <job ID>
+# Since the programs run sequentially I only need enough cores for the largest of them to run
+#SBATCH -c 28
+# Remember to ask for enough time for all jobs to complete
+#SBATCH --time=HHH:MM:SS
+
+module load <modules>
+
+srun -n 14 -c 2 ./myprogram data
+srun -n 4 -c 4 ./myotherprogram mydata
+...
+srun -n 14 -c 2 ./my2program data2
+```
+
