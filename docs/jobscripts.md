@@ -202,7 +202,9 @@ In the following we have sample scripts for a number of services, including NAIS
 
 === "Tetralith"
 
-    On Tetralith the user does not need to specify the compiler version and the version of the MPI library used to compile the application.
+    On Tetralith, when using the job launcher `mpprun`, the user does not need to specify the compiler version and the version of the MPI library used to compile the application.  
+
+    Tetralith nodes have 32 cores.   One should aim to use multiples of 32 cores when running MPI workloads.   In this example we ask for 16 cores, which is 1/2 node.
 
     ```bash
     #!/bin/bash
@@ -213,8 +215,8 @@ In the following we have sample scripts for a number of services, including NAIS
     # Set the time 
     #SBATCH -t 00:10:00
 
-    # ask for 10 core, experiment for what works best 
-    #SBATCH -n 10
+    # ask for 16 core, experiment for what works best 
+    #SBATCH -n 16
 
     # name output and error file
     #SBATCH -o mpi_process_%j.out
