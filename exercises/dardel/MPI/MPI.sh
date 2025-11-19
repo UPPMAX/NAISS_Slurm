@@ -3,6 +3,9 @@
 #SBATCH -A <proj-id>
 # Number of tasks, here 8 - default is 1 core per task
 #SBATCH -n 8
+
+# Dardel, so we need a partition. This is for the shared one 
+#SBATCH -p shared
 # Asking for a walltime of 5 min
 #SBATCH --time=00:05:00
 

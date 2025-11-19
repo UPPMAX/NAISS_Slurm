@@ -14,8 +14,10 @@
 #SBATCH -o mpi_process_%j.out
 #SBATCH -e mpi_process_%j.err
 
+module load foss/2023b
+
 # write this script to stdout-file - useful for scripting errors
 cat $0
 
 # Run your mpi_executable
-mpprun ./integration2D_f90 10000
+mpirun ./integration2D_f90 10000

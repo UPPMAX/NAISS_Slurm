@@ -1,7 +1,7 @@
-CC = mpicc
-CFLAGS = -O3 -march=native
+CC = cc
+CFLAGS = -ffp=3
 FC = mpifort
-FFLAGS = -O3 -march=native
+FFLAGS = -O3
 
 objectsc = mpi_hello
 objectsf =  integration2D_f90

@@ -5,6 +5,7 @@
 #SBATCH -c 8 
 # Asking for a walltime of 5 min
 #SBATCH --time=00:05:00
+#SBATCH -p shared 
 
 # Load a compiler toolchain so we can run an OpenMPI C program
 module load cpe/24.11 
