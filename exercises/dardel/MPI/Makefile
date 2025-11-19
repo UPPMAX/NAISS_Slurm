@@ -1,6 +1,6 @@
 CC = cc
 CFLAGS = -ffp=3
-FC = mpifort
+FC = ftn
 FFLAGS = -O3
 
 objectsc = mpi_hello
