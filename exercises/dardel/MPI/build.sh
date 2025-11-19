@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # load a modern compiler and make MPI available
-module load foss/2023b
+module load PDC/24.11 
 
 # build the excutable
 make

@@ -7,10 +7,11 @@
 # Time in HHH:MM:SS - at most 168 hours. 
 #SBATCH --time=00:05:00
 
-# It is always a good idea to do ml purge before loading other modules 
-ml purge > /dev/null 2>&1
+# Using the Dardel shared partition
+#SBATCH -p shared
+
 # Load foss module which includes MPI 
-ml add foss/2023b
+ml add PDC/24.11
 
 # Run the program. Remember to use "srun" unless the program handles parallelizarion itself
 # Before running you need to compile it

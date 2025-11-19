@@ -7,6 +7,7 @@
 #SBATCH -c 1 # Asking for 1 core    # one core per task 
 # Setting the name of the output file 
 #SBATCH -o hello-world-%j-%a.out
+#SBATCH -p shared
 
 # Load any modules you need, here for Python 3.11.3
 ml cray-python/3.11.7
