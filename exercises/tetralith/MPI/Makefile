@@ -1,10 +1,7 @@
-CC = mpicc
-CFLAGS = -O3 -march=native
 FC = mpifort
 FFLAGS = -O3 -march=native
 
-objectsc = mpi_hello
-objectsf =  integration2D_f90
+objectsf =  integration2D_f90 mpi_hello
 all: $(objectsf) $(objectsc)
 
 
