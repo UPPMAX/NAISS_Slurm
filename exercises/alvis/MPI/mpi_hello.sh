@@ -1,9 +1,15 @@
 #!/bin/bash
 # Remember to change this to your own Project ID! 
-#SBATCH -A <project ID>
+#SBATCH -A naissXXXX-YY-ZZZ
 
-# Number of tasks - the default is 1 core per task. Here 14
-#SBATCH -n 14
+#SBATCH -p alvis
+# You need to ask for a GPU to run on alvis.
+# This is a CPU job. Do not do things like this normally!
+# Only use for GPU jobs!
+#SBATCH -N 1 --gpus-per-node=T4:1
+# Number of tasks - default is 1 core per task. Here 4 
+#SBATCH -n 4
+
 # Time in HHH:MM:SS - at most 168 hours. 
 #SBATCH --time=00:05:00
 

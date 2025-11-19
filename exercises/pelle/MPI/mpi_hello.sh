@@ -12,8 +12,8 @@ ml purge > /dev/null 2>&1
 # Load foss module which includes MPI 
 ml add foss/2023b
 
-# Run the program. Remember to use "srun" unless the program handles parallelizarion itself
-# Before running you need to compile it
-# Load the above module then do 
+# Run the program. Remember to use "mpirun" unless the program handles parallelizarion itself
+# Before running you need to compile it OR do "make" in the directory
+# If you compile, then: Load the above module then do 
 # mpicc mpi_hello.c -o mpi_hello 
-srun ./mpi_hello
+mpirun ./mpi_hello
