@@ -27,6 +27,8 @@ They should all run out of the box, except that you need to add your project ID 
 
 - `MPI/` 
   - `MPI.sh`: This is a simple MPI batch script example. 
+  - `mpi_hello.c`: a simple MPI hello world code. Check the `Makefile` and `build.sh` files on how to compile the code.
+  - `mpi_hello.c` is a batch script to run the MPI code above. 
   - `integration2D_f90.f90` is a code that performs 2D numerical integration. Check the `Makefile` and `build.sh` files on how to compile the code.
   - `run_integration2D.sh` is a batch script to run the MPI code above.
 
