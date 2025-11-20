@@ -40,21 +40,27 @@ As discussed, not all compute nodes offered by a service are equal.  Nodes my of
 
 === "Dardel"
 
-    There is no default partition on Dardel.  One always has to specify a partion on Dardel.
+    There is no default partition on Dardel.  One **always** has to specify a partion on Dardel.
 
     | Partition name | Node type         | Node sharing     |  Max job time |
     |----------------|-------------------|------------------|---------------|
-    | **shared**     | Thin              | up to 128 cores  | up to 7 days  |
+    | **shared**     | Thin              | part of a node   | up to 7 days  |
     | **main**       | Thin, large, huge | exclusive        | up to 24 h    |
     | **long**       | Thin              | exclusive        | up to 7 days  |
     | **memory**     | Large, huge, giant| exclusive        | up to 7 days  |
     | **gpu**        | AMD GPU           | exclusive        | up to 24 h    |
     | **gpugh**      | Nvidia Grace Hopper| exclusive       | up to 24 h    |
 
+    ** Explanations **
+
+    - **exclusive** nodes: One gets all the cores, all the memory and all the GPUs of the requested nodes.  The allocation gets charged for all these resources consumed, including the 128 cores of the node.  **Don't use for serial jobs or small parallel jobs**
+    - **part of a node**: One can request any number of cores up to 128 cores using the **-n** and **-c** options of sbatch.  You allocation get charged for the number of requested cores.  **Use this for serial jobs and small parallel jobs**
+
+
 === "COSMOS"
 
     *still to come*
-    
+
 ### Examples by centre 
 
 Let us look at the above batch script as it might be written for some other centres. 
