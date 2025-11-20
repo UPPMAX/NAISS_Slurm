@@ -10,7 +10,7 @@
 #SBATCH -p shared
 
 # ask for 16 core here, modify for your needs.
-# Aim to use multiples of 32 for larger jobs
+# Aim to use multiples of 128 cores for larger jobs
 #SBATCH -n 16
 
 # name output and error file
@@ -24,4 +24,4 @@ cat $0
 module load PDC/24.11
 
 # Run your mpi_executable
-srun ./integration2D_f90 10000
+srun ./mpi_hello

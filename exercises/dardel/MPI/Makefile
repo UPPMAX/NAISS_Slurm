@@ -1,10 +1,7 @@
-CC = cc
-CFLAGS = -ffp=3
 FC = ftn
 FFLAGS = -O3
 
-objectsc = mpi_hello
-objectsf =  integration2D_f90
+objectsf =  integration2D_f90 mpi_hello
 all: $(objectsf) $(objectsc)
 
 
