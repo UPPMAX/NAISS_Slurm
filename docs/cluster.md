@@ -54,17 +54,21 @@ cluster is often a supercomputer.
 
 ## How is a job run on a computer cluster? What is a batch system?
 
-![batch system](../images/batch_system.png){: style="width: 400px;float: right"}
-
 In general, jobs are run with a batch- or queuing system. There are several
 variants of these, with the most common working by having the user log into a
 "login node" and then assembling and submitting their jobs from there.
 
 A "job script" (also called a "submission script") will typically be used to
 start a job. A job script is essentially a list of commands to the batch system
-telling it things like: how many nodes to use, how many CPU and/or GPU cores,
-how much memory, how long to run, the program name, any input data, etc. When
-the job has finished running, it should have produced some files, like output
+telling it things like: 
+- how many nodes to use,
+- how many CPU and/or GPU cores,
+- how much memory to allocate,
+- how long to run (maximum),
+- the program name,
+- any input data, etc.
+
+When the job has finished running, it should have produced some files, like output
 data, perhaps error messages, etc. The syntax of job scripts depends on the
 queuing system, but that system is so often Slurm that you may see the terms
 "job script" and "slurm script" used interchangeably.
@@ -72,7 +76,7 @@ queuing system, but that system is so often Slurm that you may see the terms
 Since jobs are queued internally and will run whenever the resources for them
 become available, programs requiring any kind of user interaction are usually
 not recommended (and often not possible) to be run via a job script. There are
-special programs like Desktop On-Demand and GfxLauncher that allow graphical
+special programs like Open On-Demand and GfxLauncher that allow graphical
 programs to be run as scheduled jobs on some HPC clusters, but it is up to the
 administrators to decide which programs can be run with these tools, how they
 should be configured, and what options regular users will be allowed to set.
@@ -80,25 +84,17 @@ should be configured, and what options regular users will be allowed to set.
 ## Which programs can be run effectively on a computer cluster?
 
 Computer clusters are made up of many interconnected nodes, each with a limited
-number of cores and limited memory capacity. A problem must be parallelizable
-in order to get any speed-up.
-
-Parallelization can be done in several ways. The simplest method is what would
-usually be done for a parameter sweep: just run the program repeatedly for every
-desired combination of input parameters. Each task is the same serial program
-running on a single core, but many copies of the task are running at the same
-time. Another option is to use a more complex parallelization that requires
-changes to the program to split its work between multiple processors or nodes
-that communicate over the network. This is generally done with MPI or similar.
-It is also possible to parallelize over multiple cores and multiple nodes at the
-same time, e.g., using multi-threading *within* CPUs and communicating *between*
-nodes with MPI.
+number of cores and limited memory capacity. The main way an HPC cluster lets you
+speed up calculations is by letting you execute several steps in parallel. In other
+words, a problem must be typically be parallelizable to gain any speed-up. 
 
 ### Many serial jobs
 
 Tasks that can be split up into many serial jobs will run faster on a computer
 cluster. No special programming is needed, but you can only run on one core for
-each task. It is good for long-running single-threaded jobs.
+each task. It is good for long-running single-threaded jobs. This type of workflow
+is good for problems like parameter sweeps, where the same code is run repeatedly
+with different inputs.
 
 A job scheduler is used to control the flow of tasks. Using a small script, many
 instances of the same task (like a program run many times, each with slightly
@@ -122,12 +118,16 @@ at a time, since they are serial, which means each only uses one core.
 
 ## Parallelization
 
-Parallelization is when you are doing more things at the same time. This can be done in several ways.
+Parallelization can be done in several ways:
 
 - Inside a node: threaded/shared memory
-- Across several nodes: distributed parallelism
+- Across several nodes: distributed parallelism (generally done with MPI or similar.)
+- Some combination of threaded and distributed parallelism (hard)
 
-#### What kinds of programs can be parallelized?
+Which is best depends on the size of each parallel process and whether or to what
+extent the processes have to communicate.
+
+### What kinds of programs can be parallelized?
 
 For a problem to be parallelizable, it must be possible to split it into smaller
 sections that can be solved independently of each other and then combined.
