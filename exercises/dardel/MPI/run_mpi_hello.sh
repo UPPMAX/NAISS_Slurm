@@ -11,7 +11,7 @@
 
 # ask for 16 core on one node, modify for your needs.
 #SBATCH -N 1
-#SBATCH -ntasks-per-node=16
+#SBATCH --ntasks-per-node=16
 
 # name output and error file
 #SBATCH -o mpi_process_%j.out
