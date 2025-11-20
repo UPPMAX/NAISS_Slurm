@@ -34,6 +34,27 @@ ml foss/2023b Python/3.11.5 SciPy-bundle
 python3 mmmult.py
 ```
 
+### Partitions
+
+As discussed, not all compute nodes offered by a service are equal.  Nodes my offer different hardware (e.g. CPU type, amount of memory, number of GPUs or no GPU). There might also be differenes on how the nodes are configures. To control that a job is placed on the correct kind of compute nodes, the nodes may be placed in partitions.  Many service, but not all service have a default partition.    
+
+=== "Dardel"
+
+    There is no default partition on Dardel.  One always has to specify a partion on Dardel.
+
+    | Partition name | Node type         | Node sharing     |  Max job time |
+    |----------------|-------------------|------------------|---------------|
+    | **shared**     | Thin              | up to 128 cores  | up to 7 days  |
+    | **main**       | Thin, large, huge | exclusive        | up to 24 h    |
+    | **long**       | Thin              | exclusive        | up to 7 days  |
+    | **memory**     | Large, huge, giant| exclusive        | up to 7 days  |
+    | **gpu**        | AMD GPU           | exclusive        | up to 24 h    |
+    | **gpugh**      | Nvidia Grace Hopper| exclusive       | up to 24 h    |
+
+=== "COSMOS"
+
+    *still to come*
+    
 ### Examples by centre 
 
 Let us look at the above batch script as it might be written for some other centres. 
@@ -69,7 +90,7 @@ Let us look at the above batch script as it might be written for some other cent
 
 === "Dardel"
     
-    On Dardel you always have to specify a partition.   This is explained below in detail.
+    On Dardel you always have to specify a partition.
 
      ```bash
      #!/bin/bash
