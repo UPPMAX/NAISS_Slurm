@@ -51,10 +51,10 @@ As discussed, not all compute nodes offered by a service are equal.  Nodes my of
     | **gpu**        | AMD GPU           | exclusive        | up to 24 h    |
     | **gpugh**      | Nvidia Grace Hopper| exclusive       | up to 24 h    |
 
-    ** Explanations **
+    **Explanations**
 
     - **exclusive** nodes: One gets all the cores, all the memory and all the GPUs of the requested nodes.  The allocation gets charged for all these resources consumed, including the 128 cores of the node.  **Don't use for serial jobs or small parallel jobs**
-    - **part of a node**: One can request any number of cores up to 128 cores using the **-n** and **-c** options of sbatch.  You allocation get charged for the number of requested cores.  **Use this for serial jobs and small parallel jobs**
+    - **part of a node**: One can request any number of cores up to 128 cores using the **-n** and **-c** options of sbatch.  Your allocation gets charged for the number of requested cores.  **Use for serial jobs and small parallel jobs**
 
 
 === "COSMOS"
