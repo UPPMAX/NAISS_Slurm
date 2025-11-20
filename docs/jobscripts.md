@@ -68,12 +68,21 @@ Let us look at the above batch script as it might be written for some other cent
     ```
 
 === "Dardel"
+    
+    On Dardel you always have to specify a partition.   This is explained below in detail.
 
      ```bash
      #!/bin/bash
-     #SBATCH -A naiss2025-22-934 # Change to your own
-     #SBATCH --time=00:10:00 # Asking for 10 minutes
-     #SBATCH -n 1 # Asking for 1 core
+     #SBATCH -A <project ID>       # Change to your own project
+     #SBATCH --time=00:10:00       # Asking for 10 minutes
+     #SBATCH -n 1                  # Asking for 1 core
+
+     #SBATCH -p shared             # ask to be placed in the shared partition
+
+     #SBATCH -o process_%j.out     # name the output file
+     #SBATCH -e process_%j.err     # name the error file
+
+     cat $0
 
      # Load any modules you need, here for cray-python/3.11.7.
      module load cray-python/3.11.7

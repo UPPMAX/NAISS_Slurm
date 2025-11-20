@@ -7,7 +7,7 @@
 #SBATCH -t 00:10:00
 
 # Using the Dardel shared partition
-# SBATCH -p shared
+#SBATCH -p shared
 
 # ask for 16 core here, modify for your needs.
 # Aim to use multiples of 32 for larger jobs
