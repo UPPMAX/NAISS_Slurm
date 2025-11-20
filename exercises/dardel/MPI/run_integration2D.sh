@@ -9,9 +9,9 @@
 # Using the Dardel shared partition
 #SBATCH -p shared
 
-# ask for 16 core here, modify for your needs.
-# Aim to use multiples of 32 for larger jobs
-#SBATCH -n 16
+# ask for 16 core on one node, modify for your needs.
+#SBATCH -N 1
+#SBATCH --ntasks-per-node=16
 
 # name output and error file
 #SBATCH -o mpi_process_%j.out
