@@ -171,11 +171,13 @@ Let us look at the above batch script as it might be written for some other cent
     ```bash
     #!/bin/bash -l
     #SBATCH -A uppmaxXXXX-Y-ZZZ # Change to your own after the course
-    #SBATCH --time=00:10:00 # Asking for 10 minutes
+    #SBATCH --time=00:20:00 # Asking for 20 minutes
     #SBATCH -n 1 # Asking for 1 core
 
-    # Load any modules you need, here Python 3.11.8.
-    module load python/3.11.8
+    # Load any modules you need, here Python 3.12.3 
+    # and a compatible SciPy-bundle
+    module load Python/3.12.3-GCCcore-13.3.0
+    module load SciPy-bundle/2024.05-gfbf-2024a
 
     # Run your Python script
     python mmmult.py
