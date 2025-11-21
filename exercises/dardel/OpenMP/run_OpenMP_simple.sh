@@ -17,15 +17,15 @@
 cat $0
 
 # Load a compiler toolchain so we can run an OpenMP program
-module load cpe/24.11 
+module load cpe/24.11
 
-# Set OMP_NUM_THREADS to the same value as -c with a fallback in case it isn't set.
-# SLURM_CPUS_PER_TASK is set to the value of -c, but only if -c is explicitly set
-if [ -n "$SLURM_CPUS_PER_TASK" ]; then
-  omp_threads=$SLURM_CPUS_PER_TASK
-else
-  omp_threads=1
-fi
-export OMP_NUM_THREADS=$omp_threads
+
+# process binding is typically recommended.  Try what works best spread or close
+#export OMP_PROC_BIND=spread
+export OMP_PROC_BIND=close
+
+# we bind to cores
+export OMP_PLACES=cores
+
 
 ./omp_hello
