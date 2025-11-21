@@ -38,6 +38,10 @@ python3 mmmult.py
 
 As discussed, not all compute nodes offered by a service are equal.  Nodes my offer different hardware (e.g. CPU type, amount of memory, number of GPUs or no GPU). There might also be differenes on how the nodes are configures. To control that a job is placed on the correct kind of compute nodes, the nodes may be placed in partitions.  Many service, but not all service have a default partition.    
 
+=== "Tetralith"
+
+    All nodes are in a single partion. There is no need to specify a partition on Tetralith.
+
 === "Dardel"
 
     There is no default partition on Dardel.  One **always** has to specify a partion on Dardel.
@@ -59,7 +63,7 @@ As discussed, not all compute nodes offered by a service are equal.  Nodes my of
 
 === "COSMOS"
 
-    On COSMOS at LUNARC you will be placed in the CPU partition by default.   If you need access to a GPU node, you need to select a partition.  Please visit the [LUNARC documentation on readthedocs](https://lunarc-documentation.readthedocs.io/en/latest/manual/submitting_jobs/manual_specifying_requirements/#accessing-gpus) for a detailed discussion.
+    On COSMOS at LUNARC you will be placed in the CPU partition by default.   If you need access to a GPU node, you need to select a partition.  Please visit the [LUNARC documentation on readthedocs.io](https://lunarc-documentation.readthedocs.io/en/latest/manual/submitting_jobs/manual_specifying_requirements/#accessing-gpus) for a detailed discussion.
 
 
 ### Examples by centre 
