@@ -8,7 +8,7 @@
 
 # ask for 64 core here, modify for your needs.
 # Aim to use multiples of 32 for larger jobs
-#SBATCH -n 128
+#SBATCH -n 64
 
 # name output and error file
 #SBATCH -o mpi_process_%j.out
