@@ -59,7 +59,8 @@ As discussed, not all compute nodes offered by a service are equal.  Nodes my of
 
 === "COSMOS"
 
-    *still to come*
+    On COSMOS at LUNARC you will be placed in the CPU partition by default.   If you need access to a GPU node, you need to select a partition.  Please visit the [LUNARC documentation on readthedocs](https://lunarc-documentation.readthedocs.io/en/latest/manual/submitting_jobs/manual_specifying_requirements/#accessing-gpus) for a detailed discussion.
+
 
 ### Examples by centre 
 
