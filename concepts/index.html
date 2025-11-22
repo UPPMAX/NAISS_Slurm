@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Batch system concepts - Running jobs on HPC systems</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../assets/_markdown_exec_pyodide.css" rel="stylesheet" />
+        <link href="../assets/_markdown_exec_ansi.css" rel="stylesheet" />
+        <link href="../assets/_mkdocstrings.css" rel="stylesheet" />
+        <link href="../css/extra.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Batch system concepts";
+        var mkdocs_page_input_path = "concepts.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="..">
+          <img src="../images/naiss-slurm-logo.png" class="logo" alt="Logo"/>
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../intro/">Introduction</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../cluster/">Intro to clusters</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">Batch system concepts</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#what__is__a__batch__system">What is a batch system?</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#description__of__the__animation">Description of the animation</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#key__points">Key points</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#comment__on__priorities">Comment on priorities</a>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../slurm/">Introduction to Slurm</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../interactive/">Interactive jobs</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../jobscripts/">Sample job scripts</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../monitoring/">Job monitoring and efficiency</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../summary/">Summary</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Extras</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../mpi/">A bit about MPI</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../openmp/">Short about OpenMP</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">Running jobs on HPC systems</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Batch system concepts</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/UPPMAX/NAISS_Slurm/blob/main/docs/concepts.md" class="icon icon-github"> Edit on GitHub</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="batch__system__concepts">Batch system concepts<a class="headerlink" href="#batch__system__concepts" title="Permanent link">&para;</a></h1>
+<h2 id="what__is__a__batch__system">What is a batch system?<a class="headerlink" href="#what__is__a__batch__system" title="Permanent link">&para;</a></h2>
+<p>A batch system provides a mechanism register (submit) your computational jobs (program or group of programs) for execution by the system.  You have to describe your job to the system, which includes the resources required, such as the <strong>number of nodes</strong>, the <strong>number of cores</strong>  and the <strong>job time</strong>.  The batch system may run you job directly or execute it at a later stage, depending on a variety of reasons.</p>
+<p>In the following animation we illustrate how a batch system might execute jobs.   Imagine a system with 4 nodes, 8 cores each.</p>
+<p><img 947px="947px" alt="queue_animation" src="../images/queueanimation.gif" style="&quot;width:" /></p>
+<h2 id="description__of__the__animation">Description of the animation<a class="headerlink" href="#description__of__the__animation" title="Permanent link">&para;</a></h2>
+<ul>
+<li>We start with an empty cluster</li>
+<li>First job gets submitted, asking 1 core for 8 hours<ul>
+<li>The job starts executing on core 0 of the first node</li>
+</ul>
+</li>
+<li>Second job, asks for a full node with 8 cores for 4 hours<ul>
+<li>System executes the job on node 3</li>
+</ul>
+</li>
+<li>Third job, asks for 2 nodes, 8 cores each for 8 hours<ul>
+<li>System executes the job on nodes 2 &amp; 4</li>
+</ul>
+</li>
+<li>Fourth job, asking 3 nodes, 8 cores each for 3 hours<ul>
+<li>Insufficient idle nodes at this time</li>
+<li>System determines that 3 nodes are idle once job 3 finishes</li>
+<li>System schedules job four to be run on nodes 2, 3 &amp; 4 once job 3 has finished</li>
+</ul>
+</li>
+<li>Fifth job, asking for 1 node with 8 cores for 12 hours<ul>
+<li>No idle node available a this time</li>
+<li>System determines that node 1 is idle once job 1 finishes</li>
+<li>System schedules job 5 to be run on nodes 1 once job 1 has finished</li>
+</ul>
+</li>
+<li>Sixth job, asking for 2 nodes, 8 cores each for 4 hours<ul>
+<li>The job has <strong>higher priority</strong> than jobs 4 &amp; 5</li>
+<li>If possible it should start before jobs 4 &amp; 5</li>
+<li>System <strong>re-schedules jobs 4 &amp; 5</strong> for a later time</li>
+<li>System schedules job 6 to be run on nodes 1 &amp; 3 once job 1 has finished</li>
+<li>Job 5 gets re-scheduled to run on node 2</li>
+<li>Job 4 gets re-scheduled to run on nodes 1, 3 &amp; 4</li>
+<li>The expected start time of jobs 4 &amp; 5 is <strong>pushed back</strong> in time due to the submission of job six</li>
+</ul>
+</li>
+<li>Seventh job, asking 1 core for 6 hours<ul>
+<li>While there are currently enough idle cores, the job can not be started since there are less then 6 hours until the start of job 6</li>
+<li>Job 7 gets scheduled to execute after jobs 6 &amp; 4 are finished</li>
+</ul>
+</li>
+<li>Eighth job, asking 4 cores for 2 hours<ul>
+<li>Due to the short job time of 2 hours, the job starts directly</li>
+<li>It is finished before the scheduled start time of job 6</li>
+<li>It starts executing before the jobs 4, 5, 6 &amp; 7, which were submitted earlier</li>
+<li>This is called <strong>backfill</strong></li>
+<li>This is not to be confused with priority - this job started because a slot was available to run it now.</li>
+</ul>
+</li>
+</ul>
+<h2 id="key__points">Key points<a class="headerlink" href="#key__points" title="Permanent link">&para;</a></h2>
+<ul>
+<li>The submitted job joins a waiting queue</li>
+<li>Jobs start executing once it is their turn</li>
+<li>The anticipated start time can move forward and backward depending on other users actions</li>
+<li>The description of the computational work is typically done by a script (this course)</li>
+</ul>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<ul>
+<li>Computational work needs to be submitted using the job scheduler</li>
+<li>You need to describe the computational work at the time of the job submission, since you might not be there (out of hours) once your job starts executing</li>
+</ul>
+</div>
+<h2 id="comment__on__priorities">Comment on priorities<a class="headerlink" href="#comment__on__priorities" title="Permanent link">&para;</a></h2>
+<p>The priority of a jobs is affected by a number of factors.  These may include:</p>
+<ul>
+<li>The time the job has already spent in queue</li>
+<li>How many resources (e.g. CPU hours) the project has used in relation to the allocated resources</li>
+</ul>
+<p>System administrators may adjust the batch system rules to ensure all user group can run jobs in line with the resources allocated to the project.</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../cluster/" class="btn btn-neutral float-left" title="Intro to clusters"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../slurm/" class="btn btn-neutral float-right" title="Introduction to Slurm">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/UPPMAX/NAISS_Slurm" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href="../cluster/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../slurm/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../assets/_markdown_exec_pyodide.js"></script>
+      <script src="../search/main.js"></script>
+      <script src="../js/open_in_new_tab.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
