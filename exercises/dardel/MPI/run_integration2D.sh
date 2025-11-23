@@ -24,4 +24,4 @@ cat $0
 module load PDC/24.11
 
 # Run your mpi_executable
-srun ./integration2D_f90 10000
+srun ./integration2D_f90 100000

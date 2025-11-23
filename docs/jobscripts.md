@@ -288,8 +288,74 @@ In the following we have sample scripts for a number of services, including NAIS
 
 
 === "Dardel"
-        
-    *Sample scritp to come*
+
+    The following is a script utilising 2 full nodes in the main partition, to run a code compiled by the user utilising the CRAY clang compiler.  
+    
+    This script utilises a total of 256 cores and even modest run times will be expensive by means of CPU hours for your allocation.  Scripts requesting multiple nodes are required by projects which have been allocated significant resourse and need to run large calculations to achieve their project goals.
+
+    ```bash
+    #!/bin/bash
+
+    # Set account 
+    #SBATCH -A <project ID> 
+
+    # Set the time, 
+    #SBATCH -t 00:10:00
+
+    # Using the Dardel's main partition
+    #SBATCH -p main
+
+    # ask for 256 cores located on 2 nodes, modify for your needs.
+
+    #SBATCH -N 2
+    #SBATCH --ntasks-per-node=128
+
+    # name output and error file
+    #SBATCH -o mpi_process_%j.out
+    #SBATCH -e mpi_process_%j.err
+
+    # write this script to stdout-file - useful for scripting errors
+    cat $0
+
+    # Loading a suitable module. Here for Cray programming environment etc.
+    module load PDC/24.11
+
+    # Run your mpi_executable
+    srun ./mpi_hello
+    ```
+
+
+    The following is a script utilising part of a shared node, to run a code compiled by the user utilising the CRAY clang compiler.
+
+    ```bash        
+    #!/bin/bash
+
+    # Set account 
+    #SBATCH -A <project ID> 
+
+    # Set the time 
+    #SBATCH -t 00:10:00
+
+    # Using the Dardel shared partition
+    #SBATCH -p shared
+
+    # ask for 16 core on one node, modify for your needs.
+    #SBATCH -N 1
+    #SBATCH --ntasks-per-node=16
+
+    # name output and error file
+    #SBATCH -o mpi_process_%j.out
+    #SBATCH -e mpi_process_%j.err
+
+    # write this script to stdout-file - useful for scripting errors
+    cat $0
+
+    # Loading a suitable module. Here for Cray programming environment etc.
+    module load PDC/24.11
+
+    # Run your mpi_executable
+    srun ./integration2D_f90 100000
+    ```
 
 ```bash
 #!/bin/bash 
