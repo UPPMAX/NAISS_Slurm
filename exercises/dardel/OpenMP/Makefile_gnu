@@ -1,0 +1,21 @@
+CC = gcc
+FC = gfortran
+
+CFLAGS = -O3 -march=znver2 -fopenmp
+FFLAGS = $(CFLAGS)
+
+objectsc = omp_hello
+objectsf =  gauss2d_omp_atomic
+all: $(objectsf) $(objectsc)
+
+
+$(objectsf): %: %.f90
+	        $(FC) $(FFLAGS) -o $@ $<
+
+$(objectsc): %: %.c
+		$(CC) $(CFLAGS) -o $@ $< -lm
+
+.PHONY: clean
+	 
+clean:
+	rm *_f90 *_hello
