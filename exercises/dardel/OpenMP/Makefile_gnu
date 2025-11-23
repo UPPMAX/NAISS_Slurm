@@ -18,4 +18,4 @@ $(objectsc): %: %.c
 .PHONY: clean
 	 
 clean:
-	rm *_f90 *_hello
+	rm *_atomic *_hello
