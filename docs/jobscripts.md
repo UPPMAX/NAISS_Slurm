@@ -272,8 +272,7 @@ export OMP_NUM_THREADS=$omp_threads
 
     # Load a compiler toolchain so we can run an OpenMP program
     module load cpe/24.11
-
-
+    
     # process binding is typically recommended.  Try what works best spread or close
     # export OMP_PROC_BIND=spread
     export OMP_PROC_BIND=close
@@ -286,7 +285,7 @@ export OMP_NUM_THREADS=$omp_threads
     ./openmp_application
     ```
 
-    If your applicaiton has been compiled using GCC 13.2, the following script should work.  Again one should explore the effect of close or spread binding.  If you want to disengage Hyperthreading, uncomment the line setting the **OMP_NUM_THREADS** environment variable.  
+    If your application has been compiled using GCC 13.2, the following script should work.  Again one should explore the effect of close or spread binding.  If you want to disengage Hyperthreading, uncomment the line setting the **OMP_NUM_THREADS** environment variable.  
 
     ```bash
     #!/bin/bash
@@ -300,8 +299,7 @@ export OMP_NUM_THREADS=$omp_threads
     # Asking for a walltime of 5 min
     #SBATCH --time=00:05:00
     #SBATCH -p shared 
-
-
+    
     #SBATCH -o process_omp_%j.out  
     #SBATCH -e process_omp_%j.err 
 
@@ -321,7 +319,7 @@ export OMP_NUM_THREADS=$omp_threads
     # export OMP_NUM_THREADS=$(($SLURM_CPUS_PER_TASK/2))
 
     ./openmp_application
-
+    ```
 
 - Remember, Alvis is only for GPU jobs 
 
