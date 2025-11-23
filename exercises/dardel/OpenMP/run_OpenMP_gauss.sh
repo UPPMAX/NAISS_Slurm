@@ -18,15 +18,16 @@ cat $0
 
 # Load a compiler toolchain so we can run an OpenMP program
 module load cpe/24.11
-module load gcc-native/13.2
 
 
 # process binding is typically recommended.  Try what works best spread or close
 #export OMP_PROC_BIND=spread
 export OMP_PROC_BIND=close
 
-# we bind to cores
+# we bind to cores - this disengages hyper-threading
 export OMP_PLACES=cores
+# we bind to threads - this engages hyper-threading
+export OMP_PLACES=threads
 
 
 ./omp_hello
