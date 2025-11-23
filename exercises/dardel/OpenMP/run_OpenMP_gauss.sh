@@ -21,13 +21,12 @@ module load cpe/24.11
 
 
 # process binding is typically recommended.  Try what works best spread or close
-#export OMP_PROC_BIND=spread
+# export OMP_PROC_BIND=spread
 export OMP_PROC_BIND=close
 
 # we bind to cores - this disengages hyper-threading
 export OMP_PLACES=cores
 # we bind to threads - this engages hyper-threading
-export OMP_PLACES=threads
+# export OMP_PLACES=threads
 
-
-./omp_hello
+./gauss2d_omp_atomic

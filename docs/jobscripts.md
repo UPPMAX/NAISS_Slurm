@@ -238,6 +238,91 @@ export OMP_NUM_THREADS=$omp_threads
 ```
 
 - ``-c`` is used to set cores per task and should be the same as ``OMP_NUM_THREADS``
+
+=== "Teralith"
+
+    *Still to come*
+
+=== "Dardel"
+
+    On the shared partition of Dardel Hyperthreading is engaged.  The shared partions is typically recommended to run application spawning threads, such as those parallelised using OpenMP.  Different compilers react differently to hyperthreading, in particular in combination with thread binding.
+
+    Using the `-c` option of `sbatch` you request a number of logical cores for your run.   There are two logical cores per physical core, which is called hyperthreading.   With this line commented, the script will place two threads on each physical core.  One thread for each logical core.
+
+    We start with a submission script for the **CRAY clang compiler**.  It is advisable to epxeriment with **close** and **spread** binding, as well as binding to **cores** or **threads**.  Binding to cores will not utilise hyperthreading, while binding to threads does.  For each of the two options we have provided the relevant lines in the script.  Comment of uncomment to explore what give best performance for your application.
+
+    ```bash
+    #!/bin/bash
+
+    # Project id - change to your own!
+    #SBATCH -A <proj-id>
+
+    # Number of cores per tasks
+    # The number of physical cores is half that number
+    #SBATCH -c 8 
+
+    # Asking for a walltime of 5 min on the shared partition
+    #SBATCH --time=00:05:00
+    #SBATCH -p shared 
+
+    #SBATCH -o process_omp_%j.out  
+    #SBATCH -e process_omp_%j.err 
+
+    cat $0
+
+    # Load a compiler toolchain so we can run an OpenMP program
+    module load cpe/24.11
+
+
+    # process binding is typically recommended.  Try what works best spread or close
+    # export OMP_PROC_BIND=spread
+    export OMP_PROC_BIND=close
+
+    # we bind to cores - this disengages hyper-threading
+    export OMP_PLACES=cores
+    # we bind to threads - this engages hyper-threading
+    # export OMP_PLACES=threads
+
+    ./openmp_application
+    ```
+
+    If your applicaiton has been compiled using GCC 13.2, the following script should work.  Again one should explore the effect of close or spread binding.  If you want to disengage Hyperthreading, uncomment the line setting the **OMP_NUM_THREADS** environment variable.  
+
+    ```bash
+    #!/bin/bash
+
+    # Project id - change to your own!
+    #SBATCH -A <proj-id>
+
+    # Number of cores per tasks
+    #SBATCH -c 8 
+
+    # Asking for a walltime of 5 min
+    #SBATCH --time=00:05:00
+    #SBATCH -p shared 
+
+
+    #SBATCH -o process_omp_%j.out  
+    #SBATCH -e process_omp_%j.err 
+
+    cat $0
+
+    # Load a compiler toolchain so we can run an OpenMP program
+    module load gcc-native/13.2
+
+    # process binding is typically recommended.  Try what works best spread or close
+    #export OMP_PROC_BIND=spread
+    export OMP_PROC_BIND=close
+
+    # we bind to cores
+    export OMP_PLACES=cores
+
+    # if we want to have a single thread per core and ignor hyperthreading, un-comment the below
+    # export OMP_NUM_THREADS=$(($SLURM_CPUS_PER_TASK/2))
+
+    ./openmp_application
+
+
 - Remember, Alvis is only for GPU jobs 
 
 ## Applications using MPI
