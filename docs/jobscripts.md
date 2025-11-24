@@ -196,7 +196,15 @@ When executing shared memory applications, unless there is a suitable default, o
 ```bash
 #SBATCH -n 1
 ```
-in the script.  
+in the script.  The number of cores to host the threads can be requested by using either the `-c` or the `--cpus-per-task` option.  Both of which do exactly the same thing, so use only one of those.  The following would request eight cores
+
+```bash
+#SBATCH -c 8
+``` 
+!!! Important
+
+    Depending on how the service you are using is configured, you might be requesting logical cores, with multiple logical cores being placed on a single physical core.   This is called hyperthreading.  It is important to experiment whether placing threads on multiple logical cores of a physical core benefits or hinders the performance of your application.
+
 
 ```bash
 #!/bin/bash 
@@ -222,15 +230,46 @@ export OMP_NUM_THREADS=$omp_threads
 
 === "Teralith"
 
-    *Still to come*
+    Hyperthreading is not active on Tetralith.   By default a single thread is placed on each physical core.  In the following we give an example using thread binding, which typically benefits the performance.  When using binding one can easily modify how the theads are mapped onto the hardware.  This can be done by changing the value of the environment variable **OMP_PROC_BIND**.    It is advisable to experiment with the values **close** and **spread** for the binding.  This can be accomplished in the below script by commenting the unwanted option and uncommenting the wanted option.
+
+    ```bash
+    #!/bin/bash
+
+    # Set account 
+    #SBATCH -A <project ID> 
+
+    # Set the time, 
+    #SBATCH -t 00:10:00
+
+    # ask for 8 core here, modify for your needs.
+    # When running OpenMP code on Tetralith one can ask up to 32 cores
+    #SBATCH -c 8
+
+    # name output and error file
+    #SBATCH -o omp_process_%j.out
+    #SBATCH -e omp_process_%j.err
+
+    # write this script to stdout-file - useful for scripting errors
+    cat $0
+
+    # process binding is typically recommended.  Try what works best spread or close
+    #export OMP_PROC_BIND=spread
+    export OMP_PROC_BIND=close
+
+    # we bind to cores
+    export OMP_PLACES=cores
+
+    # Run your OpenMP executable
+    ./omp_hello
+    ```
 
 === "Dardel"
 
-    On the shared partition of Dardel Hyperthreading is engaged.  The shared partions is typically recommended to run application spawning threads, such as those parallelised using OpenMP.  Different compilers react differently to hyperthreading, in particular in combination with thread binding.
+    On the shared partition of Dardel hyperthreading is engaged.  The shared partions is typically recommended to run application spawning threads, such as those parallelised using OpenMP.  Different compilers react differently to hyperthreading, in particular in combination with thread binding.
 
     Using the `-c` option of `sbatch` you request a number of logical cores for your run.   There are two logical cores per physical core, which is called hyperthreading.   With this line commented, the script will place two threads on each physical core.  One thread for each logical core.
 
-    We start with a submission script for the **CRAY clang compiler**.  It is advisable to epxeriment with **close** and **spread** binding, as well as binding to **cores** or **threads**.  Binding to cores will not utilise hyperthreading, while binding to threads does.  For each of the two options we have provided the relevant lines in the script.  Comment of uncomment to explore what give best performance for your application.
+    We start with a submission script for the **CRAY clang compiler**.  It is advisable to experiment with **close** and **spread** binding, as well as binding to **cores** or **threads**.  Binding to cores will not utilise hyperthreading, while binding to threads does.  For each of the two options we have provided the relevant lines in the script.  Comment of uncomment to explore what give best performance for your application.
 
     ```bash
     #!/bin/bash
