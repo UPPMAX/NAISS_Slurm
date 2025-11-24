@@ -20,4 +20,4 @@ ml add foss/2023b
 mpicc mpi_hello.c -o mpi_hello 
 
 # Then run the code 
-srun ./mpi_hello
+mpirun ./mpi_hello
