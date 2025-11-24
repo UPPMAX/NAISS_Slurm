@@ -8,7 +8,7 @@
 
 # Load a compiler toolchain with MPI included or something compiled for MPI 
 # This example does not actually need it, though
-module load <MODULES GO HERE> 
+module load MODULES
 
 # Remember to use "srun" unless the program handles parallelizarion itself
 srun /usr/bin/hostname

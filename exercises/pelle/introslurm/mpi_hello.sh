@@ -14,6 +14,10 @@ ml add foss/2023b
 
 # Run the program. Remember to use "srun" unless the program handles parallelizarion itself
 # Before running you need to compile it
-# Load the above module then do 
+# You would load the above module then do 
 # mpicc mpi_hello.c -o mpi_hello 
+# However, here we will just compile the code in the batch script. Don't do this normally! 
+mpicc mpi_hello.c -o mpi_hello 
+
+# Then run the code 
 srun ./mpi_hello
