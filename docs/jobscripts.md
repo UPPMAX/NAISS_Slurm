@@ -2,37 +2,7 @@
 
 ## Basic Serial Job
 
-Let's say you have a simple Python script called `mmmult.py` that creates 2
-random-valued matrices, multiplies them together, and prints the shape of the
-result and the computation time. Let's also say that you want to run this code
-in your current working directory. 
-
-Here is how you might run that program once on 1 core and 1 node:
-
-```bash
-#!/bin/bash
-#SBATCH -A <project ID>      ### replace with your project ID
-#SBATCH -t 00:10:00          ### walltime in hh:mm:ss format
-#SBATCH -J mmmult            ### sample job name; customize as desired or omit
-#SBATCH -o process_%j.out    ### filename for stderr - customise, include %j
-#SBATCH -e process_%j.err    ### filename for stderr - customise, include %j
-#SBATCH -n 1                 ### number of cores to use
-
-# write this script to stdout-file - useful for scripting errors
-cat $0
-
-# Purge any loaded modules
-# Some centres recommend this, while at other centres (PDC in particular) this
-# should not be done. 
-ml purge > /dev/null 2>&1
-
-# Load required modules; customize as needed - this is for LUNARC 
-# Can omit module version number if prerequisites only allow one version
-ml foss/2023b Python/3.11.5 SciPy-bundle
-
-#run the script
-python3 mmmult.py
-```
+In this section we discuss the running of a serial Python script using a couple of services as an example.   But first let's spend a few lines on partitions.
 
 ### Partitions
 
@@ -63,9 +33,9 @@ Information about partitions can usually be found with ``sinfo``.
     - **part of a node**: One can request any number of cores up to 128 cores using the **-n** and **-c** options of sbatch.  Your allocation gets charged for the number of requested cores.  **Use for serial jobs and small parallel jobs**
 
 
-=== "COSMOS"
+=== "Cosmos"
 
-    On COSMOS at LUNARC you will be placed in the CPU partition by default.   If you need access to a GPU node, you need to select a partition.  Please visit the [LUNARC documentation on readthedocs.io](https://lunarc-documentation.readthedocs.io/en/latest/manual/submitting_jobs/manual_specifying_requirements/#accessing-gpus) for a detailed discussion.
+    On Cosmos at LUNARC you will be placed in the CPU partition by default.   If you need access to a GPU node, you need to select a partition.  Please visit the [LUNARC documentation on readthedocs.io](https://lunarc-documentation.readthedocs.io/en/latest/manual/submitting_jobs/manual_specifying_requirements/#accessing-gpus) for a detailed discussion.
 
 === "Kebnekaise" 
 
@@ -79,9 +49,9 @@ Information about partitions can usually be found with ``sinfo``.
     #SBATCH -C largemem
     ``` 
 
-### Examples by centre 
+### Examples by service
 
-Let us look at the above batch script as it might be written for some other centres. 
+Let's say you have a simple Python script called mmmult.py that creates 2 random-valued matrices, multiplies them together, and prints the shape of the result and the computation time. Let's also say that you want to run this code in your current working directory.  Here is how you might run that program on 1 core and 1 node got a number of services
 
 === "Tetralith"
 
@@ -136,7 +106,7 @@ Let us look at the above batch script as it might be written for some other cent
      python mmmult.py
      ```
 
-=== "HPC2N"
+=== "Kebnekaise"
 
     ```bash
     #!/bin/bash
@@ -151,7 +121,7 @@ Let us look at the above batch script as it might be written for some other cent
     python mmmult.py
     ```
 
-=== "LUNARC"
+=== "Cosmos"
 
     ```bash
     #!/bin/bash
@@ -166,7 +136,7 @@ Let us look at the above batch script as it might be written for some other cent
     python mmmult.py
     ```
 
-=== "UPPMAX"
+=== "Pelle"
 
     ```bash
     #!/bin/bash -l
@@ -215,7 +185,18 @@ Let us look at the above batch script as it might be written for some other cent
 
 There is no example for Alvis since you should only use that for running GPU jobs. 
 
-## OpenMP 
+## OpenMP and shared memory programming
+
+Shared memory programming is a parallel programming model associated with threads.  You start a LINUX/UNIX process, which spawns threads.   The memory of the process can be accessed by all the threads.  The threads are typically placed on and often bound to different logical or physical cores of a single hardware node.   The number of cores available on a node limits the number of threads one can reasonably start on a node.  In shared memory programming it is typically not possible to utilise cores from different nodes.  The aim of spawning threads is to speed up the calculation to achieve a fast time to solution.
+
+OpenMP is an API widely used in scientific computing to facilitate shared memory programming.  The behaviour of some applications utilising a diffent API to facilitate shared memory programming, can often be controlled in a SLURM script by  OpenMP environment variables.
+
+When executing shared memory applications, unless there is a suitable default, one may need to ensure that only one task is used.   This can be done by using the `-n` option of SLURM, e.g. having a line:
+
+```bash
+#SBATCH -n 1
+```
+in the script.  
 
 ```bash
 #!/bin/bash 
