@@ -51,7 +51,7 @@ Information about partitions can usually be found with ``sinfo``.
 
 ### Examples by service
 
-Let's say you have a simple Python script called mmmult.py that creates 2 random-valued matrices, multiplies them together, and prints the shape of the result and the computation time. Let's also say that you want to run this code in your current working directory.  Here is how you might run that program on 1 core and 1 node got a number of services
+Let's say you have a simple Python script called mmmult.py that creates 2 random-valued matrices, multiplies them together, and prints the shape of the result and the computation time. Let's also say that you want to run this code in your current working directory.  Here is how you can run that program utilising 1 core on 1 node on a number of services:
 
 === "Tetralith"
 
@@ -187,9 +187,9 @@ There is no example for Alvis since you should only use that for running GPU job
 
 ## OpenMP and shared memory programming
 
-Shared memory programming is a parallel programming model associated with threads.  You start a LINUX/UNIX process, which spawns threads.   The memory of the process can be accessed by all the threads.  The threads are typically placed on and often bound to different logical or physical cores of a single hardware node.   The number of cores available on a node limits the number of threads one can reasonably start on a node.  In shared memory programming it is typically not possible to utilise cores from different nodes.  The aim of spawning threads is to speed up the calculation to achieve a fast time to solution.
+Shared memory programming is a parallel programming model associated with threads.  You start a LINUX/UNIX process, which spawns threads.   The memory of the process can be accessed by all the threads.  The threads are typically placed on and often bound to different logical or physical cores of a single hardware node.   The number of cores available on a node limits the number of threads one can reasonably start on a node.  In shared memory programming it is typically not possible to utilise cores from different nodes. All cores need to be in the same node.  The aim of spawning threads is to speed up the calculation to achieve a fast time to solution.
 
-OpenMP is an API widely used in scientific computing to facilitate shared memory programming.  The behaviour of some applications utilising a diffent API to facilitate shared memory programming, can often be controlled in a SLURM script by  OpenMP environment variables.
+OpenMP is an API widely used in scientific computing to facilitate shared memory programming.  The behaviour of an application utilising OpenMP can be controlled by a number of environment variables.  Even the behaviour of many applications utilising a diffent API to facilitate shared memory programming, can be controlled by OpenMP environment variables.
 
 When executing shared memory applications, unless there is a suitable default, one may need to ensure that only one task is used.   This can be done by using the `-n` option of SLURM, e.g. having a line:
 

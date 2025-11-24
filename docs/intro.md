@@ -7,21 +7,22 @@
 
     - Cluster architecture
         - Login/compute nodes
-        - cores, nodes, GPUs
-        - memory
-        - node local storage
-        - global storage
-    - concepts of a job scheduler
+        - Cores, nodes, GPUs
+        - Memory
+        - Node local storage
+        - Global storage system
+    - Concepts of a job scheduler
         - why it is needed
         - basic priniples how it works
     - sbatch with options for CPU job scripts
     - sample job scripts
+        - Basic jobs
         - I/O intensive jobs
         - OpenMP and MPI jobs
-        - job arrays
-        - simple example for task farming
+        - Job arrays
+        - Simple example for task farming
         - increasing the memory per task / memory hungry jobs
-        - Running on GPUs
+        - running on GPUs
     - job monitoring, job efficiency
     - how to find optimal sbatch options
 
