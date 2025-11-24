@@ -6,9 +6,9 @@
 # Set the time, 
 #SBATCH -t 00:10:00
 
-# ask for 64 core here, modify for your needs.
-# Aim to use multiples of 32 for larger jobs
-#SBATCH -n 16
+# ask for 8 core here, modify for your needs.
+# When running OpenMP code on Tetralith one can ask up to 32 cores
+#SBATCH -n 8
 
 # name output and error file
 #SBATCH -o mpi_process_%j.out
