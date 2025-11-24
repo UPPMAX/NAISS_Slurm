@@ -6,9 +6,8 @@
 # Set the time, 
 #SBATCH -t 00:10:00
 
-# ask for 64 core here, modify for your needs.
-# Aim to use multiples of 32 for larger jobs
-#SBATCH -n 64
+# ask for 120 core here, modify for your needs
+#SBATCH -n 120
 
 # name output and error file
 #SBATCH -o mpi_process_%j.out
@@ -18,4 +17,5 @@
 cat $0
 
 # Run your mpi_executable
-srun ./mpi_hello
+module load foss/2023b
+mpirun ./mpi_hello

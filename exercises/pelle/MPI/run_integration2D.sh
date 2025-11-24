@@ -17,4 +17,5 @@
 cat $0
 
 # Run your mpi_executable
-srun ./integration2D_f90 10000
+module load foss/2023b
+mpirun ./integration2D_f90 10000
