@@ -196,7 +196,7 @@ When executing shared memory applications, unless there is a suitable default, o
 ```bash
 #SBATCH -n 1
 ```
-in the script.  The number of cores to host the threads can be requested by using either the `-c` or the `--cpus-per-task` option.  Both of which do exactly the same thing, so use only one of those.  The following would request eight cores
+in the script.  The number of cores to host the threads can be requested by using either the `-c` or the `--cpus-per-task` option.  Both of which do exactly the same thing, so use only one of those.  The following would request eight (logical) cores
 
 ```bash
 #SBATCH -c 8
@@ -239,7 +239,7 @@ On most services it is not required to set the environment variable **OMP_NUM_TH
     export OMP_PLACES=cores
 
     # Run your OpenMP executable
-    ./omp_hello
+    ./openmp_application
     ```
 
 === "Dardel"
