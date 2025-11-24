@@ -205,28 +205,7 @@ in the script.  The number of cores to host the threads can be requested by usin
 
     Depending on how the service you are using is configured, you might be requesting logical cores, with multiple logical cores being placed on a single physical core.   This is called hyperthreading.  It is important to experiment whether placing threads on multiple logical cores of a physical core benefits or hinders the performance of your application.
 
-
-```bash
-#!/bin/bash 
-#SBATCH -A <account>
-#SBATCH -t HHH:MM:SS 
-#SBATCH -c <cores-per-task> 
-
-module load <modules>
-
-# Set OMP_NUM_THREADS to the same value as -c with a fallback in case it isn't set.
-# SLURM_CPUS_PER_TASK is set to the value of -c, but only if -c is explicitly set
-if [ -n "$SLURM_CPUS_PER_TASK" ]; then
-  omp_threads=$SLURM_CPUS_PER_TASK
-else
-  omp_threads=1
-fi
-export OMP_NUM_THREADS=$omp_threads
-
-./myopenmpprogram
-```
-
-- ``-c`` is used to set cores per task and should be the same as ``OMP_NUM_THREADS``
+On most services it is not required to set the environment variable **OMP_NUM_THREADS** in your SLURM scripts.   If you are happy with the default of the service this will be picked up from your request with the `-c` option.  It typically uses all the cores you requested.
 
 === "Teralith"
 
