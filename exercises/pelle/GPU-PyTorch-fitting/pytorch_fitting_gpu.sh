@@ -11,7 +11,9 @@
 # Asking for 1 GPU 
 #SBATCH -p gpu                                                                  
 #SBATCH --gpus=1    
+#SBATCH --gres=gpu:l40s:1
 
-# Activate the PyTorch environment
+# Activate your PyTorch environment or load the module
+module load PyTorch/2.1.2-foss-2023a-CUDA-12.1.1
 
-srun python pytorch_fitting_gpu.py
+mpirun python pytorch_fitting_gpu.py
