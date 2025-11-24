@@ -10,9 +10,8 @@
 
 # Asking for 1 GPU 
 #SBATCH -p gpu                                                                  
-#SBATCH --gpus:l40s:1    
+#SBATCH --gpus=1    
 
-# Load the modules we need
-module load PyTorch/2.6.0-foss-2024a
+# Activate the PyTorch environment
 
 srun python pytorch_fitting_gpu.py

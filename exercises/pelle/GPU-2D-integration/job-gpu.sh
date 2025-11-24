@@ -3,7 +3,7 @@
 #SBATCH -A uppmaxXXXX-Y-ZZZ 
 #SBATCH -t 00:15:00
 #SBATCH -p gpu                                                                  
-#SBATCH --gpus:l40s:1
+#SBATCH --gpus=1
 #SBATCH -o output_%j.out   # output file
 #SBATCH -e error_%j.err    # error messages
 
