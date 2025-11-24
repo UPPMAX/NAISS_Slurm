@@ -8,7 +8,7 @@
 
 # ask for 8 core here, modify for your needs.
 # When running OpenMP code on Tetralith one can ask up to 32 cores
-#SBATCH -n 8
+#SBATCH -c 8
 
 # name output and error file
 #SBATCH -o mpi_process_%j.out
@@ -17,5 +17,12 @@
 # write this script to stdout-file - useful for scripting errors
 cat $0
 
-# Run your mpi_executable
-mpprun ./mpi_hello
+# process binding is typically recommended.  Try what works best spread or close
+#export OMP_PROC_BIND=spread
+export OMP_PROC_BIND=close
+
+# we bind to cores
+export OMP_PLACES=cores
+
+# Run your OpenMP executable
+./omp_hello
