@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # load a modern compiler and make MPI available
-ml foss/2023b
+ml buildenv-gcc/2023b-eb
 
-# build the executables
+# build the executable
 make
 

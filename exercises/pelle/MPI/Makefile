@@ -3,8 +3,8 @@ CFLAGS = -O3 -march=native
 FC = mpifort
 FFLAGS = -O3 -march=native
 
-objectsc = mpi_hello
-objectsf =  integration2D_f90
+objectsc = mpi_hello_c
+objectsf =  integration2D_f90 mpi_hello
 all: $(objectsf) $(objectsc)
 
 
@@ -17,4 +17,4 @@ $(objectsc): %: %.c
 .PHONY: clean
 	 
 clean:
-	rm *_f90 *_hello
+	rm mpi_hello_c mpi_hello *_f90
