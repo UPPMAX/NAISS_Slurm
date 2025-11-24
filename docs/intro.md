@@ -9,7 +9,11 @@
         - Login/compute nodes
         - cores, nodes, GPUs
         - memory
-        - local disk?
+        - node local storage
+        - global storage
+    - concepts of a job scheduler
+        - why it is needed
+        - basic priniples how it works
     - sbatch with options for CPU job scripts
     - sample job scripts
         - I/O intensive jobs
@@ -178,5 +182,5 @@ It is now time to login and download the exercises.
 5. You will get a directory ``exercises``. Go into it: ``cd exercises``
 6. You will find some sub directories for most of the Swedish HPC centres. 
 7. Change to the directory of your cluster. If it is not listed, pick "other". 
-8. There should be various batch script examples (and some .py and .c files for the test scripts). 
+8. There should be various batch script examples (and some .py, .f90 and .c files for the test scripts). 
 
