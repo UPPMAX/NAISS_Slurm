@@ -83,7 +83,7 @@ echo "What is the hostname? It is this: "
 
 !!! hint 
 
-    You find the above batch script named "simple.sh" in the exercises tarball. 
+    You find the above batch script named "simple.sh" in the exercises tarball, under the folder "introslurm". 
 
     REMEMBER TO CHANGE THE PROJECT ID TO YOUR OWN! 
 
@@ -491,7 +491,7 @@ jid1=$(sbatch --parsable matrix-gen.sh)
 sbatch --dependency=afterany:${jid1} mmmult-v2.sh
 ```
 
-If you want to test it, the scripts for this can be found in <a href="https://github.com/UPPMAX/NAISS_Slurm/raw/refs/heads/main/exercises.tar.gz" target="_blank">the tarball with the exercises</a>. 
+If you want to test it, the scripts for this can be found in <a href="https://github.com/UPPMAX/NAISS_Slurm/raw/refs/heads/main/exercises.tar.gz" target="_blank">the tarball with the exercises</a> under the cluster name and then "dependency". 
 
 The first job it runs generates two matrices and then the second job does matrix-matrix multiplication, but not until the first has finished. 
 
