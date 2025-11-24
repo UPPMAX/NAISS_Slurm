@@ -17,4 +17,4 @@
 cat $0
 
 # Run your mpi_executable
-mpirun ./integration2D_f90 10000
+srun ./integration2D_f90 10000

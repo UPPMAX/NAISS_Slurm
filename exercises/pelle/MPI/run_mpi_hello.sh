@@ -18,4 +18,4 @@
 cat $0
 
 # Run your mpi_executable
-mpirun ./mpi_hello
+srun ./mpi_hello
