@@ -34,12 +34,7 @@
    
     **Tetralith at NSC**
 
-    - for the course on 25th November a reservation has to be used after login, run the following command after login
-
-    ```bash
-    hpc_usereservation slurm-training
-    ```
-
+    - for the course on 25th November a reservation has to be used after login, run the following command after login: `hpc_usereservation slurm-training`
     - Project ID: ``naiss2025-22-934``
     - Project storage: ``/proj/courses-fall-2025/users``    
 
