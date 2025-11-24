@@ -25,4 +25,4 @@ export OMP_PROC_BIND=close
 export OMP_PLACES=cores
 
 # Run your OpenMP executable
-./omp_hello
+./gauss2d_omp_atomic
