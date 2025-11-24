@@ -7,7 +7,6 @@
 #SBATCH -t 00:10:00
 
 # ask for 16 core here, modify for your needs.
-# Aim to use multiples of 32 for larger jobs
 #SBATCH -n 16
 
 # name output and error file
