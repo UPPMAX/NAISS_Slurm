@@ -405,7 +405,7 @@ The simplest possible batch script would look something like this:
 
     In addition, these can be quite useful: 
 
-    - `-o`, `--output=``: Used for naming the output differently that ``slurm-<job-id>.out`` and splitting it from errors and such. The environment variable ``%j`` is very useful since adding it to the output name prevents it being overwritten next time you run the job. 
+    - `-o`, `--output=`: Used for naming the output differently that ``slurm-<job-id>.out`` and splitting it from errors and such. The environment variable ``%j`` is very useful since adding it to the output name prevents it being overwritten next time you run the job. 
     - `-e`, `--error=`: Used for naming and splitting the error from the other output. Adding the environment variable ``%j``to the name is useful, like it is for the output file. 
 
     Example: 
