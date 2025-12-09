@@ -85,12 +85,12 @@ should be configured, and what options regular users will be allowed to set.
 
 Computer clusters are made up of many interconnected nodes, each with a limited
 number of cores and limited memory capacity. The main way an HPC cluster lets you
-speed up calculations is by letting you execute several steps in parallel. In other
-words, a problem must be typically be parallelizable to gain any speed-up. 
+speed up computations is by letting you execute several tasks in parallel. In other
+words, a problem must somehow be split into many tasks to gain any speed-up. 
 
 ### Many serial jobs
 
-Tasks that can be split up into many serial jobs will run faster on a computer
+Running many independent tasks can be done faster on a computer
 cluster. No special programming is needed, but you can only run on one core for
 each task. It is good for long-running single-threaded jobs. This type of workflow
 is good for problems like parameter sweeps, where the same code is run repeatedly
