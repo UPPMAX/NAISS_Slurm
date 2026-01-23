@@ -87,6 +87,13 @@ echo "What is the hostname? It is this: "
 
     REMEMBER TO CHANGE THE PROJECT ID TO YOUR OWN! 
 
+    ??? hint "Checking for Slurm project IDs valid for your user"
+        From the terminal, you can ask Slurm for project IDs currently
+        associated with your user with this command:
+        ```
+        sacctmgr list assoc where user="$USER" format=Account -P --noheader
+        ```
+
     - If you are on Dardel, you also need to add a partition in order to make it run. Use the "dardel-simple.sh" from the tarball in that case. 
 
 **Example**:
