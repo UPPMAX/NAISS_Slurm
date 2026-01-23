@@ -75,6 +75,8 @@ scancel
 scontrol
 sinfo
 sacct
+sshare
+seff
 jobscript
 
 GfxLauncher
@@ -159,3 +161,6 @@ libre
 powerpoint
 odp
 Readme
+
+OOM
+subfolders

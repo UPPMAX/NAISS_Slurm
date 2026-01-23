@@ -6,7 +6,7 @@ In this section we discuss the running of a serial Python script using a couple 
 
 ### Partitions
 
-As discussed, not all compute nodes offered by a service are equal.  Nodes my offer different hardware (e.g. CPU type, amount of memory, number of GPUs or no GPU). There might also be differenes on how the nodes are configures. To control that a job is placed on the correct kind of compute nodes, the nodes may be placed in partitions.  Many service, but not all service have a default partition.    
+As discussed, not all compute nodes offered by a service are equal.  Nodes may offer different hardware (e.g. CPU type, amount of memory, number of GPUs or no GPU). There might also be differences on how the nodes are configured. To control that a job is placed on the correct kind of compute nodes, the nodes may be placed in partitions.  Many but not all services have a default partition.    
 
 Information about partitions can usually be found with ``sinfo``. 
 
@@ -189,7 +189,7 @@ There is no example for Alvis since you should only use that for running GPU job
 
 Shared memory programming is a parallel programming model associated with threads.  You start a LINUX/UNIX process, which spawns threads.   The memory of the process can be accessed by all the threads.  The threads are typically placed on and often bound to different logical or physical cores of a single hardware node.   The number of cores available on a node limits the number of threads one can reasonably start on a node.  In shared memory programming it is typically not possible to utilise cores from different nodes. All cores need to be in the same node.  The aim of spawning threads is to speed up the calculation to achieve a fast time to solution.
 
-OpenMP is an API widely used in scientific computing to facilitate shared memory programming.  The behaviour of an application utilising OpenMP can be controlled by a number of environment variables.  Even the behaviour of many applications utilising a diffent API to facilitate shared memory programming, can be controlled by OpenMP environment variables.
+OpenMP is an API widely used in scientific computing to facilitate shared memory programming.  The behaviour of an application utilising OpenMP can be controlled by a number of environment variables.  Even the behaviour of many applications utilising a different API to facilitate shared memory programming, can be controlled by OpenMP environment variables.
 
 When executing shared memory applications, unless there is a suitable default, one may need to ensure that only one task is used.   This can be done by using the `-n` option of SLURM, e.g. having a line:
 
@@ -205,11 +205,11 @@ in the script.  The number of cores to host the threads can be requested by usin
 
     Depending on how the service you are using is configured, you might be requesting logical cores, with multiple logical cores being placed on a single physical core.   This is called hyperthreading.  It is important to experiment whether placing threads on multiple logical cores of a physical core benefits or hinders the performance of your application.
 
-On most services it is not required to set the environment variable **OMP_NUM_THREADS** in your SLURM scripts.   If you are happy with the default of the service this will be picked up from your request with the `-c` option.  It typically uses all the cores you requested.
+On most services it is not required to set the environment variable `OMP_NUM_THREADS` in your SLURM scripts.   If you are happy with the default of the service this will be picked up from your request with the `-c` option.  It typically uses all the cores you requested.
 
-=== "Teralith"
+=== "Tetralith"
 
-    Hyperthreading is not active on Tetralith.   By default a single thread is placed on each physical core.  In the following we give an example using thread binding, which typically benefits the performance.  When using binding one can easily modify how the theads are mapped onto the hardware.  This can be done by changing the value of the environment variable **OMP_PROC_BIND**.    It is advisable to experiment with the values **close** and **spread** for the binding.  This can be accomplished in the below script by commenting the unwanted option and uncommenting the wanted option.
+    Hyperthreading is not active on Tetralith.   By default a single thread is placed on each physical core.  In the following we give an example using thread binding, which typically benefits the performance.  When using binding one can easily modify how the theads are mapped onto the hardware.  This can be done by changing the value of the environment variable `OMP_PROC_BIND`.    It is advisable to experiment with the values **close** and **spread** for the binding.  This can be accomplished in the below script by commenting the unwanted option and uncommenting the wanted option.
 
     ```bash
     #!/bin/bash
@@ -326,7 +326,7 @@ On most services it is not required to set the environment variable **OMP_NUM_TH
 
 Some form of message passing is required when utilising multiple nodes for a simulation.  One has multiple programs, called tasks, running.  Typically these are multiple copies of the same executable with each getting its own dedicated core.  Each task has its own memory, which is called distributed memory.  Data exchange is facilitated by coping data between the tasks. This can accomplished inside the node if both task are running on the same node or has to utilise the network if the tasks in question are located on different nodes.  The **Message Passing Interface (MPI)** is the most commonly used API in scientific computing, when programming message passing applications.
 
-The illustration shows 5 tasks being executed, with the time running from the top to the bottom.  At the beginning, data (e.g. read from an input file) is distributed from task 0 to the other tasks, indicated by the blue arrows.  Following this, the tasks exchange data at regular intervalls.   In a real application the communication patterns are typically more complex than this.
+The illustration shows 5 tasks being executed, with the time running from the top to the bottom.  At the beginning, data (e.g. read from an input file) is distributed from task 0 to the other tasks, indicated by the blue arrows.  Following this, the tasks exchange data at regular intervals.   In a real application the communication patterns are typically more complex than this.
 
 ![mpi illustration](./images/mpi_illustration.png){: style="width: 500px;float: right"}
 
@@ -336,7 +336,7 @@ The illustration shows 5 tasks being executed, with the time running from the to
 
     To start multiple copies of the same executable a special program, a so called **job launcher** is required.  Depending on the system and libraries used the name of the jobs launcher differs.
 
-In the following we have sample scripts for a number of services, including NAISS' Tetralith and Dardel services.   The sample script assumes an mpi executable name `integration2D_f90` in the submission directory.   The executable takes the problem size as a number as a commandline argument.  In the example the problem size is 10000.
+In the following we have sample scripts for a number of services, including NAISS' Tetralith and Dardel services.   The sample script assumes an mpi executable name `integration2D_f90` in the submission directory.   The executable takes the problem size as a number as a command line argument.  In the example the problem size is 10000.
 
 === "Tetralith"
 
@@ -465,7 +465,7 @@ srun ./mympiprogram
 - Fixes:
     - use "fat" nodes
     - allocate more cores just for memory
-    - tweak mem usage in app, if possible
+    - tweak memory usage in app, if possible
 
 ### Increasing memory per task
 
@@ -559,7 +559,7 @@ Another way of getting extra memory is to use nodes that have more memory. Here 
     | 1024 | A100fat (4) | ``#SBATCH -C mem1024`` <br> ``#SBATCH --gpus-per-node=A100fat:[1-4]`` |
 
     - **Note** be aware, though that you also need to ask for a GPU, as usual, unless you need the pre/post processing CPU nodes (``-C NOGPU``).
-    - You only really need to give the mem constraint for those bolded as the others follow from the GPU choice
+    - You only really need to give the memory constraint for those bolded as the others follow from the GPU choice
     - ``sinfo -o "%20N  %9P %4c  %24f  %50G"`` will give you a full list of all nodes and features 
 
 === "Kebnekaise" 

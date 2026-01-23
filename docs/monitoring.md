@@ -24,7 +24,7 @@ Job monitoring is (also) about detecting signs the job is not running efficientl
 
 ## Job monitoring 
 
-Now let us look at some of the commands that are genereally available, as well as those that are specific to one or more centres. 
+Now let us look at some of the commands that are generally available, as well as those that are specific to one or more centres. 
 
 ### Commands valid at all centres 
 
