@@ -56,7 +56,10 @@ This is done from the command line in the same way at all the HPC centres in Swe
 sbatch <batchscript.sh>
 ```
 
-For any <batchscript.sh> named whatever you want to. It is a convention to use the suffix ``.sbatch`` or ``.sh``, but it is not a requirement. You can use any or no suffix. It is merely to make it easier to find the script among the other files.
+For any batch submit script ``<batchscript.sh>``. 
+
+- You can name the submit script whatever you want to. 
+- It is a convention to use the suffix ``.sbatch`` or ``.sh``, but it is not a requirement. You can use any or no suffix. It is merely to make it easier to find the script among the other files.
 
 !!! note
 
