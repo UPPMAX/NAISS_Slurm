@@ -1,8 +1,7 @@
 # Introduction to clusters
 
 This section is a beginner's guide to clusters, and provides general information
-about computer clusters like Tetralith, Dardel, Cosmos, Rackham, Kebnekaise and
-other HPC systems, but is not directly focused on any of them.
+about computer clusters like Tetralith, Dardel, Alvis, Cosmos, Pelle, Kebnekaise and other HPC systems, but is not directly focused on any of them.
 
 ## What is a cluster
 
@@ -33,8 +32,7 @@ the CPUs.
 
 Nodes in computer clusters are usually arranged in racks at a dedicated climate-
 controlled facility, and are connected via a communication network. With few
-exceptions, nearly all high-performance computer clusters use the Linux operating
-system. Normally, clusters have some sort of batch or queuing system to handle
+exceptions, nearly all high-performance computer clusters use the Linux operating system. Normally, clusters have some sort of batch or queuing system to handle
 scheduling of jobs. On Linux systems, that batch or queuing system is most often
 Slurm (the Simple Linux Utility for Resource Management).
 

@@ -32,37 +32,36 @@
 
 !!! warning 
 
-    This part is only relevant for people attending the course. It should be ignored if you are doing it as self-study later. 
+    This part is only relevant for people attending the course, and indeed only for those who needed access to Tetralith or Dardel through the course project. It should be ignored if you are doing it as self-study later. 
 
 <!-- markdownlint-disable MD036 -->
 === "Tetralith" 
    
     **Tetralith at NSC**
 
-    - For the course on 25th November a reservation has to be used after login, run the following command after login: `hpc_usereservation slurm-training`
-    - Project ID: ``naiss2025-22-934``
-    - Project storage: ``/proj/courses-fall-2025/users``    
+    - Project ID: ``naiss2026-4-66``
+    - Project storage: ``/proj/spring-courses-naiss/users``    
 
 === "Dardel"
 
     **Dardel at PDC**
 
-    - Project ID: ``naiss2025-22-934``
-    - Project storage: ``/cfs/klemming/projects/supr/courses-fall-2025``
+    - Project ID: ``naiss2026-4-66``
+    - Project storage: ``/cfs/klemming/projects/supr/spring-courses-naiss``
 
 === "Alvis"
 
     **Alvis at C3SE**
 
-    - Project ID: ``naiss2025-22-934``
-    - Project storage: ``/mimer/NOBACKUP/groups/courses-fall-2025`` 
+    - Project ID: ``naiss2026-4-66``
+    - Project storage: ``/mimer/NOBACKUP/groups/spring-courses-naiss`` 
 
 === "Kebnekaise" 
 
     **Kebnekaise at HPC2N**
 
-    - Project ID: ``hpc2n2025-151``
-    - Project storage: ``/proj/nobackup/fall-courses``
+    - Project ID: 
+    - Project storage: 
 
 === "Cosmos" 
 
@@ -81,7 +80,9 @@
 
 !!! hint 
 
-    If you are at a centre that does not have a course project and/or you do not know what your project id is, you can use the command `projinfo` which works at all centres.
+    Most of you are not part of the course project and will use your own access and project. 
+
+    If you do not know what your project id is, you can use the command `projinfo` which works at all centres.
 
     You can also find the project id in SUPR, if you are a member of a project. See the page for <a href="https://supr.naiss.se/project/" target="_blank">Active Projects You Belong To</a>.   
 
@@ -163,14 +164,15 @@
 
 | Time | Topic | Activity | Teacher | 
 | ---- | ----- | -------- | ------- |
-| 9:00 - 9:05 | Intro to course | Lecture | RP |
-| 9:05 - 9.25 | Intro to clusters | Lecture | RP | 
-| 9:25 - 9:40 | Batch system concepts / job scheduling | Lecture | JH |  
-| 9:40 - 10:20 | Intro to Slurm (sbatch, squeue, scontrol, …) | Lecture+type along | BB |
-| 10:20 - 10:35 | BREAK | | |
-| 10:35 - 11:45 | Additional sample scripts, including job arrays, task farms??? | | JH, BB |
-| - | Job monitoring and efficiency | Self-reading material | |
-| 11:45 - 12:00 | Summary | | |
+| 13:00 - 13:05 | Intro to course | Lecture | Sahar |
+| 13:05 - 13:25 | Intro to clusters | Lecture | Sahar | 
+| 13:25 - 13:40 | Batch system concepts / job scheduling | Lecture | Joachim |  
+| 13:40 - 14:20 | Intro to Slurm (sbatch, squeue, scontrol, …) | Lecture+type along | Birgitte |
+| 14:20 - 14:22 | Interactive jobs - mainly meant as self-study | Lecture | 
+| 14:22 - 14:35 | BREAK | | |
+| 14:35 - 15:45 | Additional sample scripts, including job arrays, task farms??? | | Joachim, Diana |
+| 15:45 - 15:47 | Job monitoring and efficiency - mainly meant as Self-reading material | Diana |
+| 15:47 - 16:00 | Summary | | Diana |
 
 ## Prepare the exercise environment 
 
