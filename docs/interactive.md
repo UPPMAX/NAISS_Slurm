@@ -26,7 +26,7 @@ The Slurm commands ``salloc`` and ``interactive`` are for requesting an interact
     If you need more CPUs/GPUs, etc. you need to ask for that as well. The default which gives 1 CPU.
 
     ```bash
-    [x_birbr@tetralith3 ~]$ interactive -A naiss2025-22-403
+    [x_birbr@tetralith3 ~]$ interactive -A naiss2026-4-66
     salloc: Pending job allocation 44252533
     salloc: job 44252533 queued and waiting for resources
     salloc: job 44252533 has been allocated resources
@@ -41,7 +41,7 @@ The Slurm commands ``salloc`` and ``interactive`` are for requesting an interact
     **The command `salloc` (or OpenOnDemand through Gfx launcher) is recommended at PDC.**
 
     ```bash
-    bbrydsoe@login1:~> salloc --time=00:10:00 -A naiss2025-22-403 -p main
+    bbrydsoe@login1:~> salloc --time=00:10:00 -A naiss2026-4-66 -p main
     salloc: Pending job allocation 9722449
     salloc: job 9722449 queued and waiting for resources
     salloc: job 9722449 has been allocated resources
@@ -71,7 +71,7 @@ The Slurm commands ``salloc`` and ``interactive`` are for requesting an interact
     **The command "srun" from command line works at C3Se**. It is not recommended as when the login node is restarted the interactive job is also terminated.
 
     ```bash
-    [brydso@alvis2 ~]$ srun --account=NAISS2025-22-395 --gpus-per-node=T4:1 --time=01:00:00 --pty=/bin/bash
+    [brydso@alvis2 ~]$ srun --account=naiss2026-4-66 --gpus-per-node=T4:1 --time=01:00:00 --pty=/bin/bash
     [brydso@alvis2-12 ~]$
     ```
 
@@ -104,7 +104,7 @@ The Slurm commands ``salloc`` and ``interactive`` are for requesting an interact
     WARNING! This is not true interactivity! Note that we are still on the login node!
         
     In order to run anything in the allocation, you need to preface with ``srun`` like this:
-        
+         
     ```bash
     b-an01 [~]$ srun /bin/hostname
     b-cn1403.hpc2n.umu.se
