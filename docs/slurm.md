@@ -445,7 +445,9 @@ Depending on cluster, this is either always required or not technically required
 
 The third line in the example above provides the **walltime**, the maximum amount of time that the program would be allowed to run (5 minutes in this example). If a job does not finish within the specified walltime, the resource management system terminates it and any data that were not already written to a file before time ran out are lost.
 
-The fourth line asks for compute resources, here one core (or rather one task, but cores-per-task is one as default). You could ask for more cores if it was a parallel job, or for GPUs and so on. More about that later.  
+The fourth line asks for compute resources, here one task (resulting in one core
+as cores-per-task is defaulting to one). You could ask for more cores if it was
+a parallel job, or for GPUs and so on. More about that later.  
 
 The last line in the above sample is the code to be executed by the batch script. In this case, it just prints the name of the server on which the code ran.
 
