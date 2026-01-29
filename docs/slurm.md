@@ -416,8 +416,16 @@ The simplest possible batch script would look something like this:
 
     In addition, these can be quite useful: 
 
-    - `-o`, `--output=`: Used for naming the output differently that ``slurm-<job-id>.out`` and splitting it from errors and such. The environment variable ``%j`` is very useful since adding it to the output name prevents it being overwritten next time you run the job. 
-    - `-e`, `--error=`: Used for naming and splitting the error from the other output. Adding the environment variable ``%j``to the name is useful, like it is for the output file. 
+    - `-o`, `--output=`: Used for naming the output differently than
+      `slurm-<job-id>.out` and splitting it from errors and such. A `%j` in the
+      specified filename will be replaced with the job id by `sbatch`, which is
+      highly recommended to prevent output from being overwritten the next time
+      you run the job. Additional 
+      [specifiers for the filename pattern](https://slurm.schedmd.com/sbatch.html#SECTION_FILENAME-PATTERN)
+      , for more advanced cases, can be found in the Slurm documentation.
+    - `-e`, `--error=`: Used for naming and splitting the error from the other
+      output. Using `%j` in the name to get separate files for separate runs is
+      again highly recommended.
 
     Example: 
 
