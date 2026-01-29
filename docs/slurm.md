@@ -410,9 +410,9 @@ The simplest possible batch script would look something like this:
     - `-A PROJ-ID`: The project that should be accounted. It is a simple conversion from the SUPR project id. You can also find your project account with the command projinfo. The PROJ-ID argument is of the form **naissXXXX-YY-ZZZ** 
     - `-N`: number of nodes
     - `-n`, `--ntasks=`: number of tasks. Since cores-per-task is 1 as default, this then translates to number of cores. NOTE that you cannot be sure the cores all end up on the same node. If you have a threaded job or otherwise need to have all the cores on the same node, you should instead use `-c` or a combination of `-N` and `-c`.  
-    - `-t`, `--time=`: walltime. How long your job is allowed to run. Given as HHH:MM:SS (example: 4 hours and 20 min is given as 4:20:00). Different centres have different maximum walltime, but it is usually at least a week. 
-    - `-p`: partition. Only used at some centres. Dardel is one of them. 
     - `-c`, `--cores-per-task=`: This changes the number of cores each task may use. Can also be used for getting more memory, with some cores only providing memory. (example: **-c 2 -n 4** allocates 4 tasks and 2 cores per task, totally 8 cores). More about this argument later. 
+    - `-t`, `--time=`: walltime. How long your job is allowed to run. Given as HHH:MM:SS (example: 4 hours and 20 min is given as 4:20:00). Different centres have different maximum walltime, but it is usually at least a week. 
+    - `-p`: partition. Only used at some clusters. Dardel is one of them. 
 
     In addition, these can be quite useful: 
 
