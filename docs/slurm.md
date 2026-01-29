@@ -63,10 +63,10 @@ For any batch submit script ``<batchscript.sh>``.
 
 !!! note
 
-    - At centres that have OpenOnDemand installed, you do not have to submit a batch job, but can run directly on the already allocated resources (see interactive jobs).
+    - At clusters that have OpenOnDemand installed, you do not have to submit a batch job, but can run directly on the already allocated resources (see interactive jobs).
         - OpenOnDemand is a good option for interactive tasks, graphical applications/visualization, and simpler job submittions. It can also be more user-friendly.
         - Regardless, there are many situations where submitting a batch job is the best option instead, including when you want to run jobs that need many resources (time, memory, multiple cores, multiple GPUs) or when you run multiple jobs concurrently or in a specified succession, without need for manual intervention. Batch jobs are often also preferred for automation (scripts) and reproducibility. Many types of application software fall into this category.
-    - At centres that have ThinLinc you can usually submit MATLAB jobs to compute resources from within MATLAB.
+    - At clusters that have ThinLinc you can usually submit MATLAB jobs to compute resources from within MATLAB.
 
 We will talk much more about batch scripts in a short while, but for now we can use <a href="../simple.sh" target="_blank">this small batch script</a> for testing the Slurm commands:
 
@@ -297,7 +297,7 @@ It is often useful to know which nodes a job ran on if something did not work - 
 
 #### scontrol show node
 
-This command is used to get information about a specific node. You can for instance see its features, how many cores per socket, uptime, etc. Specifics will vary and depend on the centre you are running jobs at.
+This command is used to get information about a specific node. You can for instance see its features, how many cores per socket, uptime, etc. Specifics will vary and depend on the cluster you are running jobs at.
 
 **Example**:
 
@@ -356,7 +356,7 @@ You can see the full list of states and their meaning with ``man sinfo``.
 
 !!! hint
 
-    Try it! Give the command ``sinfo`` and look at the output from your chosen HPC centre. 
+    Try it! Give the command ``sinfo`` and look at the output from your chosen HPC cluster. 
 
 ## Slurm job scripts
 
@@ -370,7 +370,7 @@ The simplest possible batch script would look something like this:
 
 === "Other" 
 
-    This works for most of the centres, except Dardel which also requires you to give the partition. 
+    This works for most of the clusters, except Dardel which also requires you to give the partition. 
 
     ```bash
     #!/bin/bash
@@ -411,7 +411,7 @@ The simplest possible batch script would look something like this:
     - `-N`: number of nodes
     - `-n`, `--ntasks=`: number of tasks. Since cores-per-task is 1 as default, this then translates to number of cores. NOTE that you cannot be sure the cores all end up on the same node. If you have a threaded job or otherwise need to have all the cores on the same node, you should instead use `-c` or a combination of `-N` and `-c`.  
     - `-c`, `--cores-per-task=`: This changes the number of cores each task may use. Can also be used for getting more memory, with some cores only providing memory. (example: **-c 2 -n 4** allocates 4 tasks and 2 cores per task, totally 8 cores). More about this argument later. 
-    - `-t`, `--time=`: walltime. How long your job is allowed to run. Given as HHH:MM:SS (example: 4 hours and 20 min is given as 4:20:00). Different centres have different maximum walltime, but it is usually at least a week. 
+    - `-t`, `--time=`: walltime. How long your job is allowed to run. Given as HHH:MM:SS (example: 4 hours and 20 min is given as 4:20:00). Different clusters have different maximum walltime, but it is usually at least a week. 
     - `-p`: partition. Only used at some clusters. Dardel is one of them. 
 
     In addition, these can be quite useful: 
@@ -441,7 +441,7 @@ The first line is called the “shebang” and it indicates that the script is w
 The second, third, and fourth lines are resource statements to the Slurm batch scheduler. Also called Slurm directives. 
 
 The second line above is where you put your **project ID**. 
-Depending on centre, this is either always required or not technically required if you only have one project to your name. Regardless, we recommend that you make a habit of including it. 
+Depending on cluster, this is either always required or not technically required if you only have one project to your name. Regardless, we recommend that you make a habit of including it. 
 
 The third line in the example above provides the **walltime**, the maximum amount of time that the program would be allowed to run (5 minutes in this example). If a job does not finish within the specified walltime, the resource management system terminates it and any data that were not already written to a file before time ran out are lost.
 
@@ -451,7 +451,7 @@ The last line in the above sample is the code to be executed by the batch script
 
 All of the parameters that Slurm needs to determine which resources to allocate, under whose account, and for how long, must be given as a series of resource statements of the form ``#SBATCH -<option> <value>`` or ``#SBATCH --<key-words>=<value>`` (note: `<` and `>` are not typically used in real arguments; they are just used here to indicate placeholder text). 
 
-Depending on centre, for most compute nodes, unless otherwise specified, a batch script will run on 1 core of 1 node by default. However, at several centres it is required to always give the number of cores or nodes, so you should make it a habit to include it. 
+Depending on cluster, for most compute nodes, unless otherwise specified, a batch script will run on 1 core of 1 node by default. However, at several clusters it is required to always give the number of cores or nodes, so you should make it a habit to include it. 
 
 !!! Note
 
@@ -516,7 +516,7 @@ The first job it runs generates two matrices and then the second job does matrix
 
 ## How to monitor jobs
 
-Unless mentioned, these are valid at all centres. 
+Unless mentioned, these are valid at all clusters. 
 
 Use the following:
 
