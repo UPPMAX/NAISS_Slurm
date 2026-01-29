@@ -451,7 +451,13 @@ a parallel job, or for GPUs and so on. More about that later.
 
 The last line in the above sample is the code to be executed by the batch script. In this case, it just prints the name of the server on which the code ran.
 
-All of the parameters that Slurm needs to determine which resources to allocate, under whose account, and for how long, must be given as a series of resource statements of the form ``#SBATCH -<option> <value>`` or ``#SBATCH --<key-words>=<value>`` (note: `<` and `>` are not typically used in real arguments; they are just used here to indicate placeholder text). 
+All of the parameters that Slurm needs to determine which resources to allocate,
+under whose account, and for how long, are given as a series of resource
+statements of the form ``#SBATCH -<option> <value>`` or ``#SBATCH
+--<key-words>=<value>`` (note: `<` and `>` are not typically used in real
+arguments; they are just used here to indicate placeholder text). Alternatively
+they can be given as command-line options to `sbatch` but it is generally useful
+to save them in the script.
 
 Depending on cluster, for most compute nodes, unless otherwise specified, a batch script will run on 1 core of 1 node by default. However, at several clusters it is required to always give the number of cores or nodes, so you should make it a habit to include it. 
 
