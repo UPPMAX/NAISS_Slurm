@@ -40,10 +40,10 @@ Most up-to-date project usage on a project's SUPR page, linked from here: <a hre
 
 ### Site-specific commands 
 
-| Command | What | Centre | 
+| Command | What | Cluster | 
 | ------- | ---- | ------ |
-| ``jobinfo``| wrapper around ``squeue`` | Pelle, Cosmos, Alvis |
-| ``jobstats -p JOBID`` | CPU and memory use of finished job (> 5 min) in a plot | Pelle |
+| ``jobinfo``| wrapper around ``squeue`` | Bianca, Cosmos, Alvis |
+| ``jobstats -p JOBID`` | CPU and memory use of finished job (> 5 min) in a plot | Bianca |
 | ``job_stats.py`` | link to Grafana dashboard with overview of your running jobs. Add ``JOBID`` for real-time usage of a job | Alvis |
 | ``job-usage JOBID`` | grafana graphics of resource use for job (> few minutes) | Kebnekaise |
 | ``jobload JOBID`` | show cpu and memory usage in a job | Tetralith |
@@ -53,5 +53,5 @@ Most up-to-date project usage on a project's SUPR page, linked from here: <a hre
 | <a href="https://pdc-web.eecs.kth.se/cluster_usage/" target="_blank">https://pdc-web.eecs.kth.se/cluster_usage/</a> | Information about project usage | Dardel |
 | <a href="https://grafana.c3se.chalmers.se/d/user-jobs/user-jobs" target="_blank">https://grafana.c3se.chalmers.se/d/user-jobs/user-jobs</a> | Grafana dashboard for user jobs | Alvis |
 | <a href="https://www.nsc.liu.se/support/batch-jobs/tetralith/monitoring/" target="_blank">https://www.nsc.liu.se/support/batch-jobs/tetralith/monitoring/</a> | Job monitoring | Tetralith |
-| <a href="https://docs.uppmax.uu.se/software/jobstats/" target="_blank">https://docs.uppmax.uu.se/software/jobstats/</a> | Job efficiency | Pelle |
+| <a href="https://docs.uppmax.uu.se/software/jobstats/" target="_blank">https://docs.uppmax.uu.se/software/jobstats/</a> | Job efficiency | Bianca |
 
