@@ -529,7 +529,7 @@ Unless mentioned, these are valid at all clusters.
 Use the following:
 
 - `sacct`: `sacct -l -j JOBID`. Lots of (wide format) info about a job with job-id JOBID
-- `job-info` (UPPMAX, LUNARC, C3SE): wrapper around `squeue`
+- `jobinfo` (LUNARC, C3SE): wrapper around `squeue`
 - `scontrol show job JOBID`: info about a job, including estimated start time, assigned nodes, working directory, etc. 
 - `squeue --me --start`: your running and queued jobs with estimated start time
 - `job_usage` (HPC2N): grafana graphics of resource use for job (> few minutes)
