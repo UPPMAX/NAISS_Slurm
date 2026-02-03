@@ -439,16 +439,6 @@ In the following we have sample scripts for a number of services, including NAIS
     srun ./integration2D_f90 100000
     ```
 
-```bash
-#!/bin/bash 
-#SBATCH -A <account>
-#SBATCH -t HHH:MM:SS 
-#SBATCH -n <tasks> 
-
-module load <modules>
-
-srun ./mympiprogram
-```
 
 - Asking for whole nodes (``- N``) and possibly ``--tasks-per-node``
 - ``srun`` and ``mpirun`` should be interchangeable at many centres. Tetralith uses ``mpprun`` and Dardel uses ``srun``
