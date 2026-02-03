@@ -75,8 +75,8 @@ Let's say you have a simple Python script called mmmult.py that creates 2 random
     cat $0
 
     # load a modern Python distribution and make NumPy available
-    module load buildtool-easybuild/4.9.4-hpc71cbb0050 
-    module load GCC/13.2.0 Python/3.11.5 SciPy-bundle/2023.11
+    module load buildenv-gcc/2023b-eb
+    module load Python/3.11.5 SciPy-bundle/2023.11
 
     # Run your Python script
     python mmmult.py
@@ -543,7 +543,7 @@ Another way of getting extra memory is to use nodes that have more memory. Here 
     | AMD EPYC™ <br>Zen2 Large | 512 GB | 4 GB | 128 | main, memory | 456704 MB | ``--mem=440GB`` |
     | AMD EPYC™ <br>Zen2 Huge | 1 TB | 7.8 GB | 128 | main, memory | 915456 MB | ``--mem=880GB`` |
     | AMD EPYC™ <br>Zen2 Giant | 2 TB | 15.6 GB | 128 | memory | 1832960 MB | ``--mem=1760GB`` |
-    | 4 x AMD Instinct™ <br>MI250X dual GPUs | 512 GB | gpu | 8 GB | 64 | 456704 MB | ``--mem=440GB`` |
+    | 4 x AMD Instinct™ <br>MI250X dual GPUs | 512 GB | 8 GB | 64 | gpu | 456704 MB | ``--mem=440GB`` |
 
     On shared partitions you need to give number of cores and will get RAM equivalent for that
 
