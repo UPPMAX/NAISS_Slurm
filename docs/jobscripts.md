@@ -526,7 +526,7 @@ module load <modules>
 
 ### Memory availability 
 
-Another way of getting extra memory is to use nodes that have more memory. Here is an overview of some of the available nodes at the Swedish HPC centres: 
+Another way of getting extra memory is to use nodes that have more memory. A useful command to identify how much memory is available on different nodes is `sinfo -o "%10P %20l %30N %10z %10c %20m %20f %20G"`. Here is an overview of some of the available nodes at the Swedish HPC centres: 
 
 === "Tetralith"
 
@@ -718,7 +718,7 @@ cp -p mynewdata.dat $SLURM_SUBMIT_DIR
 
 ## GPU jobs 
 
-There are some differences between the centres in Sweden what type of GPUs they have. 
+There are some differences between the centres in Sweden what type of GPUs they have. The command `sinfo -o "%10P %20l %30N %10z %10c %20m %20f %20G" | grep gpu` is very useful as well to identify the GPUs available on a cluster. 
 
 | Resource | cores/node | RAM/node | GPUs, type (per node) | 
 | -------- | ---------- | -------- | ---- |
