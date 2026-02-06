@@ -82,7 +82,15 @@
 
     Most of you are not part of the course project and will use your own access and project. 
 
-    If you do not know what your project id is, you can use the command `projinfo` which works at all centres.
+    If you do not know what your project id is, you can use the command
+    `projinfo` which works at most clusters.
+
+    ??? hint "If no `projinfo`"
+        From the terminal, you can manually ask Slurm for project IDs currently
+        associated with your user with this command:
+        ```
+        sacctmgr list assoc where user="$USER" format=Account -P --noheader
+        ```
 
     You can also find the project id in SUPR, if you are a member of a project. See the page for <a href="https://supr.naiss.se/project/" target="_blank">Active Projects You Belong To</a>.   
 
