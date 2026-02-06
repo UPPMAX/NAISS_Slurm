@@ -97,7 +97,8 @@
 ### Login info 
 
 - You will not need a graphical user interface for this course.
-- Even so, if you do not have a preferred SSH client, we recomment using <a href="https://www.cendio.com/thinlinc/download/" target="_blank">ThinLinc</a>
+- Even so, if you do not have a preferred SSH client, we recommend using
+  <a href="https://www.cendio.com/thinlinc/download/" target="_blank">ThinLinc</a>.
 
 !!! important "Connection info" 
 
@@ -157,7 +158,7 @@
             - Server: ``pelle-gui.uppmax.uu.se``
             - Username: ``<your-uppmax-username>``
             - Password: ``<your-uppmax-password>``
-        - Note that you have to setup <a href="https://docs.uppmax.uu.se/getting_started/get_uppmax_2fa/" target="_blank">TFA for Uppmax</a>.
+        - Note that you have to setup <a href="https://docs.uppmax.uu.se/getting_started/get_uppmax_2fa/" target="_blank">2FA for Uppmax</a>.
 
     === "Cosmos"
 
