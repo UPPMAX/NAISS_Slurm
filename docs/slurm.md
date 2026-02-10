@@ -454,8 +454,8 @@ The last line in the above sample is the code to be executed by the batch script
 
 All of the parameters that Slurm needs to determine which resources to allocate,
 under whose account, and for how long, are given as a series of resource
-statements of the form ``#SBATCH -<option> <value>`` or
-``#SBATCH --<key-words>=<value>`` (note: `<` and `>` are not typically used in
+statements of the form `#SBATCH -<option> <value>` or
+`#SBATCH --<key-words>=<value>` (note: `<` and `>` are not typically used in
 real arguments; they are just used here to indicate placeholder text).
 Alternatively they can be given as command-line options to `sbatch` but it is
 generally useful to save them in the script.
