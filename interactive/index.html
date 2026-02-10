@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Interactive jobs - Running jobs on HPC systems</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../assets/_markdown_exec_pyodide.css" rel="stylesheet" />
+        <link href="../assets/_markdown_exec_ansi.css" rel="stylesheet" />
+        <link href="../assets/_mkdocstrings.css" rel="stylesheet" />
+        <link href="../css/extra.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Interactive jobs";
+        var mkdocs_page_input_path = "interactive.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="..">
+          <img src="../images/naiss-slurm-logo.png" class="logo" alt="Logo"/>
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../intro/">Introduction</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../cluster/">Intro to clusters</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../concepts/">Batch system concepts</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../slurm/">Introduction to Slurm</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">Interactive jobs</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#salloc__and__interactive">salloc and interactive</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#examples">Examples</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#gfxlauncher__and__openondemand">GfxLauncher and OpenOnDemand</a>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../jobscripts/">Sample job scripts</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../monitoring/">Job monitoring and efficiency</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../summary/">Summary</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Extras</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../mpi/">A bit about MPI</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../openmp/">Short about OpenMP</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">Running jobs on HPC systems</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Interactive jobs</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/UPPMAX/NAISS_Slurm/blob/main/docs/interactive.md" class="icon icon-github"> Edit on GitHub</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="interactive__jobs">Interactive jobs<a class="headerlink" href="#interactive__jobs" title="Permanent link">&para;</a></h1>
+<p>There are more than one way to start an interactive job. It can be done either from the command line or inside ThinLinc (GfxLauncher) or from a portal (OpenOnDemand portal). </p>
+<h2 id="salloc__and__interactive">salloc and interactive<a class="headerlink" href="#salloc__and__interactive" title="Permanent link">&para;</a></h2>
+<p>The Slurm commands <code>salloc</code> and <code>interactive</code> are for requesting an interactive allocation. This is done differently depending on the centre. Some centres recommend using GfxLauncher or Open OnDemand for interactive jobs. </p>
+<table>
+<thead>
+<tr>
+<th>Cluster</th>
+<th>interactive</th>
+<th>salloc</th>
+<th>srun</th>
+<th>GfxLauncher or OpenOnDemand</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Tetralith (NSC)</td>
+<td>Recommended</td>
+<td>N/A</td>
+<td>N/A</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td>Dardel (PDC)</td>
+<td>N/A</td>
+<td>Recommended</td>
+<td>N/A</td>
+<td>Possible (GfxLauncher)</td>
+</tr>
+<tr>
+<td>Alvis (C3SE)</td>
+<td>N/A</td>
+<td>N/A</td>
+<td>Works</td>
+<td>Recommended (OOD)</td>
+</tr>
+<tr>
+<td>Kebnekaise (HPC2N)</td>
+<td>N/A</td>
+<td>Recommended</td>
+<td>N/A</td>
+<td>Recommended (OOD)</td>
+</tr>
+<tr>
+<td>Pelle (UPPMAX)</td>
+<td>Recommended</td>
+<td>Works</td>
+<td>N/A</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td>Cosmos (LUNARC)</td>
+<td>Works</td>
+<td>N/A</td>
+<td>N/A</td>
+<td>Recommended (GfxLauncher)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">&para;</a></h3>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:6"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><input id="__tabbed_1_3" name="__tabbed_1" type="radio" /><input id="__tabbed_1_4" name="__tabbed_1" type="radio" /><input id="__tabbed_1_5" name="__tabbed_1" type="radio" /><input id="__tabbed_1_6" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Tetralith</label><label for="__tabbed_1_2">Dardel</label><label for="__tabbed_1_3">Alvis</label><label for="__tabbed_1_4">Kebnekaise</label><label for="__tabbed_1_5">Pelle</label><label for="__tabbed_1_6">Cosmos</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p><strong>The command &ldquo;interactive&rdquo; is recommended at NSC.</strong> </p>
+<p>Usage: <code>interactive -A [project_name] -t HHH:MM:SS</code></p>
+<p>If you need more CPUs/GPUs, etc. you need to ask for that as well. The default which gives 1 CPU.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="o">[</span>x_birbr@tetralith3<span class="w"> </span>~<span class="o">]</span>$<span class="w"> </span>interactive<span class="w"> </span>-A<span class="w"> </span>naiss2026-4-66
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>salloc:<span class="w"> </span>Pending<span class="w"> </span>job<span class="w"> </span>allocation<span class="w"> </span><span class="m">44252533</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>salloc:<span class="w"> </span>job<span class="w"> </span><span class="m">44252533</span><span class="w"> </span>queued<span class="w"> </span>and<span class="w"> </span>waiting<span class="w"> </span><span class="k">for</span><span class="w"> </span>resources
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>salloc:<span class="w"> </span>job<span class="w"> </span><span class="m">44252533</span><span class="w"> </span>has<span class="w"> </span>been<span class="w"> </span>allocated<span class="w"> </span>resources
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>salloc:<span class="w"> </span>Granted<span class="w"> </span>job<span class="w"> </span>allocation<span class="w"> </span><span class="m">44252533</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>salloc:<span class="w"> </span>Waiting<span class="w"> </span><span class="k">for</span><span class="w"> </span>resource<span class="w"> </span>configuration
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>salloc:<span class="w"> </span>Nodes<span class="w"> </span>n340<span class="w"> </span>are<span class="w"> </span>ready<span class="w"> </span><span class="k">for</span><span class="w"> </span>job
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="o">[</span>x_birbr@n340<span class="w"> </span>~<span class="o">]</span>$<span class="w"> </span>
+</span></code></pre></div>
+</div>
+<div class="tabbed-block">
+<p><strong>The command <code>salloc</code> (or OpenOnDemand through Gfx launcher) is recommended at PDC.</strong></p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>bbrydsoe@login1:~&gt;<span class="w"> </span>salloc<span class="w"> </span>--time<span class="o">=</span><span class="m">00</span>:10:00<span class="w"> </span>-A<span class="w"> </span>naiss2026-4-66<span class="w"> </span>-p<span class="w"> </span>main
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>salloc:<span class="w"> </span>Pending<span class="w"> </span>job<span class="w"> </span>allocation<span class="w"> </span><span class="m">9722449</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>salloc:<span class="w"> </span>job<span class="w"> </span><span class="m">9722449</span><span class="w"> </span>queued<span class="w"> </span>and<span class="w"> </span>waiting<span class="w"> </span><span class="k">for</span><span class="w"> </span>resources
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>salloc:<span class="w"> </span>job<span class="w"> </span><span class="m">9722449</span><span class="w"> </span>has<span class="w"> </span>been<span class="w"> </span>allocated<span class="w"> </span>resources
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>salloc:<span class="w"> </span>Granted<span class="w"> </span>job<span class="w"> </span>allocation<span class="w"> </span><span class="m">9722449</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>salloc:<span class="w"> </span>Waiting<span class="w"> </span><span class="k">for</span><span class="w"> </span>resource<span class="w"> </span>configuration
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>salloc:<span class="w"> </span>Nodes<span class="w"> </span>nid001134<span class="w"> </span>are<span class="w"> </span>ready<span class="w"> </span><span class="k">for</span><span class="w"> </span>job
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>bbrydsoe@login1:~&gt;
+</span></code></pre></div>
+<p>Again, you are on the login node, and anything you want to run in the allocation must be preface with <code>srun</code>.</p>
+<p>However, you have another option; you can <code>ssh</code> to the allocated compute node and then it will be true interactivity:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>bbrydsoe@login1:~&gt;<span class="w"> </span>ssh<span class="w"> </span>nid001134
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>bbrydsoe@nid001134:~
+</span></code></pre></div>
+<p><strong>It is also possible to use OpenOnDemand through Gfx launcher.</strong></p>
+<p>To do this, login with ThinLinc and start the Gfxlauncher application. There is some documentation here: <a href="https://support.pdc.kth.se/doc/login/interactive_hpc/" target="_blank">Interactive HPC at PDC</a>.</p>
+<p>Please be aware that the number of ThinLinc licenses are limited. </p>
+</div>
+<div class="tabbed-block">
+<p><strong>The command &ldquo;srun&rdquo; from command line works at C3Se</strong>. It is not recommended as when the login node is restarted the interactive job is also terminated.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="o">[</span>brydso@alvis2<span class="w"> </span>~<span class="o">]</span>$<span class="w"> </span>srun<span class="w"> </span>--account<span class="o">=</span>naiss2026-4-66<span class="w"> </span>--gpus-per-node<span class="o">=</span>T4:1<span class="w"> </span>--time<span class="o">=</span><span class="m">01</span>:00:00<span class="w"> </span>--pty<span class="o">=</span>/bin/bash
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="o">[</span>brydso@alvis2-12<span class="w"> </span>~<span class="o">]</span>$
+</span></code></pre></div>
+<p><strong>The recommended way to do interactive jobs at Alvis is with OpenOnDemand.</strong></p>
+<p>You access the Open OnDemand service through <a href="https://alvis.c3se.chalmers.se" target="_blank">https://alvis.c3se.chalmers.se</a>.</p>
+<p>NOTE that you need to connect from a network on SUNET.</p>
+<p>More information about C3SE&rsquo;s Open OnDemand service can be found here: <a href="https://www.c3se.chalmers.se/documentation/connecting/ondemand/" target="_blank">https://www.c3se.chalmers.se/documentation/connecting/ondemand/</a>. </p>
+</div>
+<div class="tabbed-block">
+<p><strong>The command <code>salloc</code> (or OpenOnDemand) is recommended at HPC2N.</strong></p>
+<p>Usage: <code>salloc -A [project_name] -t HHH:MM:SS</code></p>
+<p>You have to give project ID and walltime. If you need more CPUs (1 is default) or GPUs, you have to ask for that as well.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>b-an01<span class="w"> </span><span class="o">[</span>~<span class="o">]</span>$<span class="w"> </span>salloc<span class="w"> </span>-A<span class="w"> </span>hpc2n2025-151<span class="w"> </span>-t<span class="w"> </span><span class="m">00</span>:10:00
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>salloc:<span class="w"> </span>Pending<span class="w"> </span>job<span class="w"> </span>allocation<span class="w"> </span><span class="m">34624444</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>salloc:<span class="w"> </span>job<span class="w"> </span><span class="m">34624444</span><span class="w"> </span>queued<span class="w"> </span>and<span class="w"> </span>waiting<span class="w"> </span><span class="k">for</span><span class="w"> </span>resources
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>salloc:<span class="w"> </span>job<span class="w"> </span><span class="m">34624444</span><span class="w"> </span>has<span class="w"> </span>been<span class="w"> </span>allocated<span class="w"> </span>resources
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>salloc:<span class="w"> </span>Granted<span class="w"> </span>job<span class="w"> </span>allocation<span class="w"> </span><span class="m">34624444</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>salloc:<span class="w"> </span>Nodes<span class="w"> </span>b-cn1403<span class="w"> </span>are<span class="w"> </span>ready<span class="w"> </span><span class="k">for</span><span class="w"> </span>job
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>b-an01<span class="w"> </span><span class="o">[</span>~<span class="o">]</span>$
+</span></code></pre></div>
+<p>WARNING! This is not true interactivity! Note that we are still on the login node!</p>
+<p>In order to run anything in the allocation, you need to preface with <code>srun</code> like this:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>b-an01<span class="w"> </span><span class="o">[</span>~<span class="o">]</span>$<span class="w"> </span>srun<span class="w"> </span>/bin/hostname
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>b-cn1403.hpc2n.umu.se
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>b-an01<span class="w"> </span><span class="o">[</span>~<span class="o">]</span>$
+</span></code></pre></div>
+<p>Otherwise anything will run on the login node! Also, interactive sessions (for instance a program that asks for input) will not work correctly as that dialogoue happens on the compute node which you do not have real access to!</p>
+<p><strong>OpenOnDemand</strong></p>
+<p>This is the recommended way to do interactive jobs at HPC2N. </p>
+<ul>
+<li>Go to <a href="https://portal.hpc2n.umu.se/" target="_blank">https://portal.hpc2n.umu.se/</a> and login.</li>
+<li>Documentation here: <a href="https://docs.hpc2n.umu.se/tutorials/connections/#open__ondemand" target="_blank">https://docs.hpc2n.umu.se/tutorials/connections/#open__ondemand</a></li>
+</ul>
+</div>
+<div class="tabbed-block">
+<p><strong>At UPPMAX, &ldquo;interactive&rdquo; is recommended.</strong></p>
+<p>Usage: <code>interactive -A [project_name] -t HHH:MM:SS</code></p>
+<p>If you need more CPUs/GPUs, etc. you need to ask for that as well. The default which gives 1 CPU.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="o">[</span>bbrydsoe@pelle1<span class="w"> </span>~<span class="o">]</span>$<span class="w"> </span>interactive<span class="w"> </span>-A<span class="w"> </span>uppmax2025-2-393<span class="w"> </span>-t<span class="w"> </span><span class="m">00</span>:15:00
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>This<span class="w"> </span>is<span class="w"> </span>a<span class="w"> </span>temporary<span class="w"> </span>version<span class="w"> </span>of<span class="w"> </span>interactive-script<span class="w"> </span><span class="k">for</span><span class="w"> </span>Pelle
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>Most<span class="w"> </span>interactive-script<span class="w"> </span>functionality<span class="w"> </span>is<span class="w"> </span>removed
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>salloc:<span class="w"> </span>Pending<span class="w"> </span>job<span class="w"> </span>allocation<span class="w"> </span><span class="m">205612</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>salloc:<span class="w"> </span>job<span class="w"> </span><span class="m">205612</span><span class="w"> </span>queued<span class="w"> </span>and<span class="w"> </span>waiting<span class="w"> </span><span class="k">for</span><span class="w"> </span>resources
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>salloc:<span class="w"> </span>job<span class="w"> </span><span class="m">205612</span><span class="w"> </span>has<span class="w"> </span>been<span class="w"> </span>allocated<span class="w"> </span>resources
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>salloc:<span class="w"> </span>Granted<span class="w"> </span>job<span class="w"> </span>allocation<span class="w"> </span><span class="m">205612</span>
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>salloc:<span class="w"> </span>Waiting<span class="w"> </span><span class="k">for</span><span class="w"> </span>resource<span class="w"> </span>configuration
+</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>salloc:<span class="w"> </span>Nodes<span class="w"> </span>p115<span class="w"> </span>are<span class="w"> </span>ready<span class="w"> </span><span class="k">for</span><span class="w"> </span>job
+</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="o">[</span>bbrydsoe@p115<span class="w"> </span>~<span class="o">]</span>$<span class="w"> </span>
+</span></code></pre></div>
+<p><strong>salloc also works.</strong> </p>
+<p>Usage: <code>salloc -A [project_name] -t HHH:MM:SS</code></p>
+<p>You have to give project ID and walltime. If you need more CPUs (1 is default) or GPUs, you have to ask for that as well.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="o">[</span>bbrydsoe@pelle1<span class="w"> </span>~<span class="o">]</span>$<span class="w"> </span>salloc<span class="w"> </span>-A<span class="w"> </span>uppmax2025-2-393<span class="w"> </span>-t<span class="w"> </span><span class="m">00</span>:15:00
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>salloc:<span class="w"> </span>Pending<span class="w"> </span>job<span class="w"> </span>allocation<span class="w"> </span><span class="m">205613</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>salloc:<span class="w"> </span>job<span class="w"> </span><span class="m">205613</span><span class="w"> </span>queued<span class="w"> </span>and<span class="w"> </span>waiting<span class="w"> </span><span class="k">for</span><span class="w"> </span>resources
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>salloc:<span class="w"> </span>job<span class="w"> </span><span class="m">205613</span><span class="w"> </span>has<span class="w"> </span>been<span class="w"> </span>allocated<span class="w"> </span>resources
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>salloc:<span class="w"> </span>Granted<span class="w"> </span>job<span class="w"> </span>allocation<span class="w"> </span><span class="m">205613</span>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>salloc:<span class="w"> </span>Nodes<span class="w"> </span>p115<span class="w"> </span>are<span class="w"> </span>ready<span class="w"> </span><span class="k">for</span><span class="w"> </span>job
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="o">[</span>bbrydsoe@p115<span class="w"> </span>~<span class="o">]</span>$<span class="w"> </span>
+</span></code></pre></div>
+</div>
+<div class="tabbed-block">
+<p><strong>The command <code>interactive</code>  works at LUNARC</strong>. It is not the recommended way to do interactive work. </p>
+<p>Usage: <code>interactive -A [project_name] -t HHH:MM:SS</code></p>
+<p>If you need more CPUs/GPUs, etc. you need to ask for that as well. The default which gives 1 CPU.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="o">[</span>bbrydsoe@cosmos2<span class="w"> </span>~<span class="o">]</span>$<span class="w"> </span>interactive<span class="w"> </span>-A<span class="w"> </span>lu2025-7-76<span class="w"> </span>-t<span class="w"> </span><span class="m">00</span>:15:00
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>Cluster<span class="w"> </span>name:<span class="w"> </span>COSMOS
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>Waiting<span class="w"> </span><span class="k">for</span><span class="w"> </span>JOBID<span class="w"> </span><span class="m">1724396</span><span class="w"> </span>to<span class="w"> </span>start
+</span></code></pre></div>
+<p>After a short wait, you get something like this:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="o">[</span>bbrydsoe@cn094<span class="w"> </span>~<span class="o">]</span>$
+</span></code></pre></div>
+<p><strong>GfxLauncher</strong></p>
+<p>This is the recommended wait to work interactively at LUNARC. </p>
+<ul>
+<li>Login with ThinLinc: <a href="https://lunarc-documentation.readthedocs.io/en/latest/getting_started/using_hpc_desktop/" target="_blank">https://lunarc-documentation.readthedocs.io/en/latest/getting_started/using_hpc_desktop/</a></li>
+<li>Follow the documentation for starting the GfxLauncher for OpenOnDemand: <a href="https://lunarc-documentation.readthedocs.io/en/latest/getting_started/gfxlauncher/" target="_blank">https://lunarc-documentation.readthedocs.io/en/latest/getting_started/gfxlauncher/</a></li>
+</ul>
+</div>
+</div>
+</div>
+<h2 id="gfxlauncher__and__openondemand">GfxLauncher and OpenOnDemand<a class="headerlink" href="#gfxlauncher__and__openondemand" title="Permanent link">&para;</a></h2>
+<p>While these are mentioned above, the information is gathered here for ease. </p>
+<div class="admonition note">
+<p class="admonition-title">GfxLauncher and OpenOnDemand</p>
+<p>This is the recommended way to do interactive jobs at HPC2N, LUNARC, and C3SE, and is possible at PDC.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="2:4"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><input id="__tabbed_2_3" name="__tabbed_2" type="radio" /><input id="__tabbed_2_4" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">Kebnekaise</label><label for="__tabbed_2_2">Cosmos</label><label for="__tabbed_2_3">Alvis</label><label for="__tabbed_2_4">Dardel</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<ul>
+<li>Go to <a href="https://portal.hpc2n.umu.se/" target="_blank">https://portal.hpc2n.umu.se/</a> and login.</li>
+<li>Documentation here: <a href="https://docs.hpc2n.umu.se/tutorials/connections/#open__ondemand" target="_blank">https://docs.hpc2n.umu.se/tutorials/connections/#open__ondemand</a></li>
+</ul>
+</div>
+<div class="tabbed-block">
+<ul>
+<li>Login with ThinLinc: <a href="https://lunarc-documentation.readthedocs.io/en/latest/getting_started/using_hpc_desktop/" target="_blank">https://lunarc-documentation.readthedocs.io/en/latest/getting_started/using_hpc_desktop/</a></li>
+<li>Follow the documentation for starting the GfxLauncher for OpenOnDemand: <a href="https://lunarc-documentation.readthedocs.io/en/latest/getting_started/gfxlauncher/" target="_blank">https://lunarc-documentation.readthedocs.io/en/latest/getting_started/gfxlauncher/</a></li>
+</ul>
+</div>
+<div class="tabbed-block">
+<ul>
+<li>Go to <a href="https://alvis.c3se.chalmers.se/" target="_blank">https://alvis.c3se.chalmers.se/</a></li>
+<li>There is some documentation here: <a href="https://www.c3se.chalmers.se/documentation/connecting/ondemand/" target="_blank">https://www.c3se.chalmers.se/documentation/connecting/ondemand/</a></li>
+</ul>
+</div>
+<div class="tabbed-block">
+<ul>
+<li>Login with ThinLinc and follow the documentation for starting the Gfxlauncher for OpenOnDemand: <a href="https://support.pdc.kth.se/doc/login/interactive_hpc/" target="_blank">Interactive HPC at PDC</a>.</li>
+</ul>
+<p>Please be aware that the number of ThinLinc licenses are limited. </p>
+</div>
+</div>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ul>
+<li>At centres that have OpenOnDemand installed, you do not have to submit a batch job, but can run directly on the already allocated resources (see interactive jobs).<ul>
+<li>OpenOnDemand is a good option for interactive tasks, graphical applications/visualization, and simpler job submittions. It can also be more user-friendly.</li>
+<li>Regardless, there are many situations where submitting a batch job is the best option instead, including when you want to run jobs that need many resources (time, memory, multiple cores, multiple GPUs) or when you run multiple jobs concurrently or in a specified succession, without need for manual intervention. Batch jobs are often also preferred for automation (scripts) and reproducibility. Many types of application software fall into this category.</li>
+</ul>
+</li>
+<li>At centres that have ThinLinc you can usually submit MATLAB jobs to compute resources from within MATLAB.</li>
+</ul>
+</div>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../slurm/" class="btn btn-neutral float-left" title="Introduction to Slurm"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../jobscripts/" class="btn btn-neutral float-right" title="Sample job scripts">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/UPPMAX/NAISS_Slurm" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href="../slurm/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../jobscripts/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../assets/_markdown_exec_pyodide.js"></script>
+      <script src="../search/main.js"></script>
+      <script src="../js/open_in_new_tab.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
