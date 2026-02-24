@@ -94,7 +94,8 @@ echo "What is the hostname? It is this: "
 
     ??? hint "Checking for Slurm project IDs valid for your user"
         From the terminal, you can ask Slurm for project IDs currently
-        associated with your user with this command:
+        associated with your user with the command `projinfo`, on most clusters.
+        If not available, use this command:
         ```
         sacctmgr list assoc where user="$USER" format=Account -P --noheader
         ```
@@ -412,17 +413,17 @@ The simplest possible batch script would look something like this:
     - `-n`, `--ntasks=`: number of tasks. Since cores-per-task is 1 as default, this then translates to number of cores. NOTE that you cannot be sure the cores all end up on the same node. If you have a threaded job or otherwise need to have all the cores on the same node, you should instead use `-c` or a combination of `-N` and `-c`.  
     - `-c`, `--cores-per-task=`: This changes the number of cores each task may use. Can also be used for getting more memory, with some cores only providing memory. (example: **-c 2 -n 4** allocates 4 tasks and 2 cores per task, totally 8 cores). More about this argument later. 
     - `-t`, `--time=`: walltime. How long your job is allowed to run. Given as HHH:MM:SS (example: 4 hours and 20 min is given as 4:20:00). Different clusters have different maximum walltime, but it is usually at least a week. 
-    - `-p`: partition. Only used at some clusters. Dardel is one of them. 
+    - `-p`: partition. Only used at some clusters. On Dardel it is required. 
 
     In addition, these can be quite useful: 
 
     - `-o`, `--output=`: Used for naming the output differently than
       `slurm-<job-id>.out` and splitting it from errors and such. A `%j` in the
-      specified filename will be replaced with the job id by `sbatch`, which is
-      highly recommended to prevent output from being overwritten the next time
-      you run the job. Additional 
-      [specifiers for the filename pattern](https://slurm.schedmd.com/sbatch.html#SECTION_FILENAME-PATTERN)
-      , for more advanced cases, can be found in the Slurm documentation.
+      specified filename will be replaced with the job id, which is highly
+      recommended to prevent output from being overwritten the next time you run
+      the job. Additional 
+      [specifiers for the filename pattern](https://slurm.schedmd.com/sbatch.html#SECTION_FILENAME-PATTERN),
+      for more advanced cases, can be found in the Slurm documentation.
     - `-e`, `--error=`: Used for naming and splitting the error from the other
       output. Using `%j` in the name to get separate files for separate runs is
       again highly recommended.
@@ -453,11 +454,11 @@ The last line in the above sample is the code to be executed by the batch script
 
 All of the parameters that Slurm needs to determine which resources to allocate,
 under whose account, and for how long, are given as a series of resource
-statements of the form ``#SBATCH -<option> <value>`` or ``#SBATCH
---<key-words>=<value>`` (note: `<` and `>` are not typically used in real
-arguments; they are just used here to indicate placeholder text). Alternatively
-they can be given as command-line options to `sbatch` but it is generally useful
-to save them in the script.
+statements of the form `#SBATCH -<option> <value>` or
+`#SBATCH --<key-words>=<value>` (note: `<` and `>` are not typically used in
+real arguments; they are just used here to indicate placeholder text).
+Alternatively they can be given as command-line options to `sbatch` but it is
+generally useful to save them in the script.
 
 Depending on cluster, for most compute nodes, unless otherwise specified, a batch script will run on 1 core of 1 node by default. However, at several clusters it is required to always give the number of cores or nodes, so you should make it a habit to include it. 
 
