@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="description" content="Material for the workshop Running jobs on HPC systems" />
+      <link rel="shortcut icon" href="img/favicon.ico" />
+    <title>Running jobs on HPC systems</title>
+    <link rel="stylesheet" href="css/theme.css" />
+    <link rel="stylesheet" href="css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="assets/_markdown_exec_pyodide.css" rel="stylesheet" />
+        <link href="assets/_markdown_exec_ansi.css" rel="stylesheet" />
+        <link href="assets/_mkdocstrings.css" rel="stylesheet" />
+        <link href="css/extra.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Home";
+        var mkdocs_page_input_path = "index.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".">
+          <img src="images/naiss-slurm-logo.png" class="logo" alt="Logo"/>
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="./search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">Home</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#prerequisites">Prerequisites</a>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="intro/">Introduction</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="cluster/">Intro to clusters</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="concepts/">Batch system concepts</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="slurm/">Introduction to Slurm</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="interactive/">Interactive jobs</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="jobscripts/">Sample job scripts</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="monitoring/">Job monitoring and efficiency</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="summary/">Summary</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Extras</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="mpi/">A bit about MPI</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="openmp/">Short about OpenMP</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href=".">Running jobs on HPC systems</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Home</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/UPPMAX/NAISS_Slurm/blob/main/docs/index.md" class="icon icon-github"> Edit on GitHub</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="welcome__to__the__running__jobs__on__hpc__systems__course__materials">Welcome to the &ldquo;Running jobs on HPC systems&rdquo; course materials<a class="headerlink" href="#welcome__to__the__running__jobs__on__hpc__systems__course__materials" title="Permanent link">&para;</a></h1>
+<div class="admonition note">
+<p class="admonition-title">Objectives</p>
+<p>In this course you will learn about:</p>
+<ul>
+<li>Cluster architecture</li>
+<li>sbatch options for CPU job scripts</li>
+<li>Writing submission scripts for:<ul>
+<li>I/O intensive jobs</li>
+<li>OpenMP and MPI jobs</li>
+<li>Job arrays and simple task farms</li>
+<li>Jobs with more memory per task</li>
+</ul>
+</li>
+<li>Running jobs on GPUs</li>
+<li>Monitoring jobs and their efficiency</li>
+</ul>
+</div>
+<h2 id="prerequisites">Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">&para;</a></h2>
+<ul>
+<li>An account at an HPC centre<ul>
+<li>If you do not have an account, you can still listen to the presentations. </li>
+</ul>
+</li>
+<li>Knowledge of logging in to your chosen HPC centre<ul>
+<li>The login and file transfer course <a href="https://uppmax.github.io/naiss_file_transfer_course/sessions/login_terminal/" target="_blank">has some information about logging in</a></li>
+<li>We have listed <a href="https://uppmax.github.io/NAISS_Slurm/intro/#login__info" target="_blank">login info for several Swedish HPC centres</a> </li>
+</ul>
+</li>
+<li>Very basic Linux knowledge<ul>
+<li>You can find <a href="https://hpc2n.github.io/linux-command-line-101/" target="_blank">the material</a> and <a href="https://hpc2n.github.io/linux-command-line-101/" target="_blank">recordings</a> from the most recent NAISS Linux introduction course here</li>
+</ul>
+</li>
+<li>Basic knowledge about the software modules system used at the NAISS centres<ul>
+<li>You can find <a href="https://hpc2n.github.io/selecting-modules/" target="_blank">the material</a> and <a href="https://youtube.com/playlist?list=PL6jMHLEmPVLwHWwa0Wg1dq_nkKTFLnp7_&si=_mG6DX1FmmbiSvX8" target="_blank">the recordings</a> from the most recent NAISS selecting software modules course here</li>
+</ul>
+</li>
+</ul>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="intro/" class="btn btn-neutral float-right" title="Introduction">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/UPPMAX/NAISS_Slurm" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+    
+      <span><a href="intro/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = ".";</script>
+    <script src="js/theme_extra.js"></script>
+    <script src="js/theme.js"></script>
+      <script src="assets/_markdown_exec_pyodide.js"></script>
+      <script src="search/main.js"></script>
+      <script src="js/open_in_new_tab.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
+
+<!--
+MkDocs version : 1.6.1
+Build Date UTC : 2026-02-24 11:27:19.624691+00:00
+-->

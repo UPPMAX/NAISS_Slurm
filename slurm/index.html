@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Introduction to Slurm - Running jobs on HPC systems</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../assets/_markdown_exec_pyodide.css" rel="stylesheet" />
+        <link href="../assets/_markdown_exec_ansi.css" rel="stylesheet" />
+        <link href="../assets/_mkdocstrings.css" rel="stylesheet" />
+        <link href="../css/extra.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Introduction to Slurm";
+        var mkdocs_page_input_path = "slurm.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="..">
+          <img src="../images/naiss-slurm-logo.png" class="logo" alt="Logo"/>
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../intro/">Introduction</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../cluster/">Intro to clusters</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../concepts/">Batch system concepts</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">Introduction to Slurm</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#slurm__commands">Slurm commands</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#salloc__and__interactive">salloc and interactive</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#sbatch">sbatch</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#squeue">squeue</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#scancel">scancel</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#scontrol__show">scontrol show</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#scontrol__show__job">scontrol show job</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#scontrol__show__node">scontrol show node</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#sinfo">sinfo</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#slurm__job__scripts">Slurm job scripts</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#simplest__job">Simplest job</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#dependencies">Dependencies</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#script__example">Script example</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#how__to__monitor__jobs">How to monitor jobs</a>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../interactive/">Interactive jobs</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../jobscripts/">Sample job scripts</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../monitoring/">Job monitoring and efficiency</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../summary/">Summary</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Extras</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../mpi/">A bit about MPI</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../openmp/">Short about OpenMP</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">Running jobs on HPC systems</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Introduction to Slurm</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/UPPMAX/NAISS_Slurm/blob/main/docs/slurm.md" class="icon icon-github"> Edit on GitHub</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="introduction__to__slurm">Introduction to Slurm<a class="headerlink" href="#introduction__to__slurm" title="Permanent link">&para;</a></h1>
+<p>The batch system used at UPPMAX, HPC2N, LUNARC, NSC, PDC, C3SE (and most other HPC centres in Sweden) is called Slurm.</p>
+<div class="admonition note">
+<p class="admonition-title">Guides and documentation</p>
+<ul>
+<li>HPC2N: <a href="https://docs.hpc2n.umu.se/documentation/batchsystem/intro/" target="_blank">https://docs.hpc2n.umu.se/documentation/batchsystem/intro/</a></li>
+<li>UPPMAX: <a href="https://docs.uppmax.uu.se/cluster_guides/slurm/" target="_blank">https://docs.uppmax.uu.se/cluster_guides/slurm/</a></li>
+<li>LUNARC: <a href="https://lunarc-documentation.readthedocs.io/en/latest/manual/manual_intro/" target="_blank">https://lunarc-documentation.readthedocs.io/en/latest/manual/manual_intro/</a></li>
+<li>NSC: <a href="https://www.nsc.liu.se/support/batch-jobs/introduction/" target="_blank">https://www.nsc.liu.se/support/batch-jobs/introduction/</a></li>
+<li>PDC: <a href="https://support.pdc.kth.se/doc/run_jobs/job_scheduling/" target="_blank">https://support.pdc.kth.se/doc/run_jobs/job_scheduling/</a></li>
+<li>C3SE: <a href="https://www.c3se.chalmers.se/documentation/submitting_jobs/" target="_blank">https://www.c3se.chalmers.se/documentation/submitting_jobs/</a></li>
+</ul>
+</div>
+<p>Slurm is an Open Source job scheduler, which provides three key functions:</p>
+<ul>
+<li>Keeps track of available system resources - it allocates to users, exclusive or non-exclusive access to resources for some period of time</li>
+<li>Enforces local system resource usage and job scheduling policies - provides a framework for starting, executing, and monitoring work</li>
+<li>Manages a job queue, distributing work across resources according to policies</li>
+</ul>
+<p>Slurm is designed to handle thousands of nodes in a single cluster, and can sustain throughput of 120,000 jobs per hour.</p>
+<p>You can run programs either by giving all the commands on the command line or by submitting a job script.</p>
+<p>Using a job script is often recommended:</p>
+<ul>
+<li>If you ask for the resources on the command line, you will wait for the program to run before you can use the window again (unless you can send it to the background with <code>&amp;</code>).</li>
+<li>If you use a job script you have an easy record of the commands you used, to reuse or edit for later use.</li>
+</ul>
+<p>In order to run a batch job, you need to create and submit a SLURM submit file (also called a batch submit file, a batch script, or a job script).</p>
+<h2 id="slurm__commands">Slurm commands<a class="headerlink" href="#slurm__commands" title="Permanent link">&para;</a></h2>
+<p>There are many more commands than the ones we have chosen to look at here, but these are the most commonly used ones. You can find more information on the Slurm homepage: <a href="https://slurm.schedmd.com/documentation.html" target="_blank">Slurm documentation</a>.</p>
+<ul>
+<li><strong>salloc</strong>: requesting an interactive allocation</li>
+<li><strong>interactive</strong>: another way of requesting an interactive allocation</li>
+<li><strong>sbatch</strong>: submitting jobs to the batch system</li>
+<li><strong>squeue</strong>: viewing the state of the batch queue</li>
+<li><strong>scancel</strong>: cancel a job</li>
+<li><strong>scontrol show</strong>: getting more info on jobs, nodes</li>
+<li><strong>sinfo</strong>: information about the partitions/queues</li>
+</ul>
+<p>Let us look at these one at a time.</p>
+<h3 id="salloc__and__interactive">salloc and interactive<a class="headerlink" href="#salloc__and__interactive" title="Permanent link">&para;</a></h3>
+<p>This will be covered in the next section about Interactive. </p>
+<h3 id="sbatch">sbatch<a class="headerlink" href="#sbatch" title="Permanent link">&para;</a></h3>
+<p>The command <code>sbatch</code> is used to submit jobs to the batch system.</p>
+<p>This is done from the command line in the same way at all the HPC centres in Sweden:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>sbatch<span class="w"> </span>&lt;batchscript.sh&gt;
+</span></code></pre></div>
+<p>For any batch submit script <code>&lt;batchscript.sh&gt;</code>. </p>
+<ul>
+<li>You can name the submit script whatever you want to. </li>
+<li>It is a convention to use the suffix <code>.sbatch</code> or <code>.sh</code>, but it is not a requirement. You can use any or no suffix. It is merely to make it easier to find the script among the other files.</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ul>
+<li>At clusters that have OpenOnDemand installed, you do not have to submit a batch job, but can run directly on the already allocated resources (see interactive jobs).<ul>
+<li>OpenOnDemand is a good option for interactive tasks, graphical applications/visualization, and simpler job submittions. It can also be more user-friendly.</li>
+<li>Regardless, there are many situations where submitting a batch job is the best option instead, including when you want to run jobs that need many resources (time, memory, multiple cores, multiple GPUs) or when you run multiple jobs concurrently or in a specified succession, without need for manual intervention. Batch jobs are often also preferred for automation (scripts) and reproducibility. Many types of application software fall into this category.</li>
+</ul>
+</li>
+<li>At clusters that have ThinLinc you can usually submit MATLAB jobs to compute resources from within MATLAB.</li>
+</ul>
+</div>
+<p>We will talk much more about batch scripts in a short while, but for now we can use <a href="../simple.sh" target="_blank">this small batch script</a> for testing the Slurm commands:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="ch">#!/bin/bash</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="c1"># Project id - change to your own!</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="c1">#SBATCH -A PROJ-ID</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="c1"># Asking for 1 core</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="c1">#SBATCH -n 1</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="c1"># Asking for a walltime of 1 min</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="c1">#SBATCH --time=00:01:00</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;What is the hostname? It is this: &quot;</span>
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>/bin/hostname
+</span></code></pre></div>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>You find the above batch script named &ldquo;simple.sh&rdquo; in the exercises tarball, under the folder &ldquo;introslurm&rdquo;. </p>
+<p>REMEMBER TO CHANGE THE PROJECT ID TO YOUR OWN! </p>
+<ul>
+<li>If you are on Dardel, you also need to add a partition in order to make it run. Use the &ldquo;dardel-simple.sh&rdquo; from the tarball in that case. </li>
+</ul>
+<details class="hint">
+<summary>Checking for Slurm project IDs valid for your user</summary>
+<p>From the terminal, you can ask Slurm for project IDs currently
+associated with your user with the command <code>projinfo</code>, on most clusters.
+If not available, use this command:
+<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>sacctmgr list assoc where user=&quot;$USER&quot; format=Account -P --noheader
+</span></code></pre></div></p>
+</details>
+</div>
+<p><strong>Example</strong>:</p>
+<p>Submitting the above batch script on Tetralith (NSC)</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="o">[</span>x_birbr@tetralith3<span class="w"> </span>~<span class="o">]</span>$<span class="w"> </span>sbatch<span class="w"> </span>simple.sh
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>Submitted<span class="w"> </span>batch<span class="w"> </span>job<span class="w"> </span><span class="m">45194426</span>
+</span></code></pre></div>
+<p>As you can see, you get the job id when submitting the batch script.</p>
+<p>When it has run, you can see with <code>ls</code> that you got a file called <code>slurm-JOBID.out</code> in your directory.</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>Try it out! </p>
+</div>
+<h3 id="squeue">squeue<a class="headerlink" href="#squeue" title="Permanent link">&para;</a></h3>
+<p>The command <code>squeue</code> is for viewing the state of the batch queue.</p>
+<p>If you just give the command, you will get a long list of all jobs in the queue, so it is usually best to constrain it to your own jobs. This can be done in two ways:</p>
+<ul>
+<li><code>squeue -u &lt;username&gt;</code></li>
+<li><code>squeue --me</code></li>
+</ul>
+<p><strong>Example</strong>:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>b-an01<span class="w"> </span><span class="o">[</span>~<span class="o">]</span>$<span class="w"> </span>squeue<span class="w"> </span>--me
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">             </span>JOBID<span class="w"> </span>PARTITION<span class="w">     </span>NAME<span class="w">     </span>USER<span class="w"> </span>ST<span class="w">       </span>TIME<span class="w">  </span>NODES<span class="w"> </span>NODELIST<span class="o">(</span>REASON<span class="o">)</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">          </span><span class="m">34815904</span><span class="w">   </span>cpu_sky<span class="w"> </span>mpi_gree<span class="w"> </span>bbrydsoe<span class="w">  </span>R<span class="w">       </span><span class="m">0</span>:00<span class="w">      </span><span class="m">1</span><span class="w"> </span>b-cn1404
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">          </span><span class="m">34815905</span><span class="w">   </span>cpu_sky<span class="w"> </span>mpi_hell<span class="w"> </span>bbrydsoe<span class="w">  </span>R<span class="w">       </span><span class="m">0</span>:00<span class="w">      </span><span class="m">2</span><span class="w"> </span>b-cn<span class="o">[</span><span class="m">1404</span>,1511<span class="o">]</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">          </span><span class="m">34815906</span><span class="w">   </span>cpu_sky<span class="w"> </span>mpi_hi.s<span class="w"> </span>bbrydsoe<span class="w">  </span>R<span class="w">       </span><span class="m">0</span>:00<span class="w">      </span><span class="m">2</span><span class="w"> </span>b-cn<span class="o">[</span><span class="m">1511</span>-1512<span class="o">]</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">          </span><span class="m">34815907</span><span class="w">   </span>cpu_sky<span class="w"> </span>simple.s<span class="w"> </span>bbrydsoe<span class="w">  </span>R<span class="w">       </span><span class="m">0</span>:00<span class="w">      </span><span class="m">1</span><span class="w"> </span>b-cn1512
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">          </span><span class="m">34815908</span><span class="w">   </span>cpu_sky<span class="w"> </span>compiler<span class="w"> </span>bbrydsoe<span class="w">  </span>R<span class="w">       </span><span class="m">0</span>:00<span class="w">      </span><span class="m">2</span><span class="w"> </span>b-cn<span class="o">[</span><span class="m">1415</span>,1512<span class="o">]</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">          </span><span class="m">34815909</span><span class="w">   </span>cpu_sky<span class="w"> </span>mpi_gree<span class="w"> </span>bbrydsoe<span class="w">  </span>R<span class="w">       </span><span class="m">0</span>:00<span class="w">      </span><span class="m">1</span><span class="w"> </span>b-cn1415
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="w">          </span><span class="m">34815910</span><span class="w">   </span>cpu_sky<span class="w"> </span>mpi_hell<span class="w"> </span>bbrydsoe<span class="w">  </span>R<span class="w">       </span><span class="m">0</span>:00<span class="w">      </span><span class="m">3</span><span class="w"> </span>b-cn<span class="o">[</span><span class="m">1415</span>,1421-1422<span class="o">]</span>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="w">          </span><span class="m">34815911</span><span class="w">   </span>cpu_sky<span class="w"> </span>mpi_hi.s<span class="w"> </span>bbrydsoe<span class="w">  </span>R<span class="w">       </span><span class="m">0</span>:00<span class="w">      </span><span class="m">1</span><span class="w"> </span>b-cn1422
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="w">          </span><span class="m">34815912</span><span class="w">   </span>cpu_sky<span class="w"> </span>simple.s<span class="w"> </span>bbrydsoe<span class="w">  </span>R<span class="w">       </span><span class="m">0</span>:00<span class="w">      </span><span class="m">1</span><span class="w"> </span>b-cn1422
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="w">          </span><span class="m">34815913</span><span class="w">   </span>cpu_sky<span class="w"> </span>compiler<span class="w"> </span>bbrydsoe<span class="w">  </span>R<span class="w">       </span><span class="m">0</span>:00<span class="w">      </span><span class="m">2</span><span class="w"> </span>b-cn<span class="o">[</span><span class="m">1422</span>,1427<span class="o">]</span>
+</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="w">          </span><span class="m">34815902</span><span class="w">  </span>cpu_zen4<span class="w"> </span>simple.s<span class="w"> </span>bbrydsoe<span class="w"> </span>CG<span class="w">       </span><span class="m">0</span>:03<span class="w">      </span><span class="m">1</span><span class="w"> </span>b-cn1707
+</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="w">          </span><span class="m">34815903</span><span class="w">  </span>cpu_zen4<span class="w"> </span>compiler<span class="w"> </span>bbrydsoe<span class="w">  </span>R<span class="w">       </span><span class="m">0</span>:00<span class="w">      </span><span class="m">1</span><span class="w"> </span>b-cn1708
+</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a><span class="w">          </span><span class="m">34815898</span><span class="w">  </span>cpu_zen4<span class="w"> </span>compiler<span class="w"> </span>bbrydsoe<span class="w">  </span>R<span class="w">       </span><span class="m">0</span>:03<span class="w">      </span><span class="m">2</span><span class="w"> </span>b-cn<span class="o">[</span><span class="m">1703</span>,1705<span class="o">]</span>
+</span><span id="__span-4-16"><a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a><span class="w">          </span><span class="m">34815899</span><span class="w">  </span>cpu_zen4<span class="w"> </span>mpi_gree<span class="w"> </span>bbrydsoe<span class="w">  </span>R<span class="w">       </span><span class="m">0</span>:03<span class="w">      </span><span class="m">2</span><span class="w"> </span>b-cn<span class="o">[</span><span class="m">1705</span>,1707<span class="o">]</span>
+</span><span id="__span-4-17"><a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a><span class="w">          </span><span class="m">34815900</span><span class="w">  </span>cpu_zen4<span class="w"> </span>mpi_hell<span class="w"> </span>bbrydsoe<span class="w">  </span>R<span class="w">       </span><span class="m">0</span>:03<span class="w">      </span><span class="m">1</span><span class="w"> </span>b-cn1707
+</span><span id="__span-4-18"><a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a><span class="w">          </span><span class="m">34815901</span><span class="w">  </span>cpu_zen4<span class="w"> </span>mpi_hi.s<span class="w"> </span>bbrydsoe<span class="w">  </span>R<span class="w">       </span><span class="m">0</span>:03<span class="w">      </span><span class="m">1</span><span class="w"> </span>b-cn1707
+</span><span id="__span-4-19"><a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a><span class="w">          </span><span class="m">34815922</span><span class="w"> </span>cpu_zen4,<span class="w"> </span>simple.s<span class="w"> </span>bbrydsoe<span class="w"> </span>PD<span class="w">       </span><span class="m">0</span>:00<span class="w">      </span><span class="m">1</span><span class="w"> </span><span class="o">(</span>Priority<span class="o">)</span>
+</span><span id="__span-4-20"><a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a><span class="w">          </span><span class="m">34815921</span><span class="w"> </span>cpu_zen4,<span class="w"> </span>mpi_hi.s<span class="w"> </span>bbrydsoe<span class="w"> </span>PD<span class="w">       </span><span class="m">0</span>:00<span class="w">      </span><span class="m">1</span><span class="w"> </span><span class="o">(</span>Priority<span class="o">)</span>
+</span><span id="__span-4-21"><a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a><span class="w">          </span><span class="m">34815920</span><span class="w"> </span>cpu_zen4,<span class="w"> </span>mpi_hell<span class="w"> </span>bbrydsoe<span class="w"> </span>PD<span class="w">       </span><span class="m">0</span>:00<span class="w">      </span><span class="m">1</span><span class="w"> </span><span class="o">(</span>Priority<span class="o">)</span>
+</span><span id="__span-4-22"><a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a><span class="w">          </span><span class="m">34815919</span><span class="w"> </span>cpu_zen4,<span class="w"> </span>mpi_gree<span class="w"> </span>bbrydsoe<span class="w"> </span>PD<span class="w">       </span><span class="m">0</span>:00<span class="w">      </span><span class="m">1</span><span class="w"> </span><span class="o">(</span>Priority<span class="o">)</span>
+</span><span id="__span-4-23"><a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a><span class="w">          </span><span class="m">34815918</span><span class="w"> </span>cpu_zen4,<span class="w"> </span>compiler<span class="w"> </span>bbrydsoe<span class="w"> </span>PD<span class="w">       </span><span class="m">0</span>:00<span class="w">      </span><span class="m">1</span><span class="w"> </span><span class="o">(</span>Priority<span class="o">)</span>
+</span><span id="__span-4-24"><a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a><span class="w">          </span><span class="m">34815917</span><span class="w"> </span>cpu_zen4,<span class="w"> </span>simple.s<span class="w"> </span>bbrydsoe<span class="w"> </span>PD<span class="w">       </span><span class="m">0</span>:00<span class="w">      </span><span class="m">1</span><span class="w"> </span><span class="o">(</span>Priority<span class="o">)</span>
+</span><span id="__span-4-25"><a id="__codelineno-4-25" name="__codelineno-4-25" href="#__codelineno-4-25"></a><span class="w">          </span><span class="m">34815916</span><span class="w"> </span>cpu_zen4,<span class="w"> </span>mpi_hi.s<span class="w"> </span>bbrydsoe<span class="w"> </span>PD<span class="w">       </span><span class="m">0</span>:00<span class="w">      </span><span class="m">1</span><span class="w"> </span><span class="o">(</span>Priority<span class="o">)</span>
+</span><span id="__span-4-26"><a id="__codelineno-4-26" name="__codelineno-4-26" href="#__codelineno-4-26"></a><span class="w">          </span><span class="m">34815915</span><span class="w"> </span>cpu_zen4,<span class="w"> </span>mpi_hell<span class="w"> </span>bbrydsoe<span class="w"> </span>PD<span class="w">       </span><span class="m">0</span>:00<span class="w">      </span><span class="m">1</span><span class="w"> </span><span class="o">(</span>Priority<span class="o">)</span>
+</span><span id="__span-4-27"><a id="__codelineno-4-27" name="__codelineno-4-27" href="#__codelineno-4-27"></a><span class="w">          </span><span class="m">34815914</span><span class="w"> </span>cpu_zen4,<span class="w"> </span>mpi_gree<span class="w"> </span>bbrydsoe<span class="w"> </span>PD<span class="w">       </span><span class="m">0</span>:00<span class="w">      </span><span class="m">1</span><span class="w"> </span><span class="o">(</span>Resources<span class="o">)</span>
+</span></code></pre></div>
+<p>Here you also see some of the &ldquo;states&rdquo; a job can be in. Some of the more common ones are:</p>
+<ul>
+<li><strong>CA</strong>: CANCELLED. Job was explicitly cancelled by the user or system administrator.</li>
+<li><strong>CF</strong>: CONFIGURING. Job has been allocated resources, but are waiting for them to become ready for use (e.g. booting).</li>
+<li><strong>CG</strong>: COMPLETING. Job is in the process of completing. Some processes on some nodes may still be active.</li>
+<li><strong>PD</strong>: PENDING. Job is awaiting resource allocation.</li>
+<li><strong>R</strong>: RUNNING. Job currently has an allocation.</li>
+<li><strong>S</strong>: SUSPENDED. Job has an allocation, but execution has been suspended and resources have been released for other jobs.</li>
+</ul>
+<p>List above from <a href="https://slurm.schedmd.com/squeue.html" target="_blank">Slurm workload manager page about squeue</a>.</p>
+<p><strong>Example</strong>:</p>
+<p>Submit the &ldquo;simple.sh&rdquo; script several times, then do <code>squeue --me</code> to see that it is running, pending, or completing.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="o">[</span>x_birbr@tetralith3<span class="w"> </span>~<span class="o">]</span>$<span class="w"> </span>sbatch<span class="w"> </span>simple.sh
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>Submitted<span class="w"> </span>batch<span class="w"> </span>job<span class="w"> </span><span class="m">45194596</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="o">[</span>x_birbr@tetralith3<span class="w"> </span>~<span class="o">]</span>$<span class="w"> </span>sbatch<span class="w"> </span>simple.sh
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>Submitted<span class="w"> </span>batch<span class="w"> </span>job<span class="w"> </span><span class="m">45194597</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="o">[</span>x_birbr@tetralith3<span class="w"> </span>~<span class="o">]</span>$<span class="w"> </span>sbatch<span class="w"> </span>simple.sh
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>Submitted<span class="w"> </span>batch<span class="w"> </span>job<span class="w"> </span><span class="m">45194598</span>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="o">[</span>x_birbr@tetralith3<span class="w"> </span>~<span class="o">]</span>$<span class="w"> </span>sbatch<span class="w"> </span>simple.sh
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>Submitted<span class="w"> </span>batch<span class="w"> </span>job<span class="w"> </span><span class="m">45194599</span>
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="o">[</span>x_birbr@tetralith3<span class="w"> </span>~<span class="o">]</span>$<span class="w"> </span>sbatch<span class="w"> </span>simple.sh
+</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>Submitted<span class="w"> </span>batch<span class="w"> </span>job<span class="w"> </span><span class="m">45194600</span>
+</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="o">[</span>x_birbr@tetralith3<span class="w"> </span>~<span class="o">]</span>$<span class="w"> </span>sbatch<span class="w"> </span>simple.sh
+</span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>Submitted<span class="w"> </span>batch<span class="w"> </span>job<span class="w"> </span><span class="m">45194601</span>
+</span><span id="__span-5-13"><a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a><span class="o">[</span>x_birbr@tetralith3<span class="w"> </span>~<span class="o">]</span>$<span class="w"> </span>sbatch<span class="w"> </span>simple.sh
+</span><span id="__span-5-14"><a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a>Submitted<span class="w"> </span>batch<span class="w"> </span>job<span class="w"> </span><span class="m">45194602</span>
+</span><span id="__span-5-15"><a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a><span class="o">[</span>x_birbr@tetralith3<span class="w"> </span>~<span class="o">]</span>$<span class="w"> </span>sbatch<span class="w"> </span>simple.sh
+</span><span id="__span-5-16"><a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a>Submitted<span class="w"> </span>batch<span class="w"> </span>job<span class="w"> </span><span class="m">45194603</span>
+</span><span id="__span-5-17"><a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a><span class="o">[</span>x_birbr@tetralith3<span class="w"> </span>~<span class="o">]</span>$<span class="w"> </span>squeue<span class="w"> </span>--me
+</span><span id="__span-5-18"><a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a><span class="w">             </span>JOBID<span class="w"> </span>PARTITION<span class="w">     </span>NAME<span class="w">     </span>USER<span class="w"> </span>ST<span class="w">       </span>TIME<span class="w">  </span>NODES<span class="w"> </span>NODELIST<span class="o">(</span>REASON<span class="o">)</span>
+</span><span id="__span-5-19"><a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a><span class="w">          </span><span class="m">45194603</span><span class="w"> </span>tetralith<span class="w"> </span>simple.s<span class="w">  </span>x_birbr<span class="w"> </span>PD<span class="w">       </span><span class="m">0</span>:00<span class="w">      </span><span class="m">1</span><span class="w"> </span><span class="o">(</span>None<span class="o">)</span>
+</span><span id="__span-5-20"><a id="__codelineno-5-20" name="__codelineno-5-20" href="#__codelineno-5-20"></a><span class="w">          </span><span class="m">45194602</span><span class="w"> </span>tetralith<span class="w"> </span>simple.s<span class="w">  </span>x_birbr<span class="w"> </span>PD<span class="w">       </span><span class="m">0</span>:00<span class="w">      </span><span class="m">1</span><span class="w"> </span><span class="o">(</span>None<span class="o">)</span>
+</span><span id="__span-5-21"><a id="__codelineno-5-21" name="__codelineno-5-21" href="#__codelineno-5-21"></a><span class="w">          </span><span class="m">45194601</span><span class="w"> </span>tetralith<span class="w"> </span>simple.s<span class="w">  </span>x_birbr<span class="w"> </span>PD<span class="w">       </span><span class="m">0</span>:00<span class="w">      </span><span class="m">1</span><span class="w"> </span><span class="o">(</span>None<span class="o">)</span>
+</span><span id="__span-5-22"><a id="__codelineno-5-22" name="__codelineno-5-22" href="#__codelineno-5-22"></a><span class="w">          </span><span class="m">45194600</span><span class="w"> </span>tetralith<span class="w"> </span>simple.s<span class="w">  </span>x_birbr<span class="w"> </span>PD<span class="w">       </span><span class="m">0</span>:00<span class="w">      </span><span class="m">1</span><span class="w"> </span><span class="o">(</span>None<span class="o">)</span>
+</span><span id="__span-5-23"><a id="__codelineno-5-23" name="__codelineno-5-23" href="#__codelineno-5-23"></a><span class="w">          </span><span class="m">45194599</span><span class="w"> </span>tetralith<span class="w"> </span>simple.s<span class="w">  </span>x_birbr<span class="w"> </span>PD<span class="w">       </span><span class="m">0</span>:00<span class="w">      </span><span class="m">1</span><span class="w"> </span><span class="o">(</span>None<span class="o">)</span>
+</span><span id="__span-5-24"><a id="__codelineno-5-24" name="__codelineno-5-24" href="#__codelineno-5-24"></a><span class="w">          </span><span class="m">45194598</span><span class="w"> </span>tetralith<span class="w"> </span>simple.s<span class="w">  </span>x_birbr<span class="w"> </span>PD<span class="w">       </span><span class="m">0</span>:00<span class="w">      </span><span class="m">1</span><span class="w"> </span><span class="o">(</span>None<span class="o">)</span>
+</span><span id="__span-5-25"><a id="__codelineno-5-25" name="__codelineno-5-25" href="#__codelineno-5-25"></a><span class="w">          </span><span class="m">45194597</span><span class="w"> </span>tetralith<span class="w"> </span>simple.s<span class="w">  </span>x_birbr<span class="w"> </span>PD<span class="w">       </span><span class="m">0</span>:00<span class="w">      </span><span class="m">1</span><span class="w"> </span><span class="o">(</span>None<span class="o">)</span>
+</span><span id="__span-5-26"><a id="__codelineno-5-26" name="__codelineno-5-26" href="#__codelineno-5-26"></a><span class="w">          </span><span class="m">45194596</span><span class="w"> </span>tetralith<span class="w"> </span>simple.s<span class="w">  </span>x_birbr<span class="w"> </span>PD<span class="w">       </span><span class="m">0</span>:00<span class="w">      </span><span class="m">1</span><span class="w"> </span><span class="o">(</span>None<span class="o">)</span>
+</span></code></pre></div>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>Try it! Remember, &ldquo;arrow up&rdquo; lets you quickly access a previous command. </p>
+</div>
+<h3 id="scancel">scancel<a class="headerlink" href="#scancel" title="Permanent link">&para;</a></h3>
+<p>The command to cancel a job is <code>scancel</code>.</p>
+<p>You can either cancel a specific job:</p>
+<p><code>scancel &lt;job id&gt;</code></p>
+<p>or cancel all your jobs:</p>
+<p><code>scancel -u &lt;username&gt;</code></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>As before, you get the <code>&lt;job id&gt;</code> either from when you submitted the job or from <code>squeue --me</code>.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Note</p>
+<p>Only administrators can cancel other people&rsquo;s jobs!</p>
+</div>
+<h3 id="scontrol__show">scontrol show<a class="headerlink" href="#scontrol__show" title="Permanent link">&para;</a></h3>
+<p>The command <code>scontrol show</code> is used for getting more info on jobs and nodes.</p>
+<h4 id="scontrol__show__job">scontrol show job<a class="headerlink" href="#scontrol__show__job" title="Permanent link">&para;</a></h4>
+<p>As usual, you get the <code>&lt;job id&gt;</code> from either when you submit the job or from <code>squeue --me</code>.</p>
+<p>The command is:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>scontrol<span class="w"> </span>show<span class="w"> </span>job<span class="w"> </span>&lt;job<span class="w"> </span>id&gt;
+</span></code></pre></div>
+<p><strong>Example</strong>:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>b-an01<span class="w"> </span><span class="o">[</span>~<span class="o">]</span>$<span class="w"> </span>scontrol<span class="w"> </span>show<span class="w"> </span>job<span class="w"> </span><span class="m">34815931</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="nv">JobId</span><span class="o">=</span><span class="m">34815931</span><span class="w"> </span><span class="nv">JobName</span><span class="o">=</span>compiler-run
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">   </span><span class="nv">UserId</span><span class="o">=</span>bbrydsoe<span class="o">(</span><span class="m">2897</span><span class="o">)</span><span class="w"> </span><span class="nv">GroupId</span><span class="o">=</span>folk<span class="o">(</span><span class="m">3001</span><span class="o">)</span><span class="w"> </span><span class="nv">MCS_label</span><span class="o">=</span>N/A
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">   </span><span class="nv">Priority</span><span class="o">=</span><span class="m">2748684</span><span class="w"> </span><span class="nv">Nice</span><span class="o">=</span><span class="m">0</span><span class="w"> </span><span class="nv">Account</span><span class="o">=</span>staff<span class="w"> </span><span class="nv">QOS</span><span class="o">=</span>normal
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="w">   </span><span class="nv">JobState</span><span class="o">=</span>COMPLETED<span class="w"> </span><span class="nv">Reason</span><span class="o">=</span>None<span class="w"> </span><span class="nv">Dependency</span><span class="o">=(</span>null<span class="o">)</span>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="w">   </span><span class="nv">Requeue</span><span class="o">=</span><span class="m">0</span><span class="w"> </span><span class="nv">Restarts</span><span class="o">=</span><span class="m">0</span><span class="w"> </span><span class="nv">BatchFlag</span><span class="o">=</span><span class="m">1</span><span class="w"> </span><span class="nv">Reboot</span><span class="o">=</span><span class="m">0</span><span class="w"> </span><span class="nv">ExitCode</span><span class="o">=</span><span class="m">0</span>:0
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="w">   </span><span class="nv">RunTime</span><span class="o">=</span><span class="m">00</span>:00:07<span class="w"> </span><span class="nv">TimeLimit</span><span class="o">=</span><span class="m">00</span>:10:00<span class="w"> </span><span class="nv">TimeMin</span><span class="o">=</span>N/A
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="w">   </span><span class="nv">SubmitTime</span><span class="o">=</span><span class="m">2025</span>-06-24T11:36:32<span class="w"> </span><span class="nv">EligibleTime</span><span class="o">=</span><span class="m">2025</span>-06-24T11:36:32
+</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="w">   </span><span class="nv">AccrueTime</span><span class="o">=</span><span class="m">2025</span>-06-24T11:36:32
+</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="w">   </span><span class="nv">StartTime</span><span class="o">=</span><span class="m">2025</span>-06-24T11:36:32<span class="w"> </span><span class="nv">EndTime</span><span class="o">=</span><span class="m">2025</span>-06-24T11:36:39<span class="w"> </span><span class="nv">Deadline</span><span class="o">=</span>N/A
+</span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="w">   </span><span class="nv">SuspendTime</span><span class="o">=</span>None<span class="w"> </span><span class="nv">SecsPreSuspend</span><span class="o">=</span><span class="m">0</span><span class="w"> </span><span class="nv">LastSchedEval</span><span class="o">=</span><span class="m">2025</span>-06-24T11:36:32<span class="w"> </span><span class="nv">Scheduler</span><span class="o">=</span>Main
+</span><span id="__span-7-12"><a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="w">   </span><span class="nv">Partition</span><span class="o">=</span>cpu_zen4<span class="w"> </span>AllocNode:Sid<span class="o">=</span>b-an01:626814
+</span><span id="__span-7-13"><a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a><span class="w">   </span><span class="nv">ReqNodeList</span><span class="o">=(</span>null<span class="o">)</span><span class="w"> </span><span class="nv">ExcNodeList</span><span class="o">=(</span>null<span class="o">)</span>
+</span><span id="__span-7-14"><a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a><span class="w">   </span><span class="nv">NodeList</span><span class="o">=</span>b-cn<span class="o">[</span><span class="m">1703</span>,1705<span class="o">]</span>
+</span><span id="__span-7-15"><a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a><span class="w">   </span><span class="nv">BatchHost</span><span class="o">=</span>b-cn1703
+</span><span id="__span-7-16"><a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a><span class="w">   </span><span class="nv">NumNodes</span><span class="o">=</span><span class="m">2</span><span class="w"> </span><span class="nv">NumCPUs</span><span class="o">=</span><span class="m">12</span><span class="w"> </span><span class="nv">NumTasks</span><span class="o">=</span><span class="m">12</span><span class="w"> </span>CPUs/Task<span class="o">=</span><span class="m">1</span><span class="w"> </span>ReqB:S:C:T<span class="o">=</span><span class="m">0</span>:0:*:*
+</span><span id="__span-7-17"><a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a><span class="w">   </span><span class="nv">ReqTRES</span><span class="o">=</span><span class="nv">cpu</span><span class="o">=</span><span class="m">12</span>,mem<span class="o">=</span>30192M,node<span class="o">=</span><span class="m">1</span>,billing<span class="o">=</span><span class="m">12</span>
+</span><span id="__span-7-18"><a id="__codelineno-7-18" name="__codelineno-7-18" href="#__codelineno-7-18"></a><span class="w">   </span><span class="nv">AllocTRES</span><span class="o">=</span><span class="nv">cpu</span><span class="o">=</span><span class="m">12</span>,mem<span class="o">=</span>30192M,node<span class="o">=</span><span class="m">2</span>,billing<span class="o">=</span><span class="m">12</span>
+</span><span id="__span-7-19"><a id="__codelineno-7-19" name="__codelineno-7-19" href="#__codelineno-7-19"></a><span class="w">   </span>Socks/Node<span class="o">=</span>*<span class="w"> </span>NtasksPerN:B:S:C<span class="o">=</span><span class="m">0</span>:0:*:*<span class="w"> </span><span class="nv">CoreSpec</span><span class="o">=</span>*
+</span><span id="__span-7-20"><a id="__codelineno-7-20" name="__codelineno-7-20" href="#__codelineno-7-20"></a><span class="w">   </span><span class="nv">MinCPUsNode</span><span class="o">=</span><span class="m">1</span><span class="w"> </span><span class="nv">MinMemoryCPU</span><span class="o">=</span>2516M<span class="w"> </span><span class="nv">MinTmpDiskNode</span><span class="o">=</span><span class="m">0</span>
+</span><span id="__span-7-21"><a id="__codelineno-7-21" name="__codelineno-7-21" href="#__codelineno-7-21"></a><span class="w">   </span><span class="nv">Features</span><span class="o">=(</span>null<span class="o">)</span><span class="w"> </span><span class="nv">DelayBoot</span><span class="o">=</span><span class="m">00</span>:02:00
+</span><span id="__span-7-22"><a id="__codelineno-7-22" name="__codelineno-7-22" href="#__codelineno-7-22"></a><span class="w">   </span><span class="nv">OverSubscribe</span><span class="o">=</span>OK<span class="w"> </span><span class="nv">Contiguous</span><span class="o">=</span><span class="m">0</span><span class="w"> </span><span class="nv">Licenses</span><span class="o">=(</span>null<span class="o">)</span><span class="w"> </span><span class="nv">Network</span><span class="o">=(</span>null<span class="o">)</span>
+</span><span id="__span-7-23"><a id="__codelineno-7-23" name="__codelineno-7-23" href="#__codelineno-7-23"></a><span class="w">   </span><span class="nv">Command</span><span class="o">=</span>/pfs/proj/nobackup/fs/projnb10/support-hpc2n/bbrydsoe/intro-course/hands-ons/3.usage/compile-run.sh
+</span><span id="__span-7-24"><a id="__codelineno-7-24" name="__codelineno-7-24" href="#__codelineno-7-24"></a><span class="w">   </span><span class="nv">WorkDir</span><span class="o">=</span>/pfs/proj/nobackup/fs/projnb10/support-hpc2n/bbrydsoe/intro-course/hands-ons/3.usage
+</span><span id="__span-7-25"><a id="__codelineno-7-25" name="__codelineno-7-25" href="#__codelineno-7-25"></a><span class="w">   </span><span class="nv">StdErr</span><span class="o">=</span>/pfs/proj/nobackup/fs/projnb10/support-hpc2n/bbrydsoe/intro-course/hands-ons/3.usage/slurm-34815931.out
+</span><span id="__span-7-26"><a id="__codelineno-7-26" name="__codelineno-7-26" href="#__codelineno-7-26"></a><span class="w">   </span><span class="nv">StdIn</span><span class="o">=</span>/dev/null
+</span><span id="__span-7-27"><a id="__codelineno-7-27" name="__codelineno-7-27" href="#__codelineno-7-27"></a><span class="w">   </span><span class="nv">StdOut</span><span class="o">=</span>/pfs/proj/nobackup/fs/projnb10/support-hpc2n/bbrydsoe/intro-course/hands-ons/3.usage/slurm-34815931.out
+</span><span id="__span-7-28"><a id="__codelineno-7-28" name="__codelineno-7-28" href="#__codelineno-7-28"></a><span class="w">   </span><span class="nv">Power</span><span class="o">=</span>
+</span></code></pre></div>
+<p>Here you get much interesting information:</p>
+<ul>
+<li><strong>JobState=COMPLETED</strong>: the job was completed and was not FAILED. It could also have been PENDING or COMPLETING</li>
+<li><strong>RunTime=00:00:07</strong>: the job ran for 7 seconds</li>
+<li><strong>TimeLimit=00:10:00</strong>: It could have run for up to 10 min (what you asked for)</li>
+<li><strong>SubmitTime=2025-06-24T11:36:32</strong>: when your job was submitted</li>
+<li><strong>StartTime=2025-06-24T11:36:32</strong>: when the job started</li>
+<li><strong>Partition=cpu_zen4</strong>: what partition/type of node it ran on</li>
+<li><strong>NodeList=b-cn[1703,1705]</strong>: which specific nodes it ran on</li>
+<li><strong>BatchHost=b-cn1703</strong>: which of the nodes (if several) that was the master</li>
+<li><strong>NumNodes=2 NumCPUs=12 NumTasks=12 CPUs/Task=1</strong>: number of nodes, cpus, tasks</li>
+<li><strong>WorkDir=/pfs/proj/nobackup/fs/projnb10/support-hpc2n/bbrydsoe/intro-course/hands-ons/3.usage</strong>: which directory your job was submitted from/was running in</li>
+<li><strong>StdOut=/pfs/proj/nobackup/fs/projnb10/support-hpc2n/bbrydsoe/intro-course/hands-ons/3.usage/slurm-34815931.out</strong>: which directory the output files will be placed in</li>
+</ul>
+<p>The command <code>scontrol show job &lt;job id&gt;</code> can be run also while the job is pending, and can be used to get an estimate of when the job will start. Actual start time depends on the jobs priority, any other (people&rsquo;s) jobs starting and completing and being submitted, etc.</p>
+<p>It is often useful to know which nodes a job ran on if something did not work - perhaps the node was faulty.</p>
+<div class="admonition hint">
+<p class="admonition-title">Exercise</p>
+<p>Try it! Submit the &ldquo;simple.sh&rdquo; batch script and then do <code>scontrol show job JOBID</code> using the job ID you got when you submitted the batch script. Try to find the &ldquo;SubmitTime&rdquo;, &ldquo;StartTime&rdquo;, and &ldquo;NodeList&rdquo; in the output. </p>
+</div>
+<h4 id="scontrol__show__node">scontrol show node<a class="headerlink" href="#scontrol__show__node" title="Permanent link">&para;</a></h4>
+<p>This command is used to get information about a specific node. You can for instance see its features, how many cores per socket, uptime, etc. Specifics will vary and depend on the cluster you are running jobs at.</p>
+<p><strong>Example</strong>:</p>
+<p>This is for one of the AMD Zen4 nodes at Kebnekaise, HPC2N.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>b-an01<span class="w"> </span><span class="o">[</span>~<span class="o">]</span>$<span class="w"> </span>scontrol<span class="w"> </span>show<span class="w"> </span>node<span class="w"> </span>b-cn1703
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="nv">NodeName</span><span class="o">=</span>b-cn1703<span class="w"> </span><span class="nv">Arch</span><span class="o">=</span>x86_64<span class="w"> </span><span class="nv">CoresPerSocket</span><span class="o">=</span><span class="m">128</span><span class="w"> </span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">   </span><span class="nv">CPUAlloc</span><span class="o">=</span><span class="m">253</span><span class="w"> </span><span class="nv">CPUEfctv</span><span class="o">=</span><span class="m">256</span><span class="w"> </span><span class="nv">CPUTot</span><span class="o">=</span><span class="m">256</span><span class="w"> </span><span class="nv">CPULoad</span><span class="o">=</span><span class="m">253</span>.38
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">   </span><span class="nv">AvailableFeatures</span><span class="o">=</span>rack17,amd_cpu,zen4
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">   </span><span class="nv">ActiveFeatures</span><span class="o">=</span>rack17,amd_cpu,zen4
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="w">   </span><span class="nv">Gres</span><span class="o">=(</span>null<span class="o">)</span>
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="w">   </span><span class="nv">NodeAddr</span><span class="o">=</span>b-cn1703<span class="w"> </span><span class="nv">NodeHostName</span><span class="o">=</span>b-cn1703<span class="w"> </span><span class="nv">Version</span><span class="o">=</span><span class="m">23</span>.02.7
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="w">   </span><span class="nv">OS</span><span class="o">=</span>Linux<span class="w"> </span><span class="m">5</span>.15.0-142-generic<span class="w"> </span><span class="c1">#152-Ubuntu SMP Mon May 19 10:54:31 UTC 2025 </span>
+</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="w">   </span><span class="nv">RealMemory</span><span class="o">=</span><span class="m">644096</span><span class="w"> </span><span class="nv">AllocMem</span><span class="o">=</span><span class="m">636548</span><span class="w"> </span><span class="nv">FreeMem</span><span class="o">=</span><span class="m">749623</span><span class="w"> </span><span class="nv">Sockets</span><span class="o">=</span><span class="m">2</span><span class="w"> </span><span class="nv">Boards</span><span class="o">=</span><span class="m">1</span>
+</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="w">   </span><span class="nv">State</span><span class="o">=</span>MIXED<span class="w"> </span><span class="nv">ThreadsPerCore</span><span class="o">=</span><span class="m">1</span><span class="w"> </span><span class="nv">TmpDisk</span><span class="o">=</span><span class="m">0</span><span class="w"> </span><span class="nv">Weight</span><span class="o">=</span><span class="m">100</span><span class="w"> </span><span class="nv">Owner</span><span class="o">=</span>N/A<span class="w"> </span><span class="nv">MCS_label</span><span class="o">=</span>N/A
+</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="w">   </span><span class="nv">Partitions</span><span class="o">=</span>cpu_zen4<span class="w"> </span>
+</span><span id="__span-8-12"><a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a><span class="w">   </span><span class="nv">BootTime</span><span class="o">=</span><span class="m">2025</span>-06-24T06:32:25<span class="w"> </span><span class="nv">SlurmdStartTime</span><span class="o">=</span><span class="m">2025</span>-06-24T06:37:02
+</span><span id="__span-8-13"><a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a><span class="w">   </span><span class="nv">LastBusyTime</span><span class="o">=</span><span class="m">2025</span>-06-24T08:29:45<span class="w"> </span><span class="nv">ResumeAfterTime</span><span class="o">=</span>None
+</span><span id="__span-8-14"><a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a><span class="w">   </span><span class="nv">CfgTRES</span><span class="o">=</span><span class="nv">cpu</span><span class="o">=</span><span class="m">256</span>,mem<span class="o">=</span>629G,billing<span class="o">=</span><span class="m">256</span>
+</span><span id="__span-8-15"><a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a><span class="w">   </span><span class="nv">AllocTRES</span><span class="o">=</span><span class="nv">cpu</span><span class="o">=</span><span class="m">253</span>,mem<span class="o">=</span>636548M
+</span><span id="__span-8-16"><a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a><span class="w">   </span><span class="nv">CapWatts</span><span class="o">=</span>n/a
+</span><span id="__span-8-17"><a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a><span class="w">   </span><span class="nv">CurrentWatts</span><span class="o">=</span><span class="m">0</span><span class="w"> </span><span class="nv">AveWatts</span><span class="o">=</span><span class="m">0</span>
+</span><span id="__span-8-18"><a id="__codelineno-8-18" name="__codelineno-8-18" href="#__codelineno-8-18"></a><span class="w">   </span><span class="nv">ExtSensorsJoules</span><span class="o">=</span>n/s<span class="w"> </span><span class="nv">ExtSensorsWatts</span><span class="o">=</span><span class="m">0</span><span class="w"> </span><span class="nv">ExtSensorsTemp</span><span class="o">=</span>n/s
+</span></code></pre></div>
+<h3 id="sinfo">sinfo<a class="headerlink" href="#sinfo" title="Permanent link">&para;</a></h3>
+<p>The command <code>sinfo</code> gives you information about the partitions/queues.</p>
+<p><strong>Example</strong>:</p>
+<p>This is for Tetralith, NSC</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="o">[</span>x_birbr@tetralith3<span class="w"> </span>~<span class="o">]</span>$<span class="w"> </span>sinfo
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>PARTITION<span class="w">  </span>AVAIL<span class="w">  </span>TIMELIMIT<span class="w">  </span>NODES<span class="w">  </span>STATE<span class="w"> </span>NODELIST
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>tetralith*<span class="w">    </span>up<span class="w"> </span><span class="m">7</span>-00:00:00<span class="w">      </span><span class="m">1</span><span class="w">   </span>plnd<span class="w"> </span>n1541
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>tetralith*<span class="w">    </span>up<span class="w"> </span><span class="m">7</span>-00:00:00<span class="w">     </span><span class="m">16</span><span class="w"> </span>drain*<span class="w"> </span>n<span class="o">[</span><span class="m">237</span>,245,439,532,625,646,712,759-760,809,1290,1364,1455,1638,1847,1864<span class="o">]</span>
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>tetralith*<span class="w">    </span>up<span class="w"> </span><span class="m">7</span>-00:00:00<span class="w">      </span><span class="m">3</span><span class="w">  </span>drain<span class="w"> </span>n<span class="o">[</span><span class="m">13</span>,66,454<span class="o">]</span>
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>tetralith*<span class="w">    </span>up<span class="w"> </span><span class="m">7</span>-00:00:00<span class="w">     </span><span class="m">20</span><span class="w">   </span>resv<span class="w"> </span>n<span class="o">[</span><span class="m">1</span>-4,108,774,777,779-780,784-785,788,1109,1268,1281-1285,1288<span class="o">]</span>
+</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>tetralith*<span class="w">    </span>up<span class="w"> </span><span class="m">7</span>-00:00:00<span class="w">    </span><span class="m">327</span><span class="w">    </span>mix<span class="w"> </span>n<span class="o">[</span><span class="m">7</span>,39-40,46,50,69-70,75,78,85,91-93,97,112,119,121,124,126,128,130-134,137,139,141,149-150,156,159,164,167-168,170,174,184,187-188,190,193,196,203,206,208,212,231,241,244,257,259,262,267,280,287,293-294,310,315,323,327,329,333,340,350,352,371,377,379-381,385,405,420-422,434,441,446,465,467,501,504-505,514,524,529,549,553,558,561,564,573,575,602,610,612,615,617,622-623,626-627,631,637,651,662,671,678,691-692,699,703,709,718,720,723,726,741,745,752,754-755,768,776,781,790,792-793,803-804,808,818,853,855,859,863,867,881,883,915,925,959,966,974,981,984,999,1001-1003,1007-1011,1015,1018,1033,1044-1046,1050-1052,1056-1058,1071,1077,1102,1105-1106,1111-1115,1117,1119,1130,1132,1134-1136,1138-1140,1142-1143,1252,1254,1257,1267,1278-1279,1292,1296,1298,1309,1328,1339,1343,1345,1347,1349,1352,1354-1355,1357,1367,1375-1376,1379,1381,1386-1388,1398,1403,1410,1412,1420-1422,1428,1440,1446,1450,1459,1466,1468-1470,1474,1490-1491,1493,1498,1506,1510,1513,1520,1524,1529,1548-1549,1553,1562,1574-1575,1579,1586,1592,1595,1601,1606,1608,1612,1615,1620-1621,1631,1634,1639,1642,1647,1651-1653,1665,1688,1690,1697,1702,1706,1715-1716,1725,1728,1749,1754,1756,1767,1772,1774-1775,1778,1795-1796,1798-1799,1811,1816,1822,1826,1834,1842,1849,1857-1858,1871,1874,1879,1881,1896,1900,1902,1909,1911-1914,1945,1951,1953,1955-1956,1960,1969,1978,1983,2001,2005-2006,2008<span class="o">]</span>
+</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>tetralith*<span class="w">    </span>up<span class="w"> </span><span class="m">7</span>-00:00:00<span class="w">   </span><span class="m">1529</span><span class="w">  </span>alloc<span class="w"> </span>n<span class="o">[</span><span class="m">5</span>-6,8-12,14-38,41-45,47-49,51-60,65,67-68,71-74,76-77,79-84,86-90,94-96,98-107,109-111,113-118,120,122-123,125,127,129,135-136,138,140,142-148,151-155,157-158,160-163,165-166,169,171-173,175-183,185-186,189,191-192,194-195,197-202,204-205,207,209-211,213-230,232-236,238-240,242-243,246-256,258,260-261,263-266,268-279,281-286,288-292,295-309,311-314,316-322,324-326,328,330-332,334-339,341-349,351,353-370,372-376,378,382-384,386-404,406-419,423-433,435-438,440,442-445,447-453,455-464,466,468-500,502-503,506-513,515-523,525-528,530-531,533-548,550-552,554-557,559-560,562-563,565-572,574,576-601,603-609,611,613-614,616,618-621,624,628-630,632-636,638-645,647-650,652-661,663-670,672-677,679-690,693-698,700-702,704-708,710-711,713-717,719,721-722,724-725,727-740,742-744,746-751,753,756-758,761-767,769-773,775,778,782-783,786-787,789,791,794-802,805-807,810-817,819-852,854,856-858,860-862,864-866,868-880,882,884-889,893,896-914,916-924,926-937,939-940,943,945,948-958,960-965,967-973,975-980,982-983,985-998,1000,1004-1006,1012-1014,1016-1017,1019-1032,1034-1043,1047-1049,1053-1055,1059-1070,1072-1076,1078-1101,1103-1104,1107-1108,1110,1116,1118,1120-1129,1131,1133,1137,1141,1144,1249-1251,1253,1255-1256,1258-1266,1269-1277,1280,1286-1287,1289,1291,1293-1295,1297,1299-1308,1310-1327,1329-1338,1340-1342,1344,1346,1348,1350-1351,1353,1356,1358-1363,1365-1366,1368-1374,1377-1378,1380,1382-1385,1389-1397,1399-1402,1404-1409,1411,1413-1419,1423-1427,1429-1439,1441-1445,1447-1449,1451-1454,1456-1458,1460-1465,1467,1471-1473,1475-1489,1492,1494-1497,1499-1505,1507-1509,1511-1512,1514-1519,1521-1523,1525-1528,1530-1540,1542-1547,1550-1552,1554-1561,1563-1573,1576-1578,1580-1585,1587-1591,1593-1594,1596-1600,1602-1605,1607,1609-1611,1613-1614,1616-1619,1622-1630,1632-1633,1635-1637,1640-1641,1643-1646,1648-1650,1654-1664,1666-1687,1689,1691-1696,1698-1701,1703-1705,1707-1714,1717-1724,1726-1727,1729-1748,1750-1753,1755,1757-1766,1768-1771,1773,1776-1777,1779-1794,1797,1800-1810,1812-1815,1817-1821,1824-1825,1827-1833,1835-1841,1843-1846,1848,1850-1856,1859-1863,1865-1870,1872-1873,1875-1878,1880,1882-1895,1897-1899,1901,1903-1908,1910,1915-1944,1946-1950,1952,1954,1957-1959,1961-1968,1970-1977,1979-1982,1984-2000,2002-2004,2007,2009-2016<span class="o">]</span>
+</span></code></pre></div>
+<p>As you can see, it shows partitions, nodes, and states. State can be drain, idle, resv, alloc, mix, plnd (and a few others), where the exact naming varies between centers.</p>
+<ul>
+<li><strong>drain</strong>: node is draining after running a job</li>
+<li><strong>resv</strong>: node is reserved/has a reservation for something</li>
+<li><strong>alloc</strong>: node is allocated for a job</li>
+<li><strong>mix</strong>: node is in several states, could for instance be that it is allocated, but starting to drain</li>
+<li><strong>idle</strong>: node is free and can be allocated</li>
+<li><strong>plnd</strong>: job planned for a higher priority job</li>
+</ul>
+<p>You can see the full list of states and their meaning with <code>man sinfo</code>.</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>Try it! Give the command <code>sinfo</code> and look at the output from your chosen HPC cluster. </p>
+</div>
+<h2 id="slurm__job__scripts">Slurm job scripts<a class="headerlink" href="#slurm__job__scripts" title="Permanent link">&para;</a></h2>
+<p>Now we have looked at the commands to control the job, but what about the job scripts? </p>
+<p>We had a small example further up on the page, which we used to test the commands, but now we will look more at the job scripts themselves. </p>
+<h3 id="simplest__job">Simplest job<a class="headerlink" href="#simplest__job" title="Permanent link">&para;</a></h3>
+<p>The simplest possible batch script would look something like this:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Other</label><label for="__tabbed_1_2">Dardel</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>This works for most of the clusters, except Dardel which also requires you to give the partition. </p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="ch">#!/bin/bash</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="c1">#SBATCH -A &lt;proj-id&gt;    ###replace with your project ID</span>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="c1">#SBATCH -t 00:05:00</span>
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="c1">#SBATCH -n 1</span>
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>
+</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="nb">echo</span><span class="w"> </span><span class="nv">$HOSTNAME</span>
+</span></code></pre></div>
+</div>
+<div class="tabbed-block">
+<p>Dardel requires you to give the partition. There are several: &ldquo;main&rdquo;, &ldquo;shared&rdquo;, &ldquo;long&rdquo;, &ldquo;memory&rdquo;, &ldquo;gpu&rdquo;. In most cases when you are running a regular CPU job on less than all cores on a node, you should use &ldquo;shared&rdquo;. </p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="ch">#!/bin/bash</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="c1">#SBATCH -A &lt;proj-id&gt;    ###replace with your project ID</span>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="c1">#SBATCH -t 00:05:00</span>
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="c1">#SBATCH -n 1</span>
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="c1">#SBATCH -p shared </span>
+</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>
+</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="nb">echo</span><span class="w"> </span><span class="nv">$HOSTNAME</span>
+</span></code></pre></div>
+</div>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>A job submission file can either be very simple, with most of the job attributes specified on the command line, or it may consist of several Slurm directives, comments and executable statements. </p>
+<p>A Slurm directive provides a way of specifying job attributes in addition to the command line options. All Slurm directives are prefaced with <code>#SBATCH</code> which <em>must</em> be written with capital letters. </p>
+<p>Comments are added with a <code>#</code> in front - an extra <code>#</code> in front of the Slurm directive comment that out. </p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Common Slurm arguments</p>
+<p>Some of the most commonly used arguments are:</p>
+<ul>
+<li><code>-A PROJ-ID</code>: The project that should be accounted. It is a simple conversion from the SUPR project id. You can also find your project account with the command projinfo. The PROJ-ID argument is of the form <strong>naissXXXX-YY-ZZZ</strong> </li>
+<li><code>-N</code>: number of nodes</li>
+<li><code>-n</code>, <code>--ntasks=</code>: number of tasks. Since cores-per-task is 1 as default, this then translates to number of cores. NOTE that you cannot be sure the cores all end up on the same node. If you have a threaded job or otherwise need to have all the cores on the same node, you should instead use <code>-c</code> or a combination of <code>-N</code> and <code>-c</code>.  </li>
+<li><code>-c</code>, <code>--cores-per-task=</code>: This changes the number of cores each task may use. Can also be used for getting more memory, with some cores only providing memory. (example: <strong>-c 2 -n 4</strong> allocates 4 tasks and 2 cores per task, totally 8 cores). More about this argument later. </li>
+<li><code>-t</code>, <code>--time=</code>: walltime. How long your job is allowed to run. Given as HHH:MM:SS (example: 4 hours and 20 min is given as 4:20:00). Different clusters have different maximum walltime, but it is usually at least a week. </li>
+<li><code>-p</code>: partition. Only used at some clusters. On Dardel it is required. </li>
+</ul>
+<p>In addition, these can be quite useful: </p>
+<ul>
+<li><code>-o</code>, <code>--output=</code>: Used for naming the output differently than
+  <code>slurm-&lt;job-id&gt;.out</code> and splitting it from errors and such. A <code>%j</code> in the
+  specified filename will be replaced with the job id, which is highly
+  recommended to prevent output from being overwritten the next time you run
+  the job. Additional 
+  <a href="https://slurm.schedmd.com/sbatch.html#SECTION_FILENAME-PATTERN">specifiers for the filename pattern</a>,
+  for more advanced cases, can be found in the Slurm documentation.</li>
+<li><code>-e</code>, <code>--error=</code>: Used for naming and splitting the error from the other
+  output. Using <code>%j</code> in the name to get separate files for separate runs is
+  again highly recommended.</li>
+</ul>
+<p>Example: </p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1">#SBATCH -o process_%j.out    </span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="c1">#SBATCH -e process_%j.err    </span>
+</span></code></pre></div>
+</div>
+<p><strong>Now for the example script, &ldquo;Simplest job&rdquo;, above</strong>:</p>
+<p>The first line is called the “shebang” and it indicates that the script is written in the bash shell language.</p>
+<p>The second, third, and fourth lines are resource statements to the Slurm batch scheduler. Also called Slurm directives. </p>
+<p>The second line above is where you put your <strong>project ID</strong>. 
+Depending on cluster, this is either always required or not technically required if you only have one project to your name. Regardless, we recommend that you make a habit of including it. </p>
+<p>The third line in the example above provides the <strong>walltime</strong>, the maximum amount of time that the program would be allowed to run (5 minutes in this example). If a job does not finish within the specified walltime, the resource management system terminates it and any data that were not already written to a file before time ran out are lost.</p>
+<p>The fourth line asks for compute resources, here one task (resulting in one core
+as cores-per-task is defaulting to one). You could ask for more cores if it was
+a parallel job, or for GPUs and so on. More about that later.  </p>
+<p>The last line in the above sample is the code to be executed by the batch script. In this case, it just prints the name of the server on which the code ran.</p>
+<p>All of the parameters that Slurm needs to determine which resources to allocate,
+under whose account, and for how long, are given as a series of resource
+statements of the form <code>#SBATCH -&lt;option&gt; &lt;value&gt;</code> or
+<code>#SBATCH --&lt;key-words&gt;=&lt;value&gt;</code> (note: <code>&lt;</code> and <code>&gt;</code> are not typically used in
+real arguments; they are just used here to indicate placeholder text).
+Alternatively they can be given as command-line options to <code>sbatch</code> but it is
+generally useful to save them in the script.</p>
+<p>Depending on cluster, for most compute nodes, unless otherwise specified, a batch script will run on 1 core of 1 node by default. However, at several clusters it is required to always give the number of cores or nodes, so you should make it a habit to include it. </p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You find the above job script in the exercises tarball. It is named &ldquo;first.sh&rdquo;. </p>
+<p>Remember to change the project ID to your own! </p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Some comments on time/walltime</p>
+<ul>
+<li>the job <strong>will</strong> terminate when the time runs out, whether it has finished or not</li>
+<li>you will only be &ldquo;charged&rdquo; for the consumed time</li>
+<li>asking for a lot more time than needed will generally make the job take longer to start</li>
+<li>short jobs can start quicker (backfill)</li>
+<li>if you have no idea how long your job takes, ask for &ldquo;long&rdquo; time</li>
+<li><strong>Conclusion</strong>: It is typically a good idea to overbook your job with perhaps 30% (or more). </li>
+</ul>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>There are many more resource statements and other commands that can go into the Slurm batch script. We will look at some of them in the next section, where we show some sample job scripts. </p>
+</div>
+<p>You submit the job script with <code>sbatch &lt;jobscript.sh&gt;</code> as was mentioned earlier.</p>
+<h2 id="dependencies">Dependencies<a class="headerlink" href="#dependencies" title="Permanent link">&para;</a></h2>
+<p>Sometimes your workflow has jobs that depend on a previous job (a pipeline). This can be handled through Slurm (if many, make a script):</p>
+<ul>
+<li>Submit your first job: <code>sbatch my-job.sh</code></li>
+<li>Wait for that job to finish before starting next job: <code>sbatch -d afterok:&lt;prev-JOBID&gt; my-next-job.sh</code></li>
+</ul>
+<p>Generally: </p>
+<ul>
+<li><strong><code>after:jobid[:jobid...]</code></strong> begin after specified jobs have started</li>
+<li><strong><code>afterany:jobid[:jobid...]</code></strong> begin after specified jobs have terminated</li>
+<li><strong><code>afternotok:jobid[:jobid...]</code></strong> begin after specified jobs have failed</li>
+<li><strong><code>afterok:jobid[:jobid...]</code></strong>  begin after specified jobs have run to completion with exit code zero</li>
+<li><strong><code>singleton</code></strong> begin execution after all previously launched jobs with the same name and user have ended </li>
+</ul>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p><strong>Try it!</strong> You can use <code>matrix-gen.sh</code> as the first and <code>mmmult-v2.sh</code> as the dependent job. You find these batch scripts in the exercises tarball, under your cluster. </p>
+<ul>
+<li>Remember to change the project ID of the scripts to be your project ID. </li>
+<li>Remember, you can use <code>squeue --me</code> to see if your jobs are running - and probably also that one of them is now marked as being dependent on another. </li>
+</ul>
+</div>
+<h3 id="script__example">Script example<a class="headerlink" href="#script__example" title="Permanent link">&para;</a></h3>
+<p>This simple script can be run from the command line. It starts one job; gets the job ID, then tell Slurm to wait until job one has finished before starting a second job which is dependent on the first.  </p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="ch">#!/bin/bash</span>
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="c1"># first job - no dependencies</span>
+</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="nv">jid1</span><span class="o">=</span><span class="k">$(</span>sbatch<span class="w"> </span>--parsable<span class="w"> </span>matrix-gen.sh<span class="k">)</span>
+</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>
+</span><span id="__span-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="c1"># Next job depend on first job </span>
+</span><span id="__span-13-7"><a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a>sbatch<span class="w"> </span>--dependency<span class="o">=</span>afterany:<span class="si">${</span><span class="nv">jid1</span><span class="si">}</span><span class="w"> </span>mmmult-v2.sh
+</span></code></pre></div>
+<p>If you want to test it, the scripts for this can be found in <a href="https://github.com/UPPMAX/NAISS_Slurm/raw/refs/heads/main/exercises.tar.gz" target="_blank">the tarball with the exercises</a> under the cluster name and then &ldquo;dependency&rdquo;. </p>
+<p>The first job it runs generates two matrices and then the second job does matrix-matrix multiplication, but not until the first has finished. </p>
+<h2 id="how__to__monitor__jobs">How to monitor jobs<a class="headerlink" href="#how__to__monitor__jobs" title="Permanent link">&para;</a></h2>
+<p>Unless mentioned, these are valid at all clusters. </p>
+<p>Use the following:</p>
+<ul>
+<li><code>sacct</code>: <code>sacct -l -j JOBID</code>. Lots of (wide format) info about a job with job-id JOBID</li>
+<li><code>jobinfo</code> (LUNARC, C3SE): wrapper around <code>squeue</code></li>
+<li><code>scontrol show job JOBID</code>: info about a job, including estimated start time, assigned nodes, working directory, etc. </li>
+<li><code>squeue --me --start</code>: your running and queued jobs with estimated start time</li>
+<li><code>job_usage</code> (HPC2N): grafana graphics of resource use for job (&gt; few minutes)</li>
+<li>and several more </li>
+</ul>
+<p>See <a href="../monitoring">Job monitoring and efficiency</a> for more about job info, including several commands that are site-specific and very useful. </p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../concepts/" class="btn btn-neutral float-left" title="Batch system concepts"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../interactive/" class="btn btn-neutral float-right" title="Interactive jobs">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/UPPMAX/NAISS_Slurm" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href="../concepts/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../interactive/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../assets/_markdown_exec_pyodide.js"></script>
+      <script src="../search/main.js"></script>
+      <script src="../js/open_in_new_tab.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

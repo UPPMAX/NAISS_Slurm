@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Introduction - Running jobs on HPC systems</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../assets/_markdown_exec_pyodide.css" rel="stylesheet" />
+        <link href="../assets/_markdown_exec_ansi.css" rel="stylesheet" />
+        <link href="../assets/_mkdocstrings.css" rel="stylesheet" />
+        <link href="../css/extra.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Introduction";
+        var mkdocs_page_input_path = "intro.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="..">
+          <img src="../images/naiss-slurm-logo.png" class="logo" alt="Logo"/>
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">Introduction</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#login__info__project__number__project__directory">Login info, project number, project directory</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#project__number__and__project__directory">Project number and project directory</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#login__info">Login info</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#schedule">Schedule</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#prepare__the__exercise__environment">Prepare the exercise environment</a>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../cluster/">Intro to clusters</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../concepts/">Batch system concepts</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../slurm/">Introduction to Slurm</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../interactive/">Interactive jobs</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../jobscripts/">Sample job scripts</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../monitoring/">Job monitoring and efficiency</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../summary/">Summary</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Extras</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../mpi/">A bit about MPI</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../openmp/">Short about OpenMP</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">Running jobs on HPC systems</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Introduction</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/UPPMAX/NAISS_Slurm/blob/main/docs/intro.md" class="icon icon-github"> Edit on GitHub</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="introduction__to__running__jobs__on__hpc__systems">Introduction to &ldquo;Running jobs on HPC systems&rdquo;<a class="headerlink" href="#introduction__to__running__jobs__on__hpc__systems" title="Permanent link">&para;</a></h1>
+<ul>
+<li>Welcome page and syllabus: <a href="https://uppmax.github.io/NAISS_Slurm/index.html">https://uppmax.github.io/NAISS_Slurm/index.html</a><ul>
+<li>Link also in the House symbol at the top of the page.</li>
+</ul>
+</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Learning outcomes</p>
+<ul>
+<li>Cluster architecture<ul>
+<li>Login/compute nodes</li>
+<li>Cores, nodes, GPUs</li>
+<li>Memory</li>
+<li>Node local storage</li>
+<li>Global storage system</li>
+</ul>
+</li>
+<li>Concepts of a job scheduler<ul>
+<li>why it is needed</li>
+<li>basic priniples how it works</li>
+</ul>
+</li>
+<li>sbatch with options for CPU job scripts</li>
+<li>sample job scripts<ul>
+<li>Basic jobs</li>
+<li>I/O intensive jobs</li>
+<li>OpenMP and MPI jobs</li>
+<li>Job arrays</li>
+<li>Simple example for task farming</li>
+<li>increasing the memory per task / memory hungry jobs</li>
+<li>running on GPUs</li>
+</ul>
+</li>
+<li>job monitoring, job efficiency</li>
+<li>how to find optimal sbatch options</li>
+</ul>
+</div>
+<h2 id="login__info__project__number__project__directory">Login info, project number, project directory<a class="headerlink" href="#login__info__project__number__project__directory" title="Permanent link">&para;</a></h2>
+<h3 id="project__number__and__project__directory">Project number and project directory<a class="headerlink" href="#project__number__and__project__directory" title="Permanent link">&para;</a></h3>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This part is only relevant for people attending the course, and indeed only for those who needed access to Tetralith or Dardel through the course project. It should be ignored if you are doing it as self-study later. </p>
+</div>
+<!-- markdownlint-disable MD036 -->
+<div class="tabbed-set tabbed-alternate" data-tabs="1:6"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><input id="__tabbed_1_3" name="__tabbed_1" type="radio" /><input id="__tabbed_1_4" name="__tabbed_1" type="radio" /><input id="__tabbed_1_5" name="__tabbed_1" type="radio" /><input id="__tabbed_1_6" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Tetralith</label><label for="__tabbed_1_2">Dardel</label><label for="__tabbed_1_3">Alvis</label><label for="__tabbed_1_4">Kebnekaise</label><label for="__tabbed_1_5">Cosmos</label><label for="__tabbed_1_6">Pelle</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p><strong>Tetralith at NSC</strong></p>
+<ul>
+<li>Project ID: <code>naiss2026-4-66</code></li>
+<li>Project storage: <code>/proj/spring-courses-naiss/users</code>    </li>
+</ul>
+</div>
+<div class="tabbed-block">
+<p><strong>Dardel at PDC</strong></p>
+<ul>
+<li>Project ID: <code>naiss2026-4-66</code></li>
+<li>Project storage: <code>/cfs/klemming/projects/supr/spring-courses-naiss</code></li>
+</ul>
+</div>
+<div class="tabbed-block">
+<p><strong>Alvis at C3SE</strong></p>
+<ul>
+<li>Project ID: <code>naiss2026-4-66</code></li>
+<li>Project storage: <code>/mimer/NOBACKUP/groups/spring-courses-naiss</code> </li>
+</ul>
+</div>
+<div class="tabbed-block">
+<p><strong>Kebnekaise at HPC2N</strong></p>
+<ul>
+<li>Project ID: </li>
+<li>Project storage: </li>
+</ul>
+</div>
+<div class="tabbed-block">
+<p><strong>Cosmos at LUNARC</strong></p>
+<ul>
+<li>Project ID: </li>
+</ul>
+</div>
+<div class="tabbed-block">
+<p><strong>Pelle at UPPMAX</strong></p>
+<ul>
+<li>Project ID: </li>
+<li>Project storage:</li>
+</ul>
+</div>
+</div>
+</div>
+<!-- markdownlint-restore -->
+
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>Most of you are not part of the course project and will use your own access and project. </p>
+<p>If you do not know what your project id is, you can use the command
+<code>projinfo</code> which works at most clusters.</p>
+<details class="hint">
+<summary>If no <code>projinfo</code></summary>
+<p>From the terminal, you can manually ask Slurm for project IDs currently
+associated with your user with this command:
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>sacctmgr list assoc where user=&quot;$USER&quot; format=Account -P --noheader
+</span></code></pre></div></p>
+</details>
+<p>You can also find the project id in SUPR, if you are a member of a project. See the page for <a href="https://supr.naiss.se/project/" target="_blank">Active Projects You Belong To</a>.   </p>
+</div>
+<h3 id="login__info">Login info<a class="headerlink" href="#login__info" title="Permanent link">&para;</a></h3>
+<ul>
+<li>You will not need a graphical user interface for this course.</li>
+<li>Even so, if you do not have a preferred SSH client, we recommend using
+  <a href="https://www.cendio.com/thinlinc/download/" target="_blank">ThinLinc</a>.</li>
+</ul>
+<div class="admonition important">
+<p class="admonition-title">Connection info</p>
+<ul>
+<li>Login to the system you are using (Tetralith/Dardel, other Swedish HPC system)</li>
+<li>Connection info for some Swedish HPC systems - use the one you have access to: </li>
+</ul>
+<div class="tabbed-set tabbed-alternate" data-tabs="2:6"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><input id="__tabbed_2_3" name="__tabbed_2" type="radio" /><input id="__tabbed_2_4" name="__tabbed_2" type="radio" /><input id="__tabbed_2_5" name="__tabbed_2" type="radio" /><input id="__tabbed_2_6" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">Tetralith</label><label for="__tabbed_2_2">Dardel</label><label for="__tabbed_2_3">Alvis</label><label for="__tabbed_2_4">Kebnekaise</label><label for="__tabbed_2_5">Pelle</label><label for="__tabbed_2_6">Cosmos</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<ul>
+<li>SSH: <code>ssh &lt;user&gt;@tetralith.nsc.liu.se</code></li>
+<li>ThinLinc:<ul>
+<li>Server: <code>tetralith.nsc.liu.se</code></li>
+<li>Username: <code>&lt;your-nsc-username&gt;</code></li>
+<li>Password: <code>&lt;your-nsc-password&gt;</code></li>
+</ul>
+</li>
+<li>Note that you need to setup <a href="https://www.nsc.liu.se/support/2fa/" target="_blank">TFA</a> to use NSC!</li>
+</ul>
+</div>
+<div class="tabbed-block">
+<ul>
+<li>SSH: <code>ssh &lt;user&gt;@dardel.pdc.kth.se</code></li>
+<li>ThinLinc:<ul>
+<li>Server: <code>dardel-vnc.pdc.kth.se</code></li>
+<li>Username: <code>&lt;your-pdc-username&gt;</code></li>
+<li>Password: <code>&lt;your-pdc-password&gt;</code></li>
+</ul>
+</li>
+<li>Note that you need to setup <a href="https://support.pdc.kth.se/doc/login/ssh_login/" target="_blank">SSH keys</a> or kerberos in order to login to PDC!</li>
+</ul>
+</div>
+<div class="tabbed-block">
+<ul>
+<li>SSH: <code>ssh &lt;user&gt;@alvis1.c3se.chalmers.se</code>
+       or
+       <code>ssh &lt;user&gt;@alvis2.c3se.chalmers.se</code></li>
+<li>Remote Desktop Protocol (RDP):<ul>
+<li>Server: <code>alvis1.c3se.chalmers.se</code>
+          or
+          <code>alvis2.c3se.chalmers.se</code></li>
+<li>Username: <code>&lt;your-c3se-username&gt;</code></li>
+<li>Password: <code>&lt;your-c3se-username&gt;</code></li>
+</ul>
+</li>
+<li>OpenOndemand portal:<ul>
+<li>Put <code>https://alvis.c3se.chalmers.se</code> in browser address bar</li>
+<li>Put <code>&lt;your-c3se-username&gt;</code> and <code>&lt;your-c3se-password&gt;</code> in the login box</li>
+</ul>
+</li>
+<li>Note that Alvis is accessible via SUNET networks (i.e. most Swedish university networks). If you are not on one of those networks you need to use a VPN - preferrably your own Swedish university VPN. If this is not possible, contact <code>support@chalmers.se</code> and ask to be added to the Chalmers&rsquo;s eduVPN.</li>
+</ul>
+</div>
+<div class="tabbed-block">
+<ul>
+<li>SSH: <code>ssh &lt;user&gt;@kebnekaise.hpc2n.umu.se</code></li>
+<li>ThinLinc:<ul>
+<li>Server: <code>kebnekaise-tl.hpc2n.umu.se</code></li>
+<li>Username: <code>&lt;your-hpc2n-username&gt;</code></li>
+<li>Password: <code>&lt;yout-hpc2n-password&gt;</code></li>
+</ul>
+</li>
+<li>ThinLinc Webaccess:<ul>
+<li>Put <code>https://kebnekaise-tl.hpc2n.umu.se:300/</code> in browser address bar</li>
+<li>Put <code>&lt;your-hpc2n-username&gt;</code> and <code>&lt;your-hpc2n-password&gt;</code> in th e login box that opens and click <code>Login</code></li>
+</ul>
+</li>
+<li>Open OnDemand: <code>https://portal.hpc2n.umu.se</code> </li>
+</ul>
+</div>
+<div class="tabbed-block">
+<ul>
+<li>SSH: <code>ssh &lt;user&gt;@pelle.uppmax.uu.se</code></li>
+<li>ThinLinc:<ul>
+<li>Server: <code>pelle-gui.uppmax.uu.se</code></li>
+<li>Username: <code>&lt;your-uppmax-username&gt;</code></li>
+<li>Password: <code>&lt;your-uppmax-password&gt;</code></li>
+</ul>
+</li>
+<li>Note that you have to setup <a href="https://docs.uppmax.uu.se/getting_started/get_uppmax_2fa/" target="_blank">2FA for Uppmax</a>.</li>
+</ul>
+</div>
+<div class="tabbed-block">
+<ul>
+<li>SSH: <code>ssh &lt;user&gt;@cosmos.lunarc.lu.se</code></li>
+<li>ThinLinc:<ul>
+<li>Server: <code>cosmos-dt.lunarc.lu.se</code></li>
+<li>Username: <code>&lt;your-lunarc-username&gt;</code></li>
+<li>Password: <code>&lt;your-lunarc-password&gt;</code></li>
+</ul>
+</li>
+<li>Note that you need to setup <a href="https://lunarc-documentation.readthedocs.io/en/latest/getting_started/login_howto/" target="_blank">TFA (PocketPass)</a> to use LUNARC&rsquo;s systems!</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<h2 id="schedule">Schedule<a class="headerlink" href="#schedule" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Time</th>
+<th>Topic</th>
+<th>Activity</th>
+<th>Teacher</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>13:00 - 13:05</td>
+<td>Intro to course</td>
+<td>Lecture</td>
+<td>Sahar</td>
+</tr>
+<tr>
+<td>13:05 - 13:25</td>
+<td>Intro to clusters</td>
+<td>Lecture</td>
+<td>Sahar</td>
+</tr>
+<tr>
+<td>13:25 - 13:40</td>
+<td>Batch system concepts / job scheduling</td>
+<td>Lecture</td>
+<td>Joachim</td>
+</tr>
+<tr>
+<td>13:40 - 14:20</td>
+<td>Intro to Slurm (sbatch, squeue, scontrol, …)</td>
+<td>Lecture+type along</td>
+<td>Birgitte</td>
+</tr>
+<tr>
+<td>14:20 - 14:22</td>
+<td>Interactive jobs - mainly meant as self-study</td>
+<td>Lecture</td>
+<td></td>
+</tr>
+<tr>
+<td>14:22 - 14:35</td>
+<td>BREAK</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>14:35 - 15:45</td>
+<td>Additional sample scripts, including job arrays, task farms???</td>
+<td></td>
+<td>Joachim, Diana</td>
+</tr>
+<tr>
+<td>15:45 - 15:47</td>
+<td>Job monitoring and efficiency - mainly meant as Self-reading material</td>
+<td>Diana</td>
+<td></td>
+</tr>
+<tr>
+<td>15:47 - 16:00</td>
+<td>Summary</td>
+<td></td>
+<td>Diana</td>
+</tr>
+</tbody>
+</table>
+<h2 id="prepare__the__exercise__environment">Prepare the exercise environment<a class="headerlink" href="#prepare__the__exercise__environment" title="Permanent link">&para;</a></h2>
+<p>It is now time to login and download the exercises. </p>
+<ol>
+<li>Login to your cluster. You find login info for several <a href="https://uppmax.github.io/NAISS_Slurm/intro/#login__info" target="_blank">Swedish HPC clusters here</a>. </li>
+<li>Create a directory to work in: <code>mkdir cluster-intro</code></li>
+<li>Fetch the exercises tarball: <code>wget https://github.com/UPPMAX/NAISS_Slurm/raw/refs/heads/main/exercises.tar.gz</code></li>
+<li>Unpack the tarball: <code>tar zxvf exercises.tar.gz</code></li>
+<li>You will get a directory <code>exercises</code>. Go into it: <code>cd exercises</code></li>
+<li>You will find some sub directories for most of the Swedish HPC centres. </li>
+<li>Change to the directory of your cluster. If it is not listed, pick &ldquo;other&rdquo;. </li>
+<li>There should be various batch script examples (and some .py, .f90 and .c files for the test scripts). </li>
+</ol>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href=".." class="btn btn-neutral float-left" title="Home"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../cluster/" class="btn btn-neutral float-right" title="Intro to clusters">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/UPPMAX/NAISS_Slurm" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href=".." style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../cluster/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../assets/_markdown_exec_pyodide.js"></script>
+      <script src="../search/main.js"></script>
+      <script src="../js/open_in_new_tab.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

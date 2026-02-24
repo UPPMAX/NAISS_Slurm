@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Job monitoring and efficiency - Running jobs on HPC systems</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../assets/_markdown_exec_pyodide.css" rel="stylesheet" />
+        <link href="../assets/_markdown_exec_ansi.css" rel="stylesheet" />
+        <link href="../assets/_mkdocstrings.css" rel="stylesheet" />
+        <link href="../css/extra.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Job monitoring and efficiency";
+        var mkdocs_page_input_path = "monitoring.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="..">
+          <img src="../images/naiss-slurm-logo.png" class="logo" alt="Logo"/>
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../intro/">Introduction</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../cluster/">Intro to clusters</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../concepts/">Batch system concepts</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../slurm/">Introduction to Slurm</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../interactive/">Interactive jobs</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../jobscripts/">Sample job scripts</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">Job monitoring and efficiency</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#why__is__a__job__ineffective">Why is a job ineffective?</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#job__monitoring">Job monitoring</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#commands__valid__at__all__centres">Commands valid at all centres</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#site-specific__commands">Site-specific commands</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../summary/">Summary</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Extras</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../mpi/">A bit about MPI</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../openmp/">Short about OpenMP</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">Running jobs on HPC systems</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Job monitoring and efficiency</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/UPPMAX/NAISS_Slurm/blob/main/docs/monitoring.md" class="icon icon-github"> Edit on GitHub</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="job__monitoring__and__efficiency">Job monitoring and efficiency<a class="headerlink" href="#job__monitoring__and__efficiency" title="Permanent link">&para;</a></h1>
+<p>This section looks at how to monitor your job(s), including to see if they are efficient. </p>
+<p>Many of the relevant commands have already been discussed in previous parts: </p>
+<ul>
+<li><code>squeue</code>: for viewing the state of the batch queue. More here: <a href="https://uppmax.github.io/NAISS_Slurm/slurm/#squeue" target="_blank">https://uppmax.github.io/NAISS_Slurm/slurm/#squeue</a></li>
+<li><code>scancel</code>: to cancel a job. More info here: <a href="https://uppmax.github.io/NAISS_Slurm/slurm/#scancel" target="_blank">https://uppmax.github.io/NAISS_Slurm/slurm/#scancel</a></li>
+<li><code>sinfo</code>: information about the partitions/queues. More info here: <a href="https://uppmax.github.io/NAISS_Slurm/slurm/#sinfo" target="_blank">https://uppmax.github.io/NAISS_Slurm/slurm/#sinfo</a></li>
+<li><code>scontrol show job</code>: lots of information about a job. More info here: <a href="https://uppmax.github.io/NAISS_Slurm/slurm/#scontrol__show__job" target="_blank">https://uppmax.github.io/NAISS_Slurm/slurm/#scontrol__show__job</a></li>
+</ul>
+<p>But there are several others that have either not been mentioned or only done so briefly, including <code>sacct</code>, <code>projinfo</code>, `sshare`` and a number of center specific commands. We will look more into all of them here. </p>
+<h2 id="why__is__a__job__ineffective">Why is a job ineffective?<a class="headerlink" href="#why__is__a__job__ineffective" title="Permanent link">&para;</a></h2>
+<p>There are several reasons that a job might be ineffective. Some of those could be: </p>
+<ul>
+<li>using more threads than the allocated number of cores</li>
+<li>not using all the cores you have allocated (unless on purpose/for memory)</li>
+<li>inefficient use of the file system (many small files, open/close many files)</li>
+<li>running a job that could run on GPUs on CPUs instead</li>
+</ul>
+<p>Job monitoring is (also) about detecting signs the job is not running efficiently. This can be done with many different commands. </p>
+<h2 id="job__monitoring">Job monitoring<a class="headerlink" href="#job__monitoring" title="Permanent link">&para;</a></h2>
+<p>Now let us look at some of the commands that are generally available, as well as those that are specific to one or more centres. </p>
+<h3 id="commands__valid__at__all__centres">Commands valid at all centres<a class="headerlink" href="#commands__valid__at__all__centres" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>What</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>scontrol show job JOBID</code></td>
+<td>info about a job, including <em>estimated</em> start time</td>
+</tr>
+<tr>
+<td><code>squeue --me --start</code></td>
+<td>your running and queued jobs with <em>estimated</em> start time</td>
+</tr>
+<tr>
+<td><code>sacct -l -j JOBID</code></td>
+<td>info about j ob, pipe to <code>less -S</code> for scrolling side-ways (it is a wide output)</td>
+</tr>
+<tr>
+<td><code>projinfo</code></td>
+<td>usage of your project, adding <code>-vd</code> lists member usage</td>
+</tr>
+<tr>
+<td><code>sshare -l -A &lt;proj-account&gt;</code></td>
+<td>gives priority/fairshare (LevelIFS)</td>
+</tr>
+</tbody>
+</table>
+<p>Most up-to-date project usage on a project&rsquo;s SUPR page, linked from here: <a href="https://supr.naiss.se/project/" target="_blank">https://supr.naiss.se/project/</a></p>
+<h3 id="site-specific__commands">Site-specific commands<a class="headerlink" href="#site-specific__commands" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>What</th>
+<th>Cluster</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>jobinfo</code></td>
+<td>wrapper around <code>squeue</code></td>
+<td>Bianca, Cosmos, Alvis</td>
+</tr>
+<tr>
+<td><code>jobstats -p JOBID</code></td>
+<td>CPU and memory use of finished job (&gt; 5 min) in a plot</td>
+<td>Bianca</td>
+</tr>
+<tr>
+<td><code>job_stats.py</code></td>
+<td>link to Grafana dashboard with overview of your running jobs. Add <code>JOBID</code> for real-time usage of a job</td>
+<td>Alvis</td>
+</tr>
+<tr>
+<td><code>job-usage JOBID</code></td>
+<td>grafana graphics of resource use for job (&gt; few minutes)</td>
+<td>Kebnekaise</td>
+</tr>
+<tr>
+<td><code>jobload JOBID</code></td>
+<td>show cpu and memory usage in a job</td>
+<td>Tetralith</td>
+</tr>
+<tr>
+<td><code>jobsh NODE</code></td>
+<td>login to node, run &ldquo;top&rdquo;</td>
+<td>Tetralith</td>
+</tr>
+<tr>
+<td><code>seff JOBID</code></td>
+<td>displays memory and CPU usage from job run</td>
+<td>Tetralith, Dardel</td>
+</tr>
+<tr>
+<td><code>lastjobs</code></td>
+<td>lists 10 most recent job in recent 30 days</td>
+<td>Tetralith</td>
+</tr>
+<tr>
+<td><a href="https://pdc-web.eecs.kth.se/cluster_usage/" target="_blank">https://pdc-web.eecs.kth.se/cluster_usage/</a></td>
+<td>Information about project usage</td>
+<td>Dardel</td>
+</tr>
+<tr>
+<td><a href="https://grafana.c3se.chalmers.se/d/user-jobs/user-jobs" target="_blank">https://grafana.c3se.chalmers.se/d/user-jobs/user-jobs</a></td>
+<td>Grafana dashboard for user jobs</td>
+<td>Alvis</td>
+</tr>
+<tr>
+<td><a href="https://www.nsc.liu.se/support/batch-jobs/tetralith/monitoring/" target="_blank">https://www.nsc.liu.se/support/batch-jobs/tetralith/monitoring/</a></td>
+<td>Job monitoring</td>
+<td>Tetralith</td>
+</tr>
+<tr>
+<td><a href="https://docs.uppmax.uu.se/software/jobstats/" target="_blank">https://docs.uppmax.uu.se/software/jobstats/</a></td>
+<td>Job efficiency</td>
+<td>Bianca</td>
+</tr>
+</tbody>
+</table>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../jobscripts/" class="btn btn-neutral float-left" title="Sample job scripts"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../summary/" class="btn btn-neutral float-right" title="Summary">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/UPPMAX/NAISS_Slurm" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href="../jobscripts/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../summary/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../assets/_markdown_exec_pyodide.js"></script>
+      <script src="../search/main.js"></script>
+      <script src="../js/open_in_new_tab.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

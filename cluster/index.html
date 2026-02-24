@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Intro to clusters - Running jobs on HPC systems</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../assets/_markdown_exec_pyodide.css" rel="stylesheet" />
+        <link href="../assets/_markdown_exec_ansi.css" rel="stylesheet" />
+        <link href="../assets/_mkdocstrings.css" rel="stylesheet" />
+        <link href="../css/extra.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Intro to clusters";
+        var mkdocs_page_input_path = "cluster.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="..">
+          <img src="../images/naiss-slurm-logo.png" class="logo" alt="Logo"/>
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../intro/">Introduction</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">Intro to clusters</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#what__is__a__cluster">What is a cluster</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#what__are__nodes__cores__and__cpus">What are Nodes, Cores, and CPUs?</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#what__is__a__supercomputer__is__it__the__same__as__a__cluster">What is a Supercomputer? Is it the same as a Cluster?</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#how__is__a__job__run__on__a__computer__cluster__what__is__a__batch__system">How is a job run on a computer cluster? What is a batch system?</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#which__programs__can__be__run__effectively__on__a__computer__cluster">Which programs can be run effectively on a computer cluster?</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#many__serial__jobs">Many serial jobs</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#parallelization">Parallelization</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#what__kinds__of__programs__can__be__parallelized">What kinds of programs can be parallelized?</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#shared__memorythread__parallelism">Shared memory/thread parallelism</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#distributed__parallelism">Distributed parallelism</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#hybrid__parallelism">Hybrid parallelism</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#gpus">GPUs</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#difference__between__cpus__and__gpus">Difference between CPUs and GPUs</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#using__gpus">Using GPUs</a>
+    </li>
+        </ul>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../concepts/">Batch system concepts</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../slurm/">Introduction to Slurm</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../interactive/">Interactive jobs</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../jobscripts/">Sample job scripts</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../monitoring/">Job monitoring and efficiency</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../summary/">Summary</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Extras</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../mpi/">A bit about MPI</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../openmp/">Short about OpenMP</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">Running jobs on HPC systems</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Intro to clusters</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/UPPMAX/NAISS_Slurm/blob/main/docs/cluster.md" class="icon icon-github"> Edit on GitHub</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="introduction__to__clusters">Introduction to clusters<a class="headerlink" href="#introduction__to__clusters" title="Permanent link">&para;</a></h1>
+<p>This section is a beginner&rsquo;s guide to clusters, and provides general information
+about computer clusters like Tetralith, Dardel, Alvis, Cosmos, Pelle, Kebnekaise and other HPC systems, but is not directly focused on any of them.</p>
+<h2 id="what__is__a__cluster">What is a cluster<a class="headerlink" href="#what__is__a__cluster" title="Permanent link">&para;</a></h2>
+<p>A computer cluster consists of a number of computers (few or many), linked
+together and working closely together. In many ways, the computer cluster works
+as a single computer. Generally, the component-computers are connected to each
+other through fast local area networks (LANs).</p>
+<p>The advantage of computer clusters over single computers, are that they usually
+improves the performance (and availability) greatly, while still being cheaper
+than single computers of comparable speed and size.</p>
+<p><img 800px="800px" alt="cluster" src="../images/clusterlayout.svg" style="&quot;width:" /></p>
+<h3 id="what__are__nodes__cores__and__cpus">What are Nodes, Cores, and CPUs?<a class="headerlink" href="#what__are__nodes__cores__and__cpus" title="Permanent link">&para;</a></h3>
+<p>A node is the name usually used for one unit (usually one computer) in a
+computer cluster. Generally, this computer will have one or two central
+processing units, or CPUs, each normally with (many) more than one core. Each
+core is a single processor able to handle a single programmed task. Memory is
+always shared between cores on the same CPU, but generally not between the CPUs.
+Computer nodes can also have GPUs (graphical processing units) in addition to
+the CPUs.</p>
+<p><img alt="cpu node" src="../images/cpu-core-schema.svg" style="width: 400px;float: right" /></p>
+<p><img alt="gpu node" src="../images/gpu-core-schema.svg" style="width: 400px;float: right" /></p>
+<p>Nodes in computer clusters are usually arranged in racks at a dedicated climate-
+controlled facility, and are connected via a communication network. With few
+exceptions, nearly all high-performance computer clusters use the Linux operating system. Normally, clusters have some sort of batch or queuing system to handle
+scheduling of jobs. On Linux systems, that batch or queuing system is most often
+Slurm (the Simple Linux Utility for Resource Management).</p>
+<h2 id="what__is__a__supercomputer__is__it__the__same__as__a__cluster">What is a Supercomputer? Is it the same as a Cluster?<a class="headerlink" href="#what__is__a__supercomputer__is__it__the__same__as__a__cluster" title="Permanent link">&para;</a></h2>
+<p>A supercomputer is simply a computer with a processing capacity (generally
+calculation speed) several orders of magnitude better than a typical personal
+computer. For many years, supercomputers were single computers with many CPUs
+and usually large volumes of shared memory&mdash;sometimes built specifically for a
+certain task. They have often been custom-built machines, like Cray, and still
+sometimes are. However, since desktop computers have become cheaper, most
+supercomputers today are made up of many &ldquo;off the shelf&rdquo; ordinary computers
+connected in parallel.</p>
+<p>A supercomputer is not the same as a computer cluster, though a computer
+cluster is often a supercomputer.</p>
+<h2 id="how__is__a__job__run__on__a__computer__cluster__what__is__a__batch__system">How is a job run on a computer cluster? What is a batch system?<a class="headerlink" href="#how__is__a__job__run__on__a__computer__cluster__what__is__a__batch__system" title="Permanent link">&para;</a></h2>
+<p>In general, jobs are run with a batch- or queuing system. There are several
+variants of these, with the most common working by having the user log into a
+&ldquo;login node&rdquo; and then assembling and submitting their jobs from there.</p>
+<p>A &ldquo;job script&rdquo; (also called a &ldquo;submission script&rdquo;) will typically be used to
+start a job. A job script is essentially a list of commands to the batch system
+telling it things like: 
+- how many nodes to use,
+- how many CPU and/or GPU cores,
+- how much memory to allocate,
+- how long to run (maximum),
+- the program name,
+- any input data, etc.</p>
+<p>When the job has finished running, it should have produced some files, like output
+data, perhaps error messages, etc. The syntax of job scripts depends on the
+queuing system, but that system is so often Slurm that you may see the terms
+&ldquo;job script&rdquo; and &ldquo;slurm script&rdquo; used interchangeably.</p>
+<p>Since jobs are queued internally and will run whenever the resources for them
+become available, programs requiring any kind of user interaction are usually
+not recommended (and often not possible) to be run via a job script. There are
+special programs like Open On-Demand and GfxLauncher that allow graphical
+programs to be run as scheduled jobs on some HPC clusters, but it is up to the
+administrators to decide which programs can be run with these tools, how they
+should be configured, and what options regular users will be allowed to set.</p>
+<h2 id="which__programs__can__be__run__effectively__on__a__computer__cluster">Which programs can be run effectively on a computer cluster?<a class="headerlink" href="#which__programs__can__be__run__effectively__on__a__computer__cluster" title="Permanent link">&para;</a></h2>
+<p>Computer clusters are made up of many interconnected nodes, each with a limited
+number of cores and limited memory capacity. The main way an HPC cluster lets you
+speed up computations is by letting you execute several tasks in parallel. In other
+words, a problem must somehow be split into many tasks to gain any speed-up. </p>
+<h3 id="many__serial__jobs">Many serial jobs<a class="headerlink" href="#many__serial__jobs" title="Permanent link">&para;</a></h3>
+<p>Running many independent tasks can be done faster on a computer
+cluster. No special programming is needed, but you can only run on one core for
+each task. It is good for long-running single-threaded jobs. This type of workflow
+is good for problems like parameter sweeps, where the same code is run repeatedly
+with different inputs.</p>
+<p>A job scheduler is used to control the flow of tasks. Using a small script, many
+instances of the same task (like a program run many times, each with slightly
+different parameters) can be set up. The tasks will be put in a job queue, and
+will run as free spaces open up in the queue. Normally, the tasks will run many
+at a time, since they are serial, which means each only uses one core.</p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<p>You launch 500 tasks (say, run a small program for 500 different temperatures).
+There are 50 cores on the machine in our example, that you can access. Fifty
+instances are started and then run, while the remaining 450 tasks wait. When
+the running programs finish, the next 50 will start, and so on.</p>
+<p>It will be is as if you ran on 50 computers instead of one, and you will finish
+in 1/50th of the time.</p>
+<p>Of course, this is an ideal example. In reality there may be overhead, waiting
+time between batches of jobs, etc. so the speed-up will not be as great, but it
+will certainly run faster.</p>
+</div>
+<h2 id="parallelization">Parallelization<a class="headerlink" href="#parallelization" title="Permanent link">&para;</a></h2>
+<p>Parallelization can be done in several ways:</p>
+<ul>
+<li>Inside a node: threaded/shared memory</li>
+<li>Across several nodes: distributed parallelism (generally done with MPI or similar.)</li>
+<li>Some combination of threaded and distributed parallelism (hard)</li>
+</ul>
+<p>Which is best depends on the size of each parallel process and whether or to what
+extent the processes have to communicate.</p>
+<h3 id="what__kinds__of__programs__can__be__parallelized">What kinds of programs can be parallelized?<a class="headerlink" href="#what__kinds__of__programs__can__be__parallelized" title="Permanent link">&para;</a></h3>
+<p>For a problem to be parallelizable, it must be possible to split it into smaller
+sections that can be solved independently of each other and then combined.</p>
+<p>What happens in a parallel program is generally the following:</p>
+<ul>
+<li>A &ldquo;master&rdquo; process is created to control the distribution of data and tasks.</li>
+<li>The &ldquo;master&rdquo; sends data and instructions to one or more &ldquo;worker&rdquo; processes that do the calculations.</li>
+<li>The &ldquo;worker&rdquo; processes then send the results back to the &ldquo;master&rdquo;.</li>
+<li>The &ldquo;master&rdquo; combines the results and/or may send out further subsections of the problem to be solved.</li>
+</ul>
+<p>Examples of parallel problems:</p>
+<ul>
+<li>Sorting</li>
+<li>Rendering computer graphics</li>
+<li>Computer simulations comparing many independent scenarios, like climate models</li>
+<li>Matrix Multiplication</li>
+</ul>
+<h3 id="shared__memorythread__parallelism">Shared memory/thread parallelism<a class="headerlink" href="#shared__memorythread__parallelism" title="Permanent link">&para;</a></h3>
+<p>Shared memory is memory that can be accessed by several programs at the same
+time, enabling them to communicate quickly and avoid redundant copies. Shared
+memory generally refers to a block of RAM accessible by several cores in a
+multi-core system. Computers with large amounts of shared memory and many cores
+per node are well suited for threaded programs, using OpenMP or similar.</p>
+<p>Computer clusters built up of many off-the-shelf computers usually have smaller
+amounts of shared memory and fewer cores per node than custom-built single
+supercomputers. This means they are more suited for programs using MPI than
+OpenMP. However, the number of cores per node is going up and many-core chips
+are now common. This means that OpenMP programs as well as programs combining
+MPI and OpenMP are often advantageous.</p>
+<h3 id="distributed__parallelism">Distributed parallelism<a class="headerlink" href="#distributed__parallelism" title="Permanent link">&para;</a></h3>
+<p>While shared memory parallelism works well inside a node, you need distributed parallelism if you want to scale to more cores than are in a node. </p>
+<p>This is often done with MPI (Message Passing Interface) libraries. Processes/workers exchange information by sending and receiving messages/data. They can also share some memory. </p>
+<p>You need to write your code so it uses MPI or use software that is already prepared for it. </p>
+<h3 id="hybrid__parallelism">Hybrid parallelism<a class="headerlink" href="#hybrid__parallelism" title="Permanent link">&para;</a></h3>
+<p>Sometimes code can be more efficient when using both OpenMP and MPI. This is called hybrid parallelism. </p>
+<h3 id="gpus">GPUs<a class="headerlink" href="#gpus" title="Permanent link">&para;</a></h3>
+<p>Many computer clusters have GPUs in several of their nodes that jobs may
+take advantage of.</p>
+<p>Originally, GPUs were used for computer graphics, but now they are also used
+extensively for general-purpose computing (GPGPU computing).</p>
+<figure class="inline end">
+<p><img alt="gpu-vs-cpu" src="../images/cpu-vs-gpu.png" /></p>
+<figcaption>Image of CPU and GPU components from NVidia. ALU = Arithmetic Logic Unit, and DRAM = Dynamic Random-Access Memory.</figcaption>
+</figure>
+<p>GPU-driven parallel computing is, among other things, used for:</p>
+<ul>
+<li>scientific modeling</li>
+<li>machine learning</li>
+<li>graphical rendering</li>
+</ul>
+<p>and other parallelizable jobs.</p>
+<h4 id="difference__between__cpus__and__gpus">Difference between CPUs and GPUs<a class="headerlink" href="#difference__between__cpus__and__gpus" title="Permanent link">&para;</a></h4>
+<p>CPUs (Central Processing Units) are latency-optimized general-purpose processors
+designed to handle a wide range of distinct tasks sequentially.</p>
+<p>GPUs (Graphics Processing Units) are throughput-optimized specialized processors
+designed for high-end parallel computing.</p>
+<p>Whether you should use a CPU, a GPU, or both depends on the specifics of the
+problem you are solving.</p>
+<h4 id="using__gpus">Using GPUs<a class="headerlink" href="#using__gpus" title="Permanent link">&para;</a></h4>
+<p><img alt="gpu" src="../images/gpu2.png" style="width: 400px;float: right" /></p>
+<p>Programs must be written especially for GPUs in order to use them.</p>
+<p>Several programming frameworks handle the graphical primitives that GPUs
+understand, like CUDA (Compute Unified Device Architecture), OpenCL, OpenACC,
+HIP, etc.</p>
+<p>In addition to the above programming frameworks, you often have the option to
+use software that is already prepared for use on GPUs. This includes many types
+of MD software, Python packages, and others.</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../intro/" class="btn btn-neutral float-left" title="Introduction"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../concepts/" class="btn btn-neutral float-right" title="Batch system concepts">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/UPPMAX/NAISS_Slurm" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href="../intro/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../concepts/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../assets/_markdown_exec_pyodide.js"></script>
+      <script src="../search/main.js"></script>
+      <script src="../js/open_in_new_tab.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,1426 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Sample job scripts - Running jobs on HPC systems</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../assets/_markdown_exec_pyodide.css" rel="stylesheet" />
+        <link href="../assets/_markdown_exec_ansi.css" rel="stylesheet" />
+        <link href="../assets/_mkdocstrings.css" rel="stylesheet" />
+        <link href="../css/extra.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Sample job scripts";
+        var mkdocs_page_input_path = "jobscripts.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="..">
+          <img src="../images/naiss-slurm-logo.png" class="logo" alt="Logo"/>
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../intro/">Introduction</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../cluster/">Intro to clusters</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../concepts/">Batch system concepts</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../slurm/">Introduction to Slurm</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../interactive/">Interactive jobs</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">Sample job scripts</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#basic__serial__job">Basic Serial Job</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#partitions">Partitions</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#examples__by__service">Examples by service</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#openmp__and__shared__memory__programming">OpenMP and shared memory programming</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#applications__using__mpi">Applications using MPI</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#memory-intensive__jobs">Memory-intensive jobs</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#increasing__memory__per__task">Increasing memory per task</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#memory__availability">Memory availability</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#io__intensive__jobs">I/O intensive jobs</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#example">Example</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#job__arrays">Job arrays</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#some__array__comments">Some array comments</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#gpu__jobs">GPU jobs</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#allocating__a__gpu">Allocating a GPU</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#example__gpu__scripts">Example GPU scripts</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#miscellaneous">Miscellaneous</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#multiple__serial__jobs__simultaneously">Multiple serial jobs, simultaneously</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#multiple__simultaneous__jobs__serial__or__parallel">Multiple simultaneous jobs (serial or parallel)</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#multiple__sequential__jobs__serial__or__parallel">Multiple sequential jobs (serial or parallel)</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../monitoring/">Job monitoring and efficiency</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../summary/">Summary</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Extras</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../mpi/">A bit about MPI</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../openmp/">Short about OpenMP</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">Running jobs on HPC systems</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Sample job scripts</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/UPPMAX/NAISS_Slurm/blob/main/docs/jobscripts.md" class="icon icon-github"> Edit on GitHub</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="sample__job__scripts">Sample job scripts<a class="headerlink" href="#sample__job__scripts" title="Permanent link">&para;</a></h1>
+<h2 id="basic__serial__job">Basic Serial Job<a class="headerlink" href="#basic__serial__job" title="Permanent link">&para;</a></h2>
+<p>In this section we discuss the running of a serial Python script using a couple of services as an example.   But first let&rsquo;s spend a few lines on partitions.</p>
+<h3 id="partitions">Partitions<a class="headerlink" href="#partitions" title="Permanent link">&para;</a></h3>
+<p>As discussed, not all compute nodes offered by a service are equal.  Nodes may offer different hardware (e.g. CPU type, amount of memory, number of GPUs or no GPU). There might also be differences on how the nodes are configured. To control that a job is placed on the correct kind of compute nodes, the nodes may be placed in partitions.  Many but not all services have a default partition.    </p>
+<p>Information about partitions can usually be found with <code>sinfo</code>. </p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:4"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><input id="__tabbed_1_3" name="__tabbed_1" type="radio" /><input id="__tabbed_1_4" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Tetralith</label><label for="__tabbed_1_2">Dardel</label><label for="__tabbed_1_3">Cosmos</label><label for="__tabbed_1_4">Kebnekaise</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>All nodes are in a single partion. There is no need to specify a partition on Tetralith.</p>
+</div>
+<div class="tabbed-block">
+<p>There is no default partition on Dardel.  One <strong>always</strong> has to specify a partion on Dardel.</p>
+<table>
+<thead>
+<tr>
+<th>Partition name</th>
+<th>Node type</th>
+<th>Node sharing</th>
+<th>Max job time</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>shared</strong></td>
+<td>Thin</td>
+<td>part of a node</td>
+<td>up to 7 days</td>
+</tr>
+<tr>
+<td><strong>main</strong></td>
+<td>Thin, large, huge</td>
+<td>exclusive</td>
+<td>up to 24 h</td>
+</tr>
+<tr>
+<td><strong>long</strong></td>
+<td>Thin</td>
+<td>exclusive</td>
+<td>up to 7 days</td>
+</tr>
+<tr>
+<td><strong>memory</strong></td>
+<td>Large, huge, giant</td>
+<td>exclusive</td>
+<td>up to 7 days</td>
+</tr>
+<tr>
+<td><strong>gpu</strong></td>
+<td>AMD GPU</td>
+<td>exclusive</td>
+<td>up to 24 h</td>
+</tr>
+<tr>
+<td><strong>gpugh</strong></td>
+<td>Nvidia Grace Hopper</td>
+<td>exclusive</td>
+<td>up to 24 h</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Explanations</strong></p>
+<ul>
+<li><strong>exclusive</strong> nodes: One gets all the cores, all the memory and all the GPUs of the requested nodes.  The allocation gets charged for all these resources consumed, including the 128 cores of the node.  <strong>Don&rsquo;t use for serial jobs or small parallel jobs</strong></li>
+<li><strong>part of a node</strong>: One can request any number of cores up to 128 cores using the <strong>-n</strong> and <strong>-c</strong> options of sbatch.  Your allocation gets charged for the number of requested cores.  <strong>Use for serial jobs and small parallel jobs</strong></li>
+</ul>
+</div>
+<div class="tabbed-block">
+<p>On Cosmos at LUNARC you will be placed in the CPU partition by default.   If you need access to a GPU node, you need to select a partition.  Please visit the <a href="https://lunarc-documentation.readthedocs.io/en/latest/manual/submitting_jobs/manual_specifying_requirements/#accessing-gpus">LUNARC documentation on readthedocs.io</a> for a detailed discussion.</p>
+</div>
+<div class="tabbed-block">
+<p>There is only a single partition, <code>batch</code>, that users can submit jobs to. The system then figures out, based on requested features which actual partition(s) the job should be sent to.</p>
+<p>Since there is only one partition available for users to submit jobs to, you should remove any use of <code>#SBATCH -p</code> you may have in your scripts. </p>
+<p>Previously, the most common use of -p was for targeting the LargeMemory nodes, this is now done using a feature request like this: </p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1">#SBATCH -C largemem</span>
+</span></code></pre></div>
+</div>
+</div>
+</div>
+<h3 id="examples__by__service">Examples by service<a class="headerlink" href="#examples__by__service" title="Permanent link">&para;</a></h3>
+<p>Let&rsquo;s say you have a simple Python script called mmmult.py that creates 2 random-valued matrices, multiplies them together, and prints the shape of the result and the computation time. Let&rsquo;s also say that you want to run this code in your current working directory.  Here is how you can run that program utilising 1 core on 1 node on a number of services:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="2:6"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><input id="__tabbed_2_3" name="__tabbed_2" type="radio" /><input id="__tabbed_2_4" name="__tabbed_2" type="radio" /><input id="__tabbed_2_5" name="__tabbed_2" type="radio" /><input id="__tabbed_2_6" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">Tetralith</label><label for="__tabbed_2_2">Dardel</label><label for="__tabbed_2_3">Kebnekaise</label><label for="__tabbed_2_4">Cosmos</label><label for="__tabbed_2_5">Pelle</label><label for="__tabbed_2_6">mmmult.py</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="ch">#!/bin/bash</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="c1"># Set account </span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="c1">#SBATCH -A &lt;project ID&gt; </span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="c1"># Set the time </span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="c1">#SBATCH -t 00:10:00</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="c1"># ask for 1 core, serial running </span>
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="c1">#SBATCH -n 1 # Asking for 1 core</span>
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="c1"># name output and error file</span>
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="c1">#SBATCH -o process_%j.out</span>
+</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="c1">#SBATCH -e process_%j.err</span>
+</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>
+</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="c1"># write this script to stdout-file - useful for scripting errors</span>
+</span><span id="__span-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>cat<span class="w"> </span><span class="nv">$0</span>
+</span><span id="__span-1-18"><a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>
+</span><span id="__span-1-19"><a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="c1"># load a modern Python distribution and make NumPy available</span>
+</span><span id="__span-1-20"><a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a>module<span class="w"> </span>load<span class="w"> </span>buildenv-gcc/2023b-eb
+</span><span id="__span-1-21"><a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a>module<span class="w"> </span>load<span class="w"> </span>Python/3.11.5<span class="w"> </span>SciPy-bundle/2023.11
+</span><span id="__span-1-22"><a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a>
+</span><span id="__span-1-23"><a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a><span class="c1"># Run your Python script</span>
+</span><span id="__span-1-24"><a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a>python<span class="w"> </span>mmmult.py
+</span></code></pre></div>
+</div>
+<div class="tabbed-block">
+<p>On Dardel you always have to specify a partition.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="ch">#!/bin/bash</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="c1">#SBATCH -A &lt;project ID&gt;       # Change to your own project</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="c1">#SBATCH --time=00:10:00       # Asking for 10 minutes</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="c1">#SBATCH -n 1                  # Asking for 1 core</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="c1">#SBATCH -p shared             # ask to be placed in the shared partition</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="c1">#SBATCH -o process_%j.out     # name the output file</span>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="c1">#SBATCH -e process_%j.err     # name the error file</span>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>cat<span class="w"> </span><span class="nv">$0</span>
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="c1"># Load any modules you need, here for cray-python/3.11.7.</span>
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>module<span class="w"> </span>load<span class="w"> </span>cray-python/3.11.7
+</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>
+</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="c1"># Run your Python script</span>
+</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a>python<span class="w"> </span>mmmult.py
+</span></code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="ch">#!/bin/bash</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="c1">#SBATCH -A hpc2n2025-151 # Change to your own</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="c1">#SBATCH --time=00:10:00 # Asking for 10 minutes</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="c1">#SBATCH -n 1 # Asking for 1 core</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="c1"># Load any modules you need, here for Python/3.11.3 and compatible SciPy-bundle</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>module<span class="w"> </span>load<span class="w"> </span>GCC/12.3.0<span class="w"> </span>Python/3.11.3<span class="w"> </span>SciPy-bundle/2023.07
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="c1"># Run your Python script</span>
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>python<span class="w"> </span>mmmult.py
+</span></code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="ch">#!/bin/bash</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="c1">#SBATCH -A luXXXX-Y-ZZ # Change to your own</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="c1">#SBATCH --time=00:10:00 # Asking for 10 minutes</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="c1">#SBATCH -n 1 # Asking for 1 core</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="c1"># Load any modules you need, here for Python/3.11.5 and compatible SciPy-bundle</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>module<span class="w"> </span>load<span class="w"> </span>GCC/13.2.0<span class="w"> </span>Python/3.11.5<span class="w"> </span>SciPy-bundle/2023.11
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="c1"># Run your Python script</span>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>python<span class="w"> </span>mmmult.py
+</span></code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="ch">#!/bin/bash -l</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="c1">#SBATCH -A uppmaxXXXX-Y-ZZZ # Change to your own after the course</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="c1">#SBATCH --time=00:20:00 # Asking for 20 minutes</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="c1">#SBATCH -n 1 # Asking for 1 core</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="c1"># Load any modules you need, here Python 3.12.3 </span>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="c1"># and a compatible SciPy-bundle</span>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>module<span class="w"> </span>load<span class="w"> </span>Python/3.12.3-GCCcore-13.3.0
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>module<span class="w"> </span>load<span class="w"> </span>SciPy-bundle/2024.05-gfbf-2024a
+</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>
+</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="c1"># Run your Python script</span>
+</span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>python<span class="w"> </span>mmmult.py
+</span></code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="language-python highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">timeit</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="n">starttime</span> <span class="o">=</span> <span class="n">timeit</span><span class="o">.</span><span class="n">default_timer</span><span class="p">()</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">1701</span><span class="p">)</span>
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="o">-</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="n">B</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="o">-</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>
+</span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;This is matrix A:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">A</span><span class="p">)</span>
+</span><span id="__span-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The shape of matrix A is &quot;</span><span class="p">,</span> <span class="n">A</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</span><span id="__span-6-13"><a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a><span class="nb">print</span><span class="p">()</span>
+</span><span id="__span-6-14"><a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;This is matrix B:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">B</span><span class="p">)</span>
+</span><span id="__span-6-15"><a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The shape of matrix B is &quot;</span><span class="p">,</span> <span class="n">B</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</span><span id="__span-6-16"><a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a><span class="nb">print</span><span class="p">()</span>
+</span><span id="__span-6-17"><a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Doing matrix-matrix multiplication...&quot;</span><span class="p">)</span>
+</span><span id="__span-6-18"><a id="__codelineno-6-18" name="__codelineno-6-18" href="#__codelineno-6-18"></a><span class="nb">print</span><span class="p">()</span>
+</span><span id="__span-6-19"><a id="__codelineno-6-19" name="__codelineno-6-19" href="#__codelineno-6-19"></a>
+</span><span id="__span-6-20"><a id="__codelineno-6-20" name="__codelineno-6-20" href="#__codelineno-6-20"></a><span class="n">C</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">)</span>
+</span><span id="__span-6-21"><a id="__codelineno-6-21" name="__codelineno-6-21" href="#__codelineno-6-21"></a>
+</span><span id="__span-6-22"><a id="__codelineno-6-22" name="__codelineno-6-22" href="#__codelineno-6-22"></a><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The product of matrices A and B is:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">C</span><span class="p">)</span>
+</span><span id="__span-6-23"><a id="__codelineno-6-23" name="__codelineno-6-23" href="#__codelineno-6-23"></a><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The shape of the resulting matrix is &quot;</span><span class="p">,</span> <span class="n">C</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</span><span id="__span-6-24"><a id="__codelineno-6-24" name="__codelineno-6-24" href="#__codelineno-6-24"></a><span class="nb">print</span><span class="p">()</span>
+</span><span id="__span-6-25"><a id="__codelineno-6-25" name="__codelineno-6-25" href="#__codelineno-6-25"></a><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Time elapsed for generating matrices and multiplying them is &quot;</span><span class="p">,</span> <span class="n">timeit</span><span class="o">.</span><span class="n">default_timer</span><span class="p">()</span> <span class="o">-</span> <span class="n">starttime</span><span class="p">)</span>
+</span></code></pre></div>
+</div>
+</div>
+</div>
+<p>There is no example for Alvis since you should only use that for running GPU jobs. </p>
+<h2 id="openmp__and__shared__memory__programming">OpenMP and shared memory programming<a class="headerlink" href="#openmp__and__shared__memory__programming" title="Permanent link">&para;</a></h2>
+<p>Shared memory programming is a parallel programming model associated with threads.  You start a LINUX/UNIX process, which spawns threads.   The memory of the process can be accessed by all the threads.  The threads are typically placed on and often bound to different logical or physical cores of a single hardware node.   The number of cores available on a node limits the number of threads one can reasonably start on a node.  In shared memory programming it is typically not possible to utilise cores from different nodes. All cores need to be in the same node.  The aim of spawning threads is to speed up the calculation to achieve a fast time to solution.</p>
+<p>OpenMP is an API widely used in scientific computing to facilitate shared memory programming.  The behaviour of an application utilising OpenMP can be controlled by a number of environment variables.  Even the behaviour of many applications utilising a different API to facilitate shared memory programming, can be controlled by OpenMP environment variables.</p>
+<p>When executing shared memory applications, unless there is a suitable default, one may need to ensure that only one task is used.   This can be done by using the <code>-n</code> option of SLURM, e.g. having a line:</p>
+<p><div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1">#SBATCH -n 1</span>
+</span></code></pre></div>
+in the script.  The number of cores to host the threads can be requested by using either the <code>-c</code> or the <code>--cpus-per-task</code> option.  Both of which do exactly the same thing, so use only one of those.  The following would request eight (logical) cores</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1">#SBATCH -c 8</span>
+</span></code></pre></div>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>Depending on how the service you are using is configured, you might be requesting logical cores, with multiple logical cores being placed on a single physical core.   This is called hyperthreading.  It is important to experiment whether placing threads on multiple logical cores of a physical core benefits or hinders the performance of your application.</p>
+</div>
+<p>On most services it is not required to set the environment variable <code>OMP_NUM_THREADS</code> in your SLURM scripts.   If you are happy with the default of the service this will be picked up from your request with the <code>-c</code> option.  It typically uses all the cores you requested.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="3:2"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><div class="tabbed-labels"><label for="__tabbed_3_1">Tetralith</label><label for="__tabbed_3_2">Dardel</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>Hyperthreading is not active on Tetralith.   By default a single thread is placed on each physical core.  In the following we give an example using thread binding, which typically benefits the performance.  When using binding one can easily modify how the theads are mapped onto the hardware.  This can be done by changing the value of the environment variable <code>OMP_PROC_BIND</code>.    It is advisable to experiment with the values <strong>close</strong> and <strong>spread</strong> for the binding.  This can be accomplished in the below script by commenting the unwanted option and uncommenting the wanted option.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="ch">#!/bin/bash</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="c1"># Set account </span>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="c1">#SBATCH -A &lt;project ID&gt; </span>
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="c1"># Set the time, </span>
+</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="c1">#SBATCH -t 00:10:00</span>
+</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>
+</span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="c1"># ask for 8 core here, modify for your needs.</span>
+</span><span id="__span-9-10"><a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="c1"># When running OpenMP code on Tetralith one can ask up to 32 cores</span>
+</span><span id="__span-9-11"><a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a><span class="c1">#SBATCH -c 8</span>
+</span><span id="__span-9-12"><a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a>
+</span><span id="__span-9-13"><a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a><span class="c1"># name output and error file</span>
+</span><span id="__span-9-14"><a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a><span class="c1">#SBATCH -o omp_process_%j.out</span>
+</span><span id="__span-9-15"><a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a><span class="c1">#SBATCH -e omp_process_%j.err</span>
+</span><span id="__span-9-16"><a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a>
+</span><span id="__span-9-17"><a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a><span class="c1"># write this script to stdout-file - useful for scripting errors</span>
+</span><span id="__span-9-18"><a id="__codelineno-9-18" name="__codelineno-9-18" href="#__codelineno-9-18"></a>cat<span class="w"> </span><span class="nv">$0</span>
+</span><span id="__span-9-19"><a id="__codelineno-9-19" name="__codelineno-9-19" href="#__codelineno-9-19"></a>
+</span><span id="__span-9-20"><a id="__codelineno-9-20" name="__codelineno-9-20" href="#__codelineno-9-20"></a><span class="c1"># process binding is typically recommended.  Try what works best spread or close</span>
+</span><span id="__span-9-21"><a id="__codelineno-9-21" name="__codelineno-9-21" href="#__codelineno-9-21"></a><span class="c1">#export OMP_PROC_BIND=spread</span>
+</span><span id="__span-9-22"><a id="__codelineno-9-22" name="__codelineno-9-22" href="#__codelineno-9-22"></a><span class="nb">export</span><span class="w"> </span><span class="nv">OMP_PROC_BIND</span><span class="o">=</span>close
+</span><span id="__span-9-23"><a id="__codelineno-9-23" name="__codelineno-9-23" href="#__codelineno-9-23"></a>
+</span><span id="__span-9-24"><a id="__codelineno-9-24" name="__codelineno-9-24" href="#__codelineno-9-24"></a><span class="c1"># we bind to cores</span>
+</span><span id="__span-9-25"><a id="__codelineno-9-25" name="__codelineno-9-25" href="#__codelineno-9-25"></a><span class="nb">export</span><span class="w"> </span><span class="nv">OMP_PLACES</span><span class="o">=</span>cores
+</span><span id="__span-9-26"><a id="__codelineno-9-26" name="__codelineno-9-26" href="#__codelineno-9-26"></a>
+</span><span id="__span-9-27"><a id="__codelineno-9-27" name="__codelineno-9-27" href="#__codelineno-9-27"></a><span class="c1"># Run your OpenMP executable</span>
+</span><span id="__span-9-28"><a id="__codelineno-9-28" name="__codelineno-9-28" href="#__codelineno-9-28"></a>./openmp_application
+</span></code></pre></div>
+</div>
+<div class="tabbed-block">
+<p>On the shared partition of Dardel hyperthreading is engaged.  The shared partions is typically recommended to run application spawning threads, such as those parallelised using OpenMP.  Different compilers react differently to hyperthreading, in particular in combination with thread binding.</p>
+<p>Using the <code>-c</code> option of <code>sbatch</code> you request a number of logical cores for your run.   There are two logical cores per physical core, which is called hyperthreading.   With this line commented, the script will place two threads on each physical core.  One thread for each logical core.</p>
+<p>We start with a submission script for the <strong>CRAY clang compiler</strong>.  It is advisable to experiment with <strong>close</strong> and <strong>spread</strong> binding, as well as binding to <strong>cores</strong> or <strong>threads</strong>.  Binding to cores will not utilise hyperthreading, while binding to threads does.  For each of the two options we have provided the relevant lines in the script.  Comment of uncomment to explore what give best performance for your application.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="ch">#!/bin/bash</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="c1"># Project id - change to your own!</span>
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="c1">#SBATCH -A &lt;proj-id&gt;</span>
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>
+</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="c1"># Number of cores per tasks</span>
+</span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="c1"># The number of physical cores is half that number</span>
+</span><span id="__span-10-8"><a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a><span class="c1">#SBATCH -c 8 </span>
+</span><span id="__span-10-9"><a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a>
+</span><span id="__span-10-10"><a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a><span class="c1"># Asking for a walltime of 5 min on the shared partition</span>
+</span><span id="__span-10-11"><a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a><span class="c1">#SBATCH --time=00:05:00</span>
+</span><span id="__span-10-12"><a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a><span class="c1">#SBATCH -p shared </span>
+</span><span id="__span-10-13"><a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a>
+</span><span id="__span-10-14"><a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a><span class="c1">#SBATCH -o process_omp_%j.out  </span>
+</span><span id="__span-10-15"><a id="__codelineno-10-15" name="__codelineno-10-15" href="#__codelineno-10-15"></a><span class="c1">#SBATCH -e process_omp_%j.err </span>
+</span><span id="__span-10-16"><a id="__codelineno-10-16" name="__codelineno-10-16" href="#__codelineno-10-16"></a>
+</span><span id="__span-10-17"><a id="__codelineno-10-17" name="__codelineno-10-17" href="#__codelineno-10-17"></a>cat<span class="w"> </span><span class="nv">$0</span>
+</span><span id="__span-10-18"><a id="__codelineno-10-18" name="__codelineno-10-18" href="#__codelineno-10-18"></a>
+</span><span id="__span-10-19"><a id="__codelineno-10-19" name="__codelineno-10-19" href="#__codelineno-10-19"></a><span class="c1"># Load a compiler toolchain so we can run an OpenMP program</span>
+</span><span id="__span-10-20"><a id="__codelineno-10-20" name="__codelineno-10-20" href="#__codelineno-10-20"></a>module<span class="w"> </span>load<span class="w"> </span>cpe/24.11
+</span><span id="__span-10-21"><a id="__codelineno-10-21" name="__codelineno-10-21" href="#__codelineno-10-21"></a>
+</span><span id="__span-10-22"><a id="__codelineno-10-22" name="__codelineno-10-22" href="#__codelineno-10-22"></a><span class="c1"># process binding is typically recommended.  Try what works best spread or close</span>
+</span><span id="__span-10-23"><a id="__codelineno-10-23" name="__codelineno-10-23" href="#__codelineno-10-23"></a><span class="c1"># export OMP_PROC_BIND=spread</span>
+</span><span id="__span-10-24"><a id="__codelineno-10-24" name="__codelineno-10-24" href="#__codelineno-10-24"></a><span class="nb">export</span><span class="w"> </span><span class="nv">OMP_PROC_BIND</span><span class="o">=</span>close
+</span><span id="__span-10-25"><a id="__codelineno-10-25" name="__codelineno-10-25" href="#__codelineno-10-25"></a>
+</span><span id="__span-10-26"><a id="__codelineno-10-26" name="__codelineno-10-26" href="#__codelineno-10-26"></a><span class="c1"># we bind to cores - this disengages hyper-threading</span>
+</span><span id="__span-10-27"><a id="__codelineno-10-27" name="__codelineno-10-27" href="#__codelineno-10-27"></a><span class="nb">export</span><span class="w"> </span><span class="nv">OMP_PLACES</span><span class="o">=</span>cores
+</span><span id="__span-10-28"><a id="__codelineno-10-28" name="__codelineno-10-28" href="#__codelineno-10-28"></a><span class="c1"># we bind to threads - this engages hyper-threading</span>
+</span><span id="__span-10-29"><a id="__codelineno-10-29" name="__codelineno-10-29" href="#__codelineno-10-29"></a><span class="c1"># export OMP_PLACES=threads</span>
+</span><span id="__span-10-30"><a id="__codelineno-10-30" name="__codelineno-10-30" href="#__codelineno-10-30"></a>
+</span><span id="__span-10-31"><a id="__codelineno-10-31" name="__codelineno-10-31" href="#__codelineno-10-31"></a>./openmp_application
+</span></code></pre></div>
+<p>If your application has been compiled using GCC 13.2, the following script should work.  Again one should explore the effect of close or spread binding.  If you want to disengage Hyperthreading, uncomment the line setting the <strong>OMP_NUM_THREADS</strong> environment variable.  </p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="ch">#!/bin/bash</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="c1"># Project id - change to your own!</span>
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="c1">#SBATCH -A &lt;proj-id&gt;</span>
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>
+</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="c1"># Number of cores per tasks</span>
+</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="c1">#SBATCH -c 8 </span>
+</span><span id="__span-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>
+</span><span id="__span-11-9"><a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a><span class="c1"># Asking for a walltime of 5 min</span>
+</span><span id="__span-11-10"><a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a><span class="c1">#SBATCH --time=00:05:00</span>
+</span><span id="__span-11-11"><a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a><span class="c1">#SBATCH -p shared </span>
+</span><span id="__span-11-12"><a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a>
+</span><span id="__span-11-13"><a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a><span class="c1">#SBATCH -o process_omp_%j.out  </span>
+</span><span id="__span-11-14"><a id="__codelineno-11-14" name="__codelineno-11-14" href="#__codelineno-11-14"></a><span class="c1">#SBATCH -e process_omp_%j.err </span>
+</span><span id="__span-11-15"><a id="__codelineno-11-15" name="__codelineno-11-15" href="#__codelineno-11-15"></a>
+</span><span id="__span-11-16"><a id="__codelineno-11-16" name="__codelineno-11-16" href="#__codelineno-11-16"></a>cat<span class="w"> </span><span class="nv">$0</span>
+</span><span id="__span-11-17"><a id="__codelineno-11-17" name="__codelineno-11-17" href="#__codelineno-11-17"></a>
+</span><span id="__span-11-18"><a id="__codelineno-11-18" name="__codelineno-11-18" href="#__codelineno-11-18"></a><span class="c1"># Load a compiler toolchain so we can run an OpenMP program</span>
+</span><span id="__span-11-19"><a id="__codelineno-11-19" name="__codelineno-11-19" href="#__codelineno-11-19"></a>module<span class="w"> </span>load<span class="w"> </span>gcc-native/13.2
+</span><span id="__span-11-20"><a id="__codelineno-11-20" name="__codelineno-11-20" href="#__codelineno-11-20"></a>
+</span><span id="__span-11-21"><a id="__codelineno-11-21" name="__codelineno-11-21" href="#__codelineno-11-21"></a><span class="c1"># process binding is typically recommended.  Try what works best spread or close</span>
+</span><span id="__span-11-22"><a id="__codelineno-11-22" name="__codelineno-11-22" href="#__codelineno-11-22"></a><span class="c1">#export OMP_PROC_BIND=spread</span>
+</span><span id="__span-11-23"><a id="__codelineno-11-23" name="__codelineno-11-23" href="#__codelineno-11-23"></a><span class="nb">export</span><span class="w"> </span><span class="nv">OMP_PROC_BIND</span><span class="o">=</span>close
+</span><span id="__span-11-24"><a id="__codelineno-11-24" name="__codelineno-11-24" href="#__codelineno-11-24"></a>
+</span><span id="__span-11-25"><a id="__codelineno-11-25" name="__codelineno-11-25" href="#__codelineno-11-25"></a><span class="c1"># we bind to cores</span>
+</span><span id="__span-11-26"><a id="__codelineno-11-26" name="__codelineno-11-26" href="#__codelineno-11-26"></a><span class="nb">export</span><span class="w"> </span><span class="nv">OMP_PLACES</span><span class="o">=</span>cores
+</span><span id="__span-11-27"><a id="__codelineno-11-27" name="__codelineno-11-27" href="#__codelineno-11-27"></a>
+</span><span id="__span-11-28"><a id="__codelineno-11-28" name="__codelineno-11-28" href="#__codelineno-11-28"></a><span class="c1"># if we want to have a single thread per core and ignor hyperthreading, un-comment the below</span>
+</span><span id="__span-11-29"><a id="__codelineno-11-29" name="__codelineno-11-29" href="#__codelineno-11-29"></a><span class="c1"># export OMP_NUM_THREADS=$(($SLURM_CPUS_PER_TASK/2))</span>
+</span><span id="__span-11-30"><a id="__codelineno-11-30" name="__codelineno-11-30" href="#__codelineno-11-30"></a>
+</span><span id="__span-11-31"><a id="__codelineno-11-31" name="__codelineno-11-31" href="#__codelineno-11-31"></a>./openmp_application
+</span></code></pre></div>
+</div>
+</div>
+</div>
+<ul>
+<li>Remember, Alvis is only for GPU jobs </li>
+</ul>
+<h2 id="applications__using__mpi">Applications using MPI<a class="headerlink" href="#applications__using__mpi" title="Permanent link">&para;</a></h2>
+<p>Some form of message passing is required when utilising multiple nodes for a simulation.  One has multiple programs, called tasks, running.  Typically these are multiple copies of the same executable with each getting its own dedicated core.  Each task has its own memory, which is called distributed memory.  Data exchange is facilitated by coping data between the tasks. This can accomplished inside the node if both task are running on the same node or has to utilise the network if the tasks in question are located on different nodes.  The <strong>Message Passing Interface (MPI)</strong> is the most commonly used API in scientific computing, when programming message passing applications.</p>
+<p>The illustration shows 5 tasks being executed, with the time running from the top to the bottom.  At the beginning, data (e.g. read from an input file) is distributed from task 0 to the other tasks, indicated by the blue arrows.  Following this, the tasks exchange data at regular intervals.   In a real application the communication patterns are typically more complex than this.</p>
+<p><img alt="mpi illustration" src="../images/mpi_illustration.png" style="width: 500px;float: right" /></p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>When runing an executable that utilises MPI you need to start multiple executables.  Typically you start one executable on each requested core. Most of the time multiple copies of the same excutable are used.  </p>
+<p>To start multiple copies of the same executable a special program, a so called <strong>job launcher</strong> is required.  Depending on the system and libraries used the name of the jobs launcher differs.</p>
+</div>
+<p>In the following we have sample scripts for a number of services, including NAISS&rsquo; Tetralith and Dardel services.   The sample script assumes an mpi executable name <code>integration2D_f90</code> in the submission directory.   The executable takes the problem size as a number as a command line argument.  In the example the problem size is 10000.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="4:2"><input checked="checked" id="__tabbed_4_1" name="__tabbed_4" type="radio" /><input id="__tabbed_4_2" name="__tabbed_4" type="radio" /><div class="tabbed-labels"><label for="__tabbed_4_1">Tetralith</label><label for="__tabbed_4_2">Dardel</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>On Tetralith, when using the job launcher <code>mpprun</code>, the user does not need to specify the compiler version and the version of the MPI library used to compile the application.  </p>
+<p>Tetralith nodes have 32 cores.   One should aim to use multiples of 32 cores when running MPI workloads.   In this example we ask for 16 cores, which is 1/2 node.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="ch">#!/bin/bash</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="c1"># Set account </span>
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="c1">#SBATCH -A &lt;project ID&gt; </span>
+</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>
+</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="c1"># Set the time </span>
+</span><span id="__span-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="c1">#SBATCH -t 00:10:00</span>
+</span><span id="__span-12-8"><a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a>
+</span><span id="__span-12-9"><a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a><span class="c1"># ask for 16 core, experiment for what works best </span>
+</span><span id="__span-12-10"><a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a><span class="c1">#SBATCH -n 16</span>
+</span><span id="__span-12-11"><a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a>
+</span><span id="__span-12-12"><a id="__codelineno-12-12" name="__codelineno-12-12" href="#__codelineno-12-12"></a><span class="c1"># name output and error file</span>
+</span><span id="__span-12-13"><a id="__codelineno-12-13" name="__codelineno-12-13" href="#__codelineno-12-13"></a><span class="c1">#SBATCH -o mpi_process_%j.out</span>
+</span><span id="__span-12-14"><a id="__codelineno-12-14" name="__codelineno-12-14" href="#__codelineno-12-14"></a><span class="c1">#SBATCH -e mpi_process_%j.err</span>
+</span><span id="__span-12-15"><a id="__codelineno-12-15" name="__codelineno-12-15" href="#__codelineno-12-15"></a>
+</span><span id="__span-12-16"><a id="__codelineno-12-16" name="__codelineno-12-16" href="#__codelineno-12-16"></a><span class="c1"># write this script to stdout-file - useful for scripting errors</span>
+</span><span id="__span-12-17"><a id="__codelineno-12-17" name="__codelineno-12-17" href="#__codelineno-12-17"></a>cat<span class="w"> </span><span class="nv">$0</span>
+</span><span id="__span-12-18"><a id="__codelineno-12-18" name="__codelineno-12-18" href="#__codelineno-12-18"></a>
+</span><span id="__span-12-19"><a id="__codelineno-12-19" name="__codelineno-12-19" href="#__codelineno-12-19"></a><span class="c1"># Run your mpi_executable</span>
+</span><span id="__span-12-20"><a id="__codelineno-12-20" name="__codelineno-12-20" href="#__codelineno-12-20"></a>mpprun<span class="w"> </span>./integration2D_f90<span class="w"> </span><span class="m">10000</span>
+</span></code></pre></div>
+</div>
+<div class="tabbed-block">
+<p>The following is a script utilising 2 full nodes in the main partition, to run a code compiled by the user utilising the CRAY clang compiler.  </p>
+<p>This script utilises a total of 256 cores and even modest run times will be expensive by means of CPU hours for your allocation.  Scripts requesting multiple nodes are required by projects which have been allocated significant resourse and need to run large calculations to achieve their project goals.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="ch">#!/bin/bash</span>
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="c1"># Set account </span>
+</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="c1">#SBATCH -A &lt;project ID&gt; </span>
+</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>
+</span><span id="__span-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="c1"># Set the time, </span>
+</span><span id="__span-13-7"><a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="c1">#SBATCH -t 00:10:00</span>
+</span><span id="__span-13-8"><a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a>
+</span><span id="__span-13-9"><a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a><span class="c1"># Using the Dardel&#39;s main partition</span>
+</span><span id="__span-13-10"><a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a><span class="c1">#SBATCH -p main</span>
+</span><span id="__span-13-11"><a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a>
+</span><span id="__span-13-12"><a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a><span class="c1"># ask for 256 cores located on 2 nodes, modify for your needs.</span>
+</span><span id="__span-13-13"><a id="__codelineno-13-13" name="__codelineno-13-13" href="#__codelineno-13-13"></a>
+</span><span id="__span-13-14"><a id="__codelineno-13-14" name="__codelineno-13-14" href="#__codelineno-13-14"></a><span class="c1">#SBATCH -N 2</span>
+</span><span id="__span-13-15"><a id="__codelineno-13-15" name="__codelineno-13-15" href="#__codelineno-13-15"></a><span class="c1">#SBATCH --ntasks-per-node=128</span>
+</span><span id="__span-13-16"><a id="__codelineno-13-16" name="__codelineno-13-16" href="#__codelineno-13-16"></a>
+</span><span id="__span-13-17"><a id="__codelineno-13-17" name="__codelineno-13-17" href="#__codelineno-13-17"></a><span class="c1"># name output and error file</span>
+</span><span id="__span-13-18"><a id="__codelineno-13-18" name="__codelineno-13-18" href="#__codelineno-13-18"></a><span class="c1">#SBATCH -o mpi_process_%j.out</span>
+</span><span id="__span-13-19"><a id="__codelineno-13-19" name="__codelineno-13-19" href="#__codelineno-13-19"></a><span class="c1">#SBATCH -e mpi_process_%j.err</span>
+</span><span id="__span-13-20"><a id="__codelineno-13-20" name="__codelineno-13-20" href="#__codelineno-13-20"></a>
+</span><span id="__span-13-21"><a id="__codelineno-13-21" name="__codelineno-13-21" href="#__codelineno-13-21"></a><span class="c1"># write this script to stdout-file - useful for scripting errors</span>
+</span><span id="__span-13-22"><a id="__codelineno-13-22" name="__codelineno-13-22" href="#__codelineno-13-22"></a>cat<span class="w"> </span><span class="nv">$0</span>
+</span><span id="__span-13-23"><a id="__codelineno-13-23" name="__codelineno-13-23" href="#__codelineno-13-23"></a>
+</span><span id="__span-13-24"><a id="__codelineno-13-24" name="__codelineno-13-24" href="#__codelineno-13-24"></a><span class="c1"># Loading a suitable module. Here for Cray programming environment etc.</span>
+</span><span id="__span-13-25"><a id="__codelineno-13-25" name="__codelineno-13-25" href="#__codelineno-13-25"></a>module<span class="w"> </span>load<span class="w"> </span>PDC/24.11
+</span><span id="__span-13-26"><a id="__codelineno-13-26" name="__codelineno-13-26" href="#__codelineno-13-26"></a>
+</span><span id="__span-13-27"><a id="__codelineno-13-27" name="__codelineno-13-27" href="#__codelineno-13-27"></a><span class="c1"># Run your mpi_executable</span>
+</span><span id="__span-13-28"><a id="__codelineno-13-28" name="__codelineno-13-28" href="#__codelineno-13-28"></a>srun<span class="w"> </span>./mpi_hello
+</span></code></pre></div>
+<p>The following is a script utilising part of a shared node, to run a code compiled by the user utilising the CRAY clang compiler.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="ch">#!/bin/bash</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="c1"># Set account </span>
+</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="c1">#SBATCH -A &lt;project ID&gt; </span>
+</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>
+</span><span id="__span-14-6"><a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a><span class="c1"># Set the time </span>
+</span><span id="__span-14-7"><a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a><span class="c1">#SBATCH -t 00:10:00</span>
+</span><span id="__span-14-8"><a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a>
+</span><span id="__span-14-9"><a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a><span class="c1"># Using the Dardel shared partition</span>
+</span><span id="__span-14-10"><a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a><span class="c1">#SBATCH -p shared</span>
+</span><span id="__span-14-11"><a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a>
+</span><span id="__span-14-12"><a id="__codelineno-14-12" name="__codelineno-14-12" href="#__codelineno-14-12"></a><span class="c1"># ask for 16 core on one node, modify for your needs.</span>
+</span><span id="__span-14-13"><a id="__codelineno-14-13" name="__codelineno-14-13" href="#__codelineno-14-13"></a><span class="c1">#SBATCH -N 1</span>
+</span><span id="__span-14-14"><a id="__codelineno-14-14" name="__codelineno-14-14" href="#__codelineno-14-14"></a><span class="c1">#SBATCH --ntasks-per-node=16</span>
+</span><span id="__span-14-15"><a id="__codelineno-14-15" name="__codelineno-14-15" href="#__codelineno-14-15"></a>
+</span><span id="__span-14-16"><a id="__codelineno-14-16" name="__codelineno-14-16" href="#__codelineno-14-16"></a><span class="c1"># name output and error file</span>
+</span><span id="__span-14-17"><a id="__codelineno-14-17" name="__codelineno-14-17" href="#__codelineno-14-17"></a><span class="c1">#SBATCH -o mpi_process_%j.out</span>
+</span><span id="__span-14-18"><a id="__codelineno-14-18" name="__codelineno-14-18" href="#__codelineno-14-18"></a><span class="c1">#SBATCH -e mpi_process_%j.err</span>
+</span><span id="__span-14-19"><a id="__codelineno-14-19" name="__codelineno-14-19" href="#__codelineno-14-19"></a>
+</span><span id="__span-14-20"><a id="__codelineno-14-20" name="__codelineno-14-20" href="#__codelineno-14-20"></a><span class="c1"># write this script to stdout-file - useful for scripting errors</span>
+</span><span id="__span-14-21"><a id="__codelineno-14-21" name="__codelineno-14-21" href="#__codelineno-14-21"></a>cat<span class="w"> </span><span class="nv">$0</span>
+</span><span id="__span-14-22"><a id="__codelineno-14-22" name="__codelineno-14-22" href="#__codelineno-14-22"></a>
+</span><span id="__span-14-23"><a id="__codelineno-14-23" name="__codelineno-14-23" href="#__codelineno-14-23"></a><span class="c1"># Loading a suitable module. Here for Cray programming environment etc.</span>
+</span><span id="__span-14-24"><a id="__codelineno-14-24" name="__codelineno-14-24" href="#__codelineno-14-24"></a>module<span class="w"> </span>load<span class="w"> </span>PDC/24.11
+</span><span id="__span-14-25"><a id="__codelineno-14-25" name="__codelineno-14-25" href="#__codelineno-14-25"></a>
+</span><span id="__span-14-26"><a id="__codelineno-14-26" name="__codelineno-14-26" href="#__codelineno-14-26"></a><span class="c1"># Run your mpi_executable</span>
+</span><span id="__span-14-27"><a id="__codelineno-14-27" name="__codelineno-14-27" href="#__codelineno-14-27"></a>srun<span class="w"> </span>./integration2D_f90<span class="w"> </span><span class="m">100000</span>
+</span></code></pre></div>
+</div>
+</div>
+</div>
+<ul>
+<li>Asking for whole nodes (<code>- N</code>) and possibly <code>--tasks-per-node</code></li>
+<li><code>srun</code> and <code>mpirun</code> should be interchangeable at many centres. Tetralith uses <code>mpprun</code> and Dardel uses <code>srun</code></li>
+<li>Remember, you need to load modules with MPI</li>
+<li>At some centres <code>mpirun --bind-to-core</code> or <code>srun --cpu-bind=cores</code> is recommended for MPI jobs </li>
+<li>NOTE: Alvis is <strong>only</strong> used for GPU jobs</li>
+</ul>
+<h2 id="memory-intensive__jobs">Memory-intensive jobs<a class="headerlink" href="#memory-intensive__jobs" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Running out of memory (&ldquo;OOM&rdquo;):<ul>
+<li>usually the job stops (&ldquo;crashes&rdquo;)</li>
+<li>check the Slurm error/log files</li>
+<li>check with sacct/seff/jobstats/job-usage depending on cluster</li>
+</ul>
+</li>
+<li>Fixes:<ul>
+<li>use &ldquo;fat&rdquo; nodes</li>
+<li>allocate more cores just for memory</li>
+<li>tweak memory usage in app, if possible</li>
+</ul>
+</li>
+</ul>
+<h3 id="increasing__memory__per__task">Increasing memory per task<a class="headerlink" href="#increasing__memory__per__task" title="Permanent link">&para;</a></h3>
+<p>A way to increase memory per task that works generally is to simply ask for more cores per task, where some are just giving memory.</p>
+<div class="admonition note">
+<p class="admonition-title">Example</p>
+<p>In this case, we are asking for 16 tasks, with 2 cores per task. This means we are asking for 32 cores in total. We do this by adding this to our batch script: </p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="c1">#SBATCH --ntasks=16 --cpus-per-task=2</span>
+</span></code></pre></div>
+<p><strong>NOTE</strong> You can also write </p>
+<ul>
+<li><code>--cpus-per-task=#num</code> in short form as <code>-c #num</code></li>
+<li><code>--ntasks=#numtasks</code> in short form as <code>-n #numtasks</code>  </li>
+</ul>
+</div>
+<p><strong>Example script template</strong></p>
+<p>Here asking for 8 tasks, 2 cores per task. </p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="ch">#!/bin/bash</span>
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="c1">#SBATCH -A &lt;account&gt;</span>
+</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="c1">#SBATCH -t HHH:MM:SS</span>
+</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="c1">#SBATCH -n 8</span>
+</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="c1">#SBATCH -c 2</span>
+</span><span id="__span-16-6"><a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a>
+</span><span id="__span-16-7"><a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a>module<span class="w"> </span>load<span class="w"> </span>&lt;modules&gt;
+</span><span id="__span-16-8"><a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a>
+</span><span id="__span-16-9"><a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a>srun<span class="w"> </span>./myprogram
+</span></code></pre></div>
+<p><strong>Example script template</strong></p>
+<p>Here we have a non-threaded code which needs more memory (up to twice the amount we have on two cores). </p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="ch">#!/bin/bash</span>
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="c1">#SBATCH -A &lt;account&gt;</span>
+</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="c1">#SBATCH -t HHH:MM:SS</span>
+</span><span id="__span-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a><span class="c1">#SBATCH -c 2</span>
+</span><span id="__span-17-5"><a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a>
+</span><span id="__span-17-6"><a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a>module<span class="w"> </span>load<span class="w"> </span>&lt;modules&gt;
+</span><span id="__span-17-7"><a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a>
+</span><span id="__span-17-8"><a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a>./myprogram
+</span></code></pre></div>
+<p><strong>Remember</strong>: if you are on Dardel, you also need to add a partition. </p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>At some centres, you can also use <code>#SBATCH --mem-per-cpu=&lt;MEMORY&gt;</code>. If you ask for more memory than is on one core, some cores will have to remain idle while only providing memory. You will also be charged for these cores, of course.</p>
+<p>To see the amount of available memory per core, see the next section. </p>
+</div>
+<h3 id="memory__availability">Memory availability<a class="headerlink" href="#memory__availability" title="Permanent link">&para;</a></h3>
+<p>Another way of getting extra memory is to use nodes that have more memory. A useful command to identify how much memory is available on different nodes is <code>sinfo -o "%10P %20l %30N %10z %10c %20m %20f %20G"</code>. Here is an overview of some of the available nodes at the Swedish HPC centres: </p>
+<div class="tabbed-set tabbed-alternate" data-tabs="5:6"><input checked="checked" id="__tabbed_5_1" name="__tabbed_5" type="radio" /><input id="__tabbed_5_2" name="__tabbed_5" type="radio" /><input id="__tabbed_5_3" name="__tabbed_5" type="radio" /><input id="__tabbed_5_4" name="__tabbed_5" type="radio" /><input id="__tabbed_5_5" name="__tabbed_5" type="radio" /><input id="__tabbed_5_6" name="__tabbed_5" type="radio" /><div class="tabbed-labels"><label for="__tabbed_5_1">Tetralith</label><label for="__tabbed_5_2">Dardel</label><label for="__tabbed_5_3">Alvis</label><label for="__tabbed_5_4">Kebnekaise</label><label for="__tabbed_5_5">Cosmos</label><label for="__tabbed_5_6">Pelle</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>RAM/node</th>
+<th>RAM/core</th>
+<th>cores/node</th>
+<th>Requesting flag</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Intel Xeon Gold <br>6130 thin</td>
+<td>96 GB</td>
+<td>3 GB</td>
+<td>32</td>
+<td><code>-C thin --exclusive</code></td>
+</tr>
+<tr>
+<td>Intel Xeon Gold <br>6130 fat</td>
+<td>384 GB</td>
+<td>12 GB</td>
+<td>32</td>
+<td><code>-C fat --exclusive</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="tabbed-block">
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>RAM/node</th>
+<th>RAM/core</th>
+<th>cores/node</th>
+<th>Partition</th>
+<th>Available</th>
+<th>Requesting flag</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AMD EPYC™ <br>Zen2 Thin</td>
+<td>256 GB</td>
+<td>2 GB</td>
+<td>128</td>
+<td>main, shared, long</td>
+<td>227328 MB</td>
+<td></td>
+</tr>
+<tr>
+<td>AMD EPYC™ <br>Zen2 Large</td>
+<td>512 GB</td>
+<td>4 GB</td>
+<td>128</td>
+<td>main, memory</td>
+<td>456704 MB</td>
+<td><code>--mem=440GB</code></td>
+</tr>
+<tr>
+<td>AMD EPYC™ <br>Zen2 Huge</td>
+<td>1 TB</td>
+<td>7.8 GB</td>
+<td>128</td>
+<td>main, memory</td>
+<td>915456 MB</td>
+<td><code>--mem=880GB</code></td>
+</tr>
+<tr>
+<td>AMD EPYC™ <br>Zen2 Giant</td>
+<td>2 TB</td>
+<td>15.6 GB</td>
+<td>128</td>
+<td>memory</td>
+<td>1832960 MB</td>
+<td><code>--mem=1760GB</code></td>
+</tr>
+<tr>
+<td>4 x AMD Instinct™ <br>MI250X dual GPUs</td>
+<td>512 GB</td>
+<td>8 GB</td>
+<td>64</td>
+<td>gpu</td>
+<td>456704 MB</td>
+<td><code>--mem=440GB</code></td>
+</tr>
+</tbody>
+</table>
+<p>On shared partitions you need to give number of cores and will get RAM equivalent for that</p>
+</div>
+<div class="tabbed-block">
+<table>
+<thead>
+<tr>
+<th>RAM</th>
+<th>GPUs</th>
+<th>Requesting flag</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>768</td>
+<td>V100 (2) <br> V100 (4) <br> and a no GPU skylake</td>
+<td><code>#SBATCH -C MEM768</code> <br> <code>#SBATCH --gpus-per-node=V100:[1-4]</code></td>
+</tr>
+<tr>
+<td>576</td>
+<td>T4 (8)</td>
+<td><code>#SBATCH -C MEM576</code> <br> <code>#SBATCH --gpus-per-node=T4:[1-8]</code></td>
+</tr>
+<tr>
+<td><strong>1536</strong></td>
+<td>T4 (8)</td>
+<td><code>#SBATCH -C MEM1536</code> <br> <code>#SBATCH --gpus-per-node=A40:[1-4]</code></td>
+</tr>
+<tr>
+<td><strong>512</strong></td>
+<td>A100 (4) <br> and a no GPU icelake</td>
+<td><code>#SBATCH -C mem512</code> <br> <code>#SBATCH --gpus-per-node=A100:[1-4]</code></td>
+</tr>
+<tr>
+<td>256</td>
+<td>A40 (4, no IB) <br> A100 (4)</td>
+<td><code>#SBATCH -C mem256</code> and either <br> <code>#SBATCH --gpus-per-node=A40[1-4]</code> <br> or <code>#SBATCH --gpus-per-node=A100[1-4]</code></td>
+</tr>
+<tr>
+<td>1024</td>
+<td>A100fat (4)</td>
+<td><code>#SBATCH -C mem1024</code> <br> <code>#SBATCH --gpus-per-node=A100fat:[1-4]</code></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>Note</strong> be aware, though that you also need to ask for a GPU, as usual, unless you need the pre/post processing CPU nodes (<code>-C NOGPU</code>).</li>
+<li>You only really need to give the memory constraint for those bolded as the others follow from the GPU choice</li>
+<li><code>sinfo -o "%20N  %9P %4c  %24f  %50G"</code> will give you a full list of all nodes and features </li>
+</ul>
+</div>
+<div class="tabbed-block">
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>RAM/core</th>
+<th>cores/node</th>
+<th>requesting flag</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Intel Skylake</td>
+<td>6785 MB</td>
+<td>28</td>
+<td><code>-C skylake</code></td>
+</tr>
+<tr>
+<td>AMD Zen3</td>
+<td>8020 MB</td>
+<td>128</td>
+<td><code>-C zen3</code></td>
+</tr>
+<tr>
+<td>AMD Zen4</td>
+<td>2516 MB</td>
+<td>256</td>
+<td><code>-C zen4</code></td>
+</tr>
+<tr>
+<td>V100</td>
+<td>6785 MB</td>
+<td>28</td>
+<td><code>--gpus=&lt;#num&gt; -C v100</code></td>
+</tr>
+<tr>
+<td>A100</td>
+<td>10600 MB</td>
+<td>48</td>
+<td><code>--gpus=&lt;#num&gt; -C a100</code></td>
+</tr>
+<tr>
+<td>MI100</td>
+<td>10600 MB</td>
+<td>48</td>
+<td><code>--gpus=&lt;#num&gt; -C mi100</code></td>
+</tr>
+<tr>
+<td>A6000</td>
+<td>6630 MB</td>
+<td>48</td>
+<td><code>--gpus=&lt;#num&gt; -C a6000</code></td>
+</tr>
+<tr>
+<td>H100</td>
+<td>6630 MB</td>
+<td>96</td>
+<td><code>--gpus=&lt;#num&gt; -C h100</code></td>
+</tr>
+<tr>
+<td>L40s</td>
+<td>11968 MB</td>
+<td>64</td>
+<td><code>--gpus=&lt;#num&gt; -C l40s</code></td>
+</tr>
+<tr>
+<td>A40</td>
+<td>11968 MB</td>
+<td>64</td>
+<td><code>--gpus=&lt;#num&gt; -C a40</code></td>
+</tr>
+<tr>
+<td>Largemem</td>
+<td>41666 MB</td>
+<td>72</td>
+<td><code>-C largemem</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="tabbed-block">
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>RAM/core</th>
+<th>cores/node</th>
+<th>requesting flag</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AMD 7413</td>
+<td>5.3 GB</td>
+<td>48</td>
+<td></td>
+</tr>
+<tr>
+<td>Intel / A100</td>
+<td>12 GB</td>
+<td>32</td>
+<td><code>-p gpua100i</code></td>
+</tr>
+<tr>
+<td>AMD / A100</td>
+<td>10.7 GB</td>
+<td>48</td>
+<td><code>-p gpua100</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="tabbed-block">
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>RAM/node</th>
+<th>RAM/core</th>
+<th>cores/node</th>
+<th>requesting flag</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AMD EPYC <br>9454P (Zen4)</td>
+<td>768 GB</td>
+<td>16 GB</td>
+<td>48</td>
+<td><code>-p pelle</code></td>
+</tr>
+<tr>
+<td>AMD EPYC <br>9454P (Zen4)</td>
+<td>2 or 3 TB</td>
+<td>41.67 or 62.5 GB</td>
+<td>48</td>
+<td><code>-p fat</code></td>
+</tr>
+<tr>
+<td>2xAMD EPYC <br>9124 (Zen4), 10xL40s</td>
+<td>384 GB</td>
+<td>12 GB</td>
+<td>32</td>
+<td><code>-p gpu --gpus=l40s:[1-10]</code></td>
+</tr>
+<tr>
+<td>2xAMD EPYC <br>9124 (Zen4), 2xH100</td>
+<td>384 GB</td>
+<td>12 GB</td>
+<td>32</td>
+<td><code>-p gpu --gpus=h100:[1-2]</code></td>
+</tr>
+</tbody>
+</table>
+<p>In addition you can use all the Slurm options for memory: </p>
+<ul>
+<li><code>--mem</code></li>
+<li><code>--mem-per-cpu</code></li>
+<li><code>--mem-per-gpu</code> </li>
+</ul>
+<p>to specify memory requirements.</p>
+</div>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Pelle at UPPMAX</p>
+<p>The compute node CPUs have Simultaneous multithreading (SMT) enabled. Each CPU core runs two Threads. In Slurm the Threads are referred to as CPUs. </p>
+<p>If you suspect SMT degrades the performance of your jobs, you can you can specify <code>--threads-per-core=1</code> in your job.</p>
+<p>More information here: <a href="https://docs.uppmax.uu.se/cluster_guides/slurm_on_pelle/#smt" target="_blank">Simultaneous multi-threading</a>. </p>
+</div>
+<h2 id="io__intensive__jobs">I/O intensive jobs<a class="headerlink" href="#io__intensive__jobs" title="Permanent link">&para;</a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This section comes with many caveats; it depends a lot on the type of job and the system. Often, if you are in the situation where you have an I/O intensive job, you need to talk to support as it will be very individualized. </p>
+</div>
+<ul>
+<li>Not all systems offer node local discs<ul>
+<li>The <strong>Dardel</strong> system does not offer node local discs.   The use of <code>$SNIC_TMP</code>, <code>$NAISS_TMP</code>and <code>$TMPDIR</code> is discouraged.  <code>$SNIC_TMP</code> and <code>$NAISS_TMP</code> do not offer a performance advantage over the project storage.   In addition they are not protected against name space conflicts by jobs submitted by the same user, which are running on different nodes.  <code>$TMPDIR</code> will utilise the node&rsquo;s RAM, which in most cases defeats the purpose of using <code>$TMPDIR</code>.</li>
+</ul>
+</li>
+<li>In most cases, you should use the project storage</li>
+<li>Centre-dependent. If needed you can use node-local disc for <strong>single-node</strong> jobs<ul>
+<li>Remember you need to copy data to/from the node-local scratch (<code>$SNIC_TMP</code>)! </li>
+<li>On some systems <code>$TMPDIR</code> also points to the node local disc</li>
+<li>The environment variable <code>$SLURM_SUBMIT_DIR</code> is the directory you submitted from</li>
+</ul>
+</li>
+<li>On Tetralith, the data access between /home or /proj and GPU/CPU compute nodes are <strong>not</strong> suitable for I/O intensive jobs =&gt; use /scratch/local (<code>$SNIC_TMP</code>)</li>
+</ul>
+<h3 id="example">Example<a class="headerlink" href="#example" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="ch">#!/bin/bash </span>
+</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="c1">#SBATCH -A &lt;account&gt;</span>
+</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a><span class="c1">#SBATCH -t HHH:MM:SS </span>
+</span><span id="__span-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a><span class="c1">#SBATCH -n &lt;cores&gt;</span>
+</span><span id="__span-18-5"><a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>
+</span><span id="__span-18-6"><a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a>module<span class="w"> </span>load<span class="w"> </span>&lt;modules&gt;
+</span><span id="__span-18-7"><a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a>
+</span><span id="__span-18-8"><a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a><span class="c1"># Copy your data etc. to node local scratch disc</span>
+</span><span id="__span-18-9"><a id="__codelineno-18-9" name="__codelineno-18-9" href="#__codelineno-18-9"></a>cp<span class="w"> </span>-p<span class="w"> </span>mydata.dat<span class="w"> </span><span class="nv">$SNIC_TMP</span>
+</span><span id="__span-18-10"><a id="__codelineno-18-10" name="__codelineno-18-10" href="#__codelineno-18-10"></a>cp<span class="w"> </span>-p<span class="w"> </span>myprogram<span class="w"> </span><span class="nv">$SNIC_TMP</span>
+</span><span id="__span-18-11"><a id="__codelineno-18-11" name="__codelineno-18-11" href="#__codelineno-18-11"></a>
+</span><span id="__span-18-12"><a id="__codelineno-18-12" name="__codelineno-18-12" href="#__codelineno-18-12"></a><span class="c1"># Change to that directory</span>
+</span><span id="__span-18-13"><a id="__codelineno-18-13" name="__codelineno-18-13" href="#__codelineno-18-13"></a><span class="nb">cd</span><span class="w"> </span><span class="nv">$SNIC_TMP</span>
+</span><span id="__span-18-14"><a id="__codelineno-18-14" name="__codelineno-18-14" href="#__codelineno-18-14"></a>
+</span><span id="__span-18-15"><a id="__codelineno-18-15" name="__codelineno-18-15" href="#__codelineno-18-15"></a><span class="c1"># Run your program</span>
+</span><span id="__span-18-16"><a id="__codelineno-18-16" name="__codelineno-18-16" href="#__codelineno-18-16"></a>./myprogram
+</span><span id="__span-18-17"><a id="__codelineno-18-17" name="__codelineno-18-17" href="#__codelineno-18-17"></a>
+</span><span id="__span-18-18"><a id="__codelineno-18-18" name="__codelineno-18-18" href="#__codelineno-18-18"></a><span class="c1"># Copy the results back to the submission directory </span>
+</span><span id="__span-18-19"><a id="__codelineno-18-19" name="__codelineno-18-19" href="#__codelineno-18-19"></a>cp<span class="w"> </span>-p<span class="w"> </span>mynewdata.dat<span class="w"> </span><span class="nv">$SLURM_SUBMIT_DIR</span>
+</span></code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">NOTE</p>
+<p>When using node local disk it is important to remember to copy the output data back, since it will go away when the job ends!</p>
+</div>
+<h2 id="job__arrays">Job arrays<a class="headerlink" href="#job__arrays" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Job arrays: a mechanism for submitting and managing collections of similar jobs.</li>
+<li>All jobs must have the same initial options (e.g. size, time limit, etc.)</li>
+<li>the execution times can vary depending on input data</li>
+<li>You create multiple jobs from one script, using the <code>-- array</code> directive.</li>
+<li>This requires very little BASH scripting abilities</li>
+<li>
+<p>max number of jobs is restricted by max number of jobs/user - centre specific</p>
+</li>
+<li>
+<p><a href="https://slurm.schedmd.com/job_array.html">More information here on the official Slurm documentation pages.</a></p>
+</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Example</p>
+<p>This shows how to run a small Python script <code>hello-world-array.py</code> as an array. </p>
+<div class="language-py highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="c1"># import sys library (we need this for the command line args)</span>
+</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+</span><span id="__span-19-3"><a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>
+</span><span id="__span-19-4"><a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a><span class="c1"># print task number</span>
+</span><span id="__span-19-5"><a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Hello world! from task number: &#39;</span><span class="p">,</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+</span></code></pre></div>
+<p>You could then make a batch script like this, <code>hello-world-array.sh</code>: </p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="ch">#!/bin/bash</span>
+</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a><span class="c1"># A very simple example of how to run a Python script with a job array</span>
+</span><span id="__span-20-3"><a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a><span class="c1">#SBATCH -A &lt;account&gt;</span>
+</span><span id="__span-20-4"><a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a><span class="c1">#SBATCH --time=00:05:00 # Asking for 5 minutes</span>
+</span><span id="__span-20-5"><a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a><span class="c1">#SBATCH --array=1-10   # how many tasks in the array</span>
+</span><span id="__span-20-6"><a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a><span class="c1">#SBATCH -c 1 # Asking for 1 core    # one core per task</span>
+</span><span id="__span-20-7"><a id="__codelineno-20-7" name="__codelineno-20-7" href="#__codelineno-20-7"></a><span class="c1"># Create specific output files for each task with the environment variable %j</span>
+</span><span id="__span-20-8"><a id="__codelineno-20-8" name="__codelineno-20-8" href="#__codelineno-20-8"></a><span class="c1"># which contains the job id and %a for each step</span>
+</span><span id="__span-20-9"><a id="__codelineno-20-9" name="__codelineno-20-9" href="#__codelineno-20-9"></a><span class="c1">#SBATCH -o hello-world-%j-%a.out</span>
+</span><span id="__span-20-10"><a id="__codelineno-20-10" name="__codelineno-20-10" href="#__codelineno-20-10"></a>
+</span><span id="__span-20-11"><a id="__codelineno-20-11" name="__codelineno-20-11" href="#__codelineno-20-11"></a><span class="c1"># Load any modules you need</span>
+</span><span id="__span-20-12"><a id="__codelineno-20-12" name="__codelineno-20-12" href="#__codelineno-20-12"></a>module<span class="w"> </span>load<span class="w"> </span>&lt;module&gt;<span class="w"> </span>&lt;python-module&gt;<span class="w"> </span>
+</span><span id="__span-20-13"><a id="__codelineno-20-13" name="__codelineno-20-13" href="#__codelineno-20-13"></a>
+</span><span id="__span-20-14"><a id="__codelineno-20-14" name="__codelineno-20-14" href="#__codelineno-20-14"></a><span class="c1"># Run your Python script</span>
+</span><span id="__span-20-15"><a id="__codelineno-20-15" name="__codelineno-20-15" href="#__codelineno-20-15"></a>srun<span class="w"> </span>python<span class="w"> </span>hello-world-array.py<span class="w"> </span><span class="nv">$SLURM_ARRAY_TASK_ID</span>
+</span></code></pre></div>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>Try it! You can find the above script under any of the cluster resources folders in the exercise tarball. </p>
+</div>
+<h3 id="some__array__comments">Some array comments<a class="headerlink" href="#some__array__comments" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Default step of 1<ul>
+<li>Example: <code>#SBATCH --array=4-80</code></li>
+</ul>
+</li>
+<li>Give an index (here steps of 4)<ul>
+<li>Example: <code>#SBATCH --array=1-100:4</code></li>
+</ul>
+</li>
+<li>Give a list instead of a range<ul>
+<li>Example: <code>#SBATCH --array=5,8,33,38</code></li>
+</ul>
+</li>
+<li>Throttle jobs, so only a smaller number of jobs run at a time<ul>
+<li>Example: <code>#SBATCH --array1-400%4</code></li>
+</ul>
+</li>
+<li>Name output/error files so each job (<code>%j</code> or <code>%A</code>) and step (<code>%a</code>) gets  own file<ul>
+<li><code>#SBATCH -o process_%j_%a.out</code></li>
+<li><code>#SBATCH -e process_%j_%a.err</code></li>
+</ul>
+</li>
+<li>There is an environment variable <code>$SLURM_ARRAY_TASK_ID</code> which can be used to check/query with</li>
+</ul>
+<h2 id="gpu__jobs">GPU jobs<a class="headerlink" href="#gpu__jobs" title="Permanent link">&para;</a></h2>
+<p>There are some differences between the centres in Sweden what type of GPUs they have. The command <code>sinfo -o "%10P %20l %30N %10z %10c %20m %20f %20G" | grep gpu</code> is very useful as well to identify the GPUs available on a cluster. </p>
+<table>
+<thead>
+<tr>
+<th>Resource</th>
+<th>cores/node</th>
+<th>RAM/node</th>
+<th>GPUs, type (per node)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Tetralith</td>
+<td>32</td>
+<td>96-384 GB</td>
+<td>Nvidia T4 GPUs (1)</td>
+</tr>
+<tr>
+<td>Dardel</td>
+<td>128</td>
+<td>256-2048 GB</td>
+<td>4 AMD Instinct™ MI250X (2)</td>
+</tr>
+<tr>
+<td>Alvis</td>
+<td>16 (skylake 2xV100), <br>32 (skylake 4xV100, 8xT4), <br>64 (icelake 4xA40, <br>4xA100)</td>
+<td>256-1024 GB</td>
+<td>Nvidia v100 (2), <br>v100 (4), <br>T4 (8), <br>A40 (4), <br>A100 (4)</td>
+</tr>
+<tr>
+<td>Kebnekaise</td>
+<td>28 (skylake), <br>72 (largemem), <br>128/256 (Zen3/Zen4)</td>
+<td>128-3072 GB</td>
+<td>NVidia v100 (2), <br>NVidia a100 (2), <br>NVidia a6000 (2), <br>NVidia l40s (2 or 6), <br>NVidia H100 (4), <br>NVidia A40 (8), <br>AMD MI100 (2)</td>
+</tr>
+<tr>
+<td>Cosmos</td>
+<td>32 (Intel) or 48 (AMD)</td>
+<td>256-512 GB</td>
+<td>A100</td>
+</tr>
+<tr>
+<td>Pelle</td>
+<td>32</td>
+<td>384 GB</td>
+<td>L40s (10), H100 (2)</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Alvis also has a small number of nodes without GPUs, for heavy-duty pre- and post-processing that does not require a GPU. To use, specify the constraint <code>-C NOGPU</code> in your Slurm script.</li>
+</ul>
+<h3 id="allocating__a__gpu">Allocating a GPU<a class="headerlink" href="#allocating__a__gpu" title="Permanent link">&para;</a></h3>
+<p>This is the most different of the Slurm settings, between centers.</p>
+<table>
+<thead>
+<tr>
+<th>Resource</th>
+<th>batch settings</th>
+<th>Comments</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Tetralith</td>
+<td><code>#SBATCH -n 1</code><br><code>#SBATCH -c 32</code><br><code>#SBATCH --gpus-per-task=1</code></td>
+<td></td>
+</tr>
+<tr>
+<td>Dardel</td>
+<td><code>#SBATCH -N 1</code><br><code>#SBATCH --ntasks-per-node=1</code><br><code>#SBATCH -p gpu</code></td>
+<td></td>
+</tr>
+<tr>
+<td>Alvis</td>
+<td><code>#SBATCH -p alvis</code><br><code>#SBATCH -N &lt;nodes&gt;</code><br><code>#SBATCH --gpus-per-node=&lt;type&gt;:x</code></td>
+<td>- no node-sharing on multi-node jobs<br>(<code>--exclusive</code> is automatic)<br>- Requesting -N 1 does not mean 1 full node<br>- type is V100, A40, A100, or A100fat<br>- x is number of GPUs, 1-4</td>
+</tr>
+<tr>
+<td>Cosmos</td>
+<td><code>#SBATCH -p gpua100</code><br><code>#SBATCH --gres=gpu:1</code></td>
+<td></td>
+</tr>
+<tr>
+<td>Kebnekaise</td>
+<td><code>#SBATCH --gpus=x</code><br><code>#SBATCH -C &lt;type&gt;</code></td>
+<td>- type is the type of GPU in lower case<br>- x is the number of that type of GPU.<br>See above table for both</td>
+</tr>
+<tr>
+<td>Pelle</td>
+<td><code>-p gpu --gpus=&lt;type&gt;:x</code></td>
+<td>- type is the type of GPU in lower case<br> - x is the number of that type of GPU.<br>See above table for both</td>
+</tr>
+</tbody>
+</table>
+<h3 id="example__gpu__scripts">Example GPU scripts<a class="headerlink" href="#example__gpu__scripts" title="Permanent link">&para;</a></h3>
+<p>This shows a simple GPU script, asking for 1 or 2 cards on a single node. </p>
+<div class="tabbed-set tabbed-alternate" data-tabs="6:6"><input checked="checked" id="__tabbed_6_1" name="__tabbed_6" type="radio" /><input id="__tabbed_6_2" name="__tabbed_6" type="radio" /><input id="__tabbed_6_3" name="__tabbed_6" type="radio" /><input id="__tabbed_6_4" name="__tabbed_6" type="radio" /><input id="__tabbed_6_5" name="__tabbed_6" type="radio" /><input id="__tabbed_6_6" name="__tabbed_6" type="radio" /><div class="tabbed-labels"><label for="__tabbed_6_1">Tetralith</label><label for="__tabbed_6_2">Dardel</label><label for="__tabbed_6_3">Alvis</label><label for="__tabbed_6_4">Kebnekaise</label><label for="__tabbed_6_5">Cosmos</label><label for="__tabbed_6_6">Pelle</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="ch">#!/bin/bash</span>
+</span><span id="__span-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a><span class="c1"># Remember to change this to your own project ID!</span>
+</span><span id="__span-21-3"><a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a><span class="c1">#SBATCH -A naissXXXX-YY-ZZZ</span>
+</span><span id="__span-21-4"><a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a><span class="c1"># Asking for runtime: hours, minutes, seconds. At most 1 week</span>
+</span><span id="__span-21-5"><a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a><span class="c1">#SBATCH --time=HHH:MM:SS</span>
+</span><span id="__span-21-6"><a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a><span class="c1"># Ask for resources, including GPU resources</span>
+</span><span id="__span-21-7"><a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a><span class="c1">#SBATCH -n 1</span>
+</span><span id="__span-21-8"><a id="__codelineno-21-8" name="__codelineno-21-8" href="#__codelineno-21-8"></a><span class="c1">#SBATCH -c 32</span>
+</span><span id="__span-21-9"><a id="__codelineno-21-9" name="__codelineno-21-9" href="#__codelineno-21-9"></a><span class="c1">#SBATCH --gpus-per-task=1</span>
+</span><span id="__span-21-10"><a id="__codelineno-21-10" name="__codelineno-21-10" href="#__codelineno-21-10"></a><span class="c1"># Writing output and error files</span>
+</span><span id="__span-21-11"><a id="__codelineno-21-11" name="__codelineno-21-11" href="#__codelineno-21-11"></a><span class="c1">#SBATCH --output=output%J.out</span>
+</span><span id="__span-21-12"><a id="__codelineno-21-12" name="__codelineno-21-12" href="#__codelineno-21-12"></a><span class="c1">#SBATCH --error=error%J.error</span>
+</span><span id="__span-21-13"><a id="__codelineno-21-13" name="__codelineno-21-13" href="#__codelineno-21-13"></a>
+</span><span id="__span-21-14"><a id="__codelineno-21-14" name="__codelineno-21-14" href="#__codelineno-21-14"></a><span class="c1"># Load any needed GPU modules and any prerequisites </span>
+</span><span id="__span-21-15"><a id="__codelineno-21-15" name="__codelineno-21-15" href="#__codelineno-21-15"></a>module<span class="w"> </span>load<span class="w"> </span>&lt;MODULES&gt;<span class="w"> </span>
+</span><span id="__span-21-16"><a id="__codelineno-21-16" name="__codelineno-21-16" href="#__codelineno-21-16"></a>
+</span><span id="__span-21-17"><a id="__codelineno-21-17" name="__codelineno-21-17" href="#__codelineno-21-17"></a>&lt;run-my-GPU-code&gt;<span class="w"> </span>
+</span></code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="ch">#!/bin/bash -l</span>
+</span><span id="__span-22-2"><a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a><span class="c1"># Remember to change this to your own project ID!</span>
+</span><span id="__span-22-3"><a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a><span class="c1">#SBATCH -A naissXXXX-YY-ZZZ</span>
+</span><span id="__span-22-4"><a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a><span class="c1"># Asking for runtime: hours, minutes, seconds. At most 1 week</span>
+</span><span id="__span-22-5"><a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a><span class="c1">#SBATCH --time=HHH:MM:SS</span>
+</span><span id="__span-22-6"><a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a><span class="c1"># Ask for resources, including GPU resources</span>
+</span><span id="__span-22-7"><a id="__codelineno-22-7" name="__codelineno-22-7" href="#__codelineno-22-7"></a><span class="c1">#SBATCH -N 1</span>
+</span><span id="__span-22-8"><a id="__codelineno-22-8" name="__codelineno-22-8" href="#__codelineno-22-8"></a><span class="c1">#SBATCH --ntasks-per-node=1</span>
+</span><span id="__span-22-9"><a id="__codelineno-22-9" name="__codelineno-22-9" href="#__codelineno-22-9"></a><span class="c1">#SBATCH -p gpu</span>
+</span><span id="__span-22-10"><a id="__codelineno-22-10" name="__codelineno-22-10" href="#__codelineno-22-10"></a><span class="c1"># Writing output and error files</span>
+</span><span id="__span-22-11"><a id="__codelineno-22-11" name="__codelineno-22-11" href="#__codelineno-22-11"></a><span class="c1">#SBATCH --output=output%J.out</span>
+</span><span id="__span-22-12"><a id="__codelineno-22-12" name="__codelineno-22-12" href="#__codelineno-22-12"></a><span class="c1">#SBATCH --error=error%J.error</span>
+</span><span id="__span-22-13"><a id="__codelineno-22-13" name="__codelineno-22-13" href="#__codelineno-22-13"></a>
+</span><span id="__span-22-14"><a id="__codelineno-22-14" name="__codelineno-22-14" href="#__codelineno-22-14"></a><span class="c1"># Load any needed GPU modules and any prerequisites</span>
+</span><span id="__span-22-15"><a id="__codelineno-22-15" name="__codelineno-22-15" href="#__codelineno-22-15"></a>module<span class="w"> </span>load<span class="w"> </span>&lt;MODULES&gt;
+</span><span id="__span-22-16"><a id="__codelineno-22-16" name="__codelineno-22-16" href="#__codelineno-22-16"></a>
+</span><span id="__span-22-17"><a id="__codelineno-22-17" name="__codelineno-22-17" href="#__codelineno-22-17"></a>&lt;run-my-GPU-code<span class="w"> </span>-<span class="w"> </span>REMEMBER<span class="w"> </span>NOT<span class="w"> </span>NVIDIA/CUDA!&gt;<span class="w"> </span>
+</span></code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="ch">#!/bin/bash</span>
+</span><span id="__span-23-2"><a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a><span class="c1"># Remember to change this to your own project ID!</span>
+</span><span id="__span-23-3"><a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a><span class="c1">#SBATCH -A naissXXXX-YY-ZZZ</span>
+</span><span id="__span-23-4"><a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a><span class="c1">#SBATCH -t HHH:MM:SS</span>
+</span><span id="__span-23-5"><a id="__codelineno-23-5" name="__codelineno-23-5" href="#__codelineno-23-5"></a><span class="c1">#SBATCH -p alvis</span>
+</span><span id="__span-23-6"><a id="__codelineno-23-6" name="__codelineno-23-6" href="#__codelineno-23-6"></a><span class="c1">#SBATCH -N 1 --gpus-per-node=T4:4</span>
+</span><span id="__span-23-7"><a id="__codelineno-23-7" name="__codelineno-23-7" href="#__codelineno-23-7"></a><span class="c1"># Writing output and error files</span>
+</span><span id="__span-23-8"><a id="__codelineno-23-8" name="__codelineno-23-8" href="#__codelineno-23-8"></a><span class="c1">#SBATCH --output=output%J.out</span>
+</span><span id="__span-23-9"><a id="__codelineno-23-9" name="__codelineno-23-9" href="#__codelineno-23-9"></a><span class="c1">#SBATCH --error=error%J.error</span>
+</span><span id="__span-23-10"><a id="__codelineno-23-10" name="__codelineno-23-10" href="#__codelineno-23-10"></a>
+</span><span id="__span-23-11"><a id="__codelineno-23-11" name="__codelineno-23-11" href="#__codelineno-23-11"></a><span class="c1"># Load any needed GPU modules and any prerequisites</span>
+</span><span id="__span-23-12"><a id="__codelineno-23-12" name="__codelineno-23-12" href="#__codelineno-23-12"></a>module<span class="w"> </span>load<span class="w"> </span>&lt;MODULES&gt;
+</span><span id="__span-23-13"><a id="__codelineno-23-13" name="__codelineno-23-13" href="#__codelineno-23-13"></a>
+</span><span id="__span-23-14"><a id="__codelineno-23-14" name="__codelineno-23-14" href="#__codelineno-23-14"></a>&lt;run-my-GPU-code&gt;
+</span></code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="ch">#!/bin/bash</span>
+</span><span id="__span-24-2"><a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a><span class="c1">#SBATCH -A hpc2nXXXX-YYY # Change to your own project ID</span>
+</span><span id="__span-24-3"><a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a><span class="c1">#Asking for runtime: hours, minutes, seconds. At most 1 week</span>
+</span><span id="__span-24-4"><a id="__codelineno-24-4" name="__codelineno-24-4" href="#__codelineno-24-4"></a><span class="c1">#SBATCH -t HHH:MM:SS</span>
+</span><span id="__span-24-5"><a id="__codelineno-24-5" name="__codelineno-24-5" href="#__codelineno-24-5"></a><span class="c1"># Ask for GPU resources. You pick type as one of the ones shown above</span>
+</span><span id="__span-24-6"><a id="__codelineno-24-6" name="__codelineno-24-6" href="#__codelineno-24-6"></a><span class="c1"># and how many cards you want, at most as many as shown above. Here 2 L40s</span>
+</span><span id="__span-24-7"><a id="__codelineno-24-7" name="__codelineno-24-7" href="#__codelineno-24-7"></a><span class="c1">#SBATCH --gpus:2</span>
+</span><span id="__span-24-8"><a id="__codelineno-24-8" name="__codelineno-24-8" href="#__codelineno-24-8"></a><span class="c1">#SBATCH -C l40s</span>
+</span><span id="__span-24-9"><a id="__codelineno-24-9" name="__codelineno-24-9" href="#__codelineno-24-9"></a><span class="c1"># Writing output and error files</span>
+</span><span id="__span-24-10"><a id="__codelineno-24-10" name="__codelineno-24-10" href="#__codelineno-24-10"></a><span class="c1">#SBATCH --output=output%J.out</span>
+</span><span id="__span-24-11"><a id="__codelineno-24-11" name="__codelineno-24-11" href="#__codelineno-24-11"></a><span class="c1">#SBATCH --error=error%J.error</span>
+</span><span id="__span-24-12"><a id="__codelineno-24-12" name="__codelineno-24-12" href="#__codelineno-24-12"></a>
+</span><span id="__span-24-13"><a id="__codelineno-24-13" name="__codelineno-24-13" href="#__codelineno-24-13"></a><span class="c1"># Purge unneeded modules. Load any needed GPU modules and any prerequisites</span>
+</span><span id="__span-24-14"><a id="__codelineno-24-14" name="__codelineno-24-14" href="#__codelineno-24-14"></a>ml<span class="w"> </span>purge<span class="w"> </span>&gt;<span class="w"> </span>/dev/null<span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span>
+</span><span id="__span-24-15"><a id="__codelineno-24-15" name="__codelineno-24-15" href="#__codelineno-24-15"></a>module<span class="w"> </span>load<span class="w"> </span>&lt;MODULES&gt;
+</span><span id="__span-24-16"><a id="__codelineno-24-16" name="__codelineno-24-16" href="#__codelineno-24-16"></a>
+</span><span id="__span-24-17"><a id="__codelineno-24-17" name="__codelineno-24-17" href="#__codelineno-24-17"></a>&lt;run-my-GPU-code&gt;
+</span></code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="ch">#!/bin/bash</span>
+</span><span id="__span-25-2"><a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a><span class="c1"># Remember to change this to your own project ID!</span>
+</span><span id="__span-25-3"><a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a><span class="c1">#SBATCH -A luXXXX-Y-ZZ</span>
+</span><span id="__span-25-4"><a id="__codelineno-25-4" name="__codelineno-25-4" href="#__codelineno-25-4"></a><span class="c1"># Asking for runtime: hours, minutes, seconds. At most 1 week</span>
+</span><span id="__span-25-5"><a id="__codelineno-25-5" name="__codelineno-25-5" href="#__codelineno-25-5"></a><span class="c1">#SBATCH --time=HHH:MM:SS</span>
+</span><span id="__span-25-6"><a id="__codelineno-25-6" name="__codelineno-25-6" href="#__codelineno-25-6"></a><span class="c1"># Ask for GPU resources - x is how many cards, 1 or 2</span>
+</span><span id="__span-25-7"><a id="__codelineno-25-7" name="__codelineno-25-7" href="#__codelineno-25-7"></a><span class="c1">#SBATCH -p gpua100</span>
+</span><span id="__span-25-8"><a id="__codelineno-25-8" name="__codelineno-25-8" href="#__codelineno-25-8"></a><span class="c1">#SBATCH --gres=gpu:1</span>
+</span><span id="__span-25-9"><a id="__codelineno-25-9" name="__codelineno-25-9" href="#__codelineno-25-9"></a><span class="c1"># Writing output and error files</span>
+</span><span id="__span-25-10"><a id="__codelineno-25-10" name="__codelineno-25-10" href="#__codelineno-25-10"></a><span class="c1">#SBATCH --output=output%J.out</span>
+</span><span id="__span-25-11"><a id="__codelineno-25-11" name="__codelineno-25-11" href="#__codelineno-25-11"></a><span class="c1">#SBATCH --error=error%J.error</span>
+</span><span id="__span-25-12"><a id="__codelineno-25-12" name="__codelineno-25-12" href="#__codelineno-25-12"></a>
+</span><span id="__span-25-13"><a id="__codelineno-25-13" name="__codelineno-25-13" href="#__codelineno-25-13"></a><span class="c1"># Remove any loaded modules and load the GPU modules and prerequisites ones we need</span>
+</span><span id="__span-25-14"><a id="__codelineno-25-14" name="__codelineno-25-14" href="#__codelineno-25-14"></a>module<span class="w"> </span>purge<span class="w">  </span>&gt;<span class="w"> </span>/dev/null<span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span>
+</span><span id="__span-25-15"><a id="__codelineno-25-15" name="__codelineno-25-15" href="#__codelineno-25-15"></a>module<span class="w"> </span>load<span class="w"> </span>&lt;MODULES&gt;<span class="w"> </span>
+</span><span id="__span-25-16"><a id="__codelineno-25-16" name="__codelineno-25-16" href="#__codelineno-25-16"></a>
+</span><span id="__span-25-17"><a id="__codelineno-25-17" name="__codelineno-25-17" href="#__codelineno-25-17"></a>&lt;run-my-GPU-code&gt;
+</span></code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="ch">#!/bin/bash -l</span>
+</span><span id="__span-26-2"><a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a><span class="c1">#SBATCH -A uppmaxXXXX-Y-ZZZZ # Change to your own! </span>
+</span><span id="__span-26-3"><a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a><span class="c1">#Asking for runtime: hours, minutes, seconds. At most 1 week</span>
+</span><span id="__span-26-4"><a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a><span class="c1">#SBATCH -t HHH:MM:SS</span>
+</span><span id="__span-26-5"><a id="__codelineno-26-5" name="__codelineno-26-5" href="#__codelineno-26-5"></a><span class="c1">#SBATCH -p gpu</span>
+</span><span id="__span-26-6"><a id="__codelineno-26-6" name="__codelineno-26-6" href="#__codelineno-26-6"></a><span class="c1">#SBATCH --gpus:l40s:1</span>
+</span><span id="__span-26-7"><a id="__codelineno-26-7" name="__codelineno-26-7" href="#__codelineno-26-7"></a><span class="c1"># Writing output and error files</span>
+</span><span id="__span-26-8"><a id="__codelineno-26-8" name="__codelineno-26-8" href="#__codelineno-26-8"></a><span class="c1">#SBATCH --output=output%J.out</span>
+</span><span id="__span-26-9"><a id="__codelineno-26-9" name="__codelineno-26-9" href="#__codelineno-26-9"></a><span class="c1">#SBATCH --error=error%J.error</span>
+</span><span id="__span-26-10"><a id="__codelineno-26-10" name="__codelineno-26-10" href="#__codelineno-26-10"></a>
+</span><span id="__span-26-11"><a id="__codelineno-26-11" name="__codelineno-26-11" href="#__codelineno-26-11"></a><span class="c1"># Load the GPU modules we need</span>
+</span><span id="__span-26-12"><a id="__codelineno-26-12" name="__codelineno-26-12" href="#__codelineno-26-12"></a>module<span class="w"> </span>load<span class="w"> </span>&lt;MODULES&gt;<span class="w">                     </span>
+</span><span id="__span-26-13"><a id="__codelineno-26-13" name="__codelineno-26-13" href="#__codelineno-26-13"></a>
+</span><span id="__span-26-14"><a id="__codelineno-26-14" name="__codelineno-26-14" href="#__codelineno-26-14"></a>&lt;run-my-GPU-code&gt;
+</span></code></pre></div>
+</div>
+</div>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+</div>
+<p>You can find a few example GPU batch scripts and corresponding programs in the cluster subfolders in the exercises tarball. </p>
+<p>Some of them requires installing some Python packages in a virtual environment. It is described in the <code>.sh</code> file for each </p>
+<ul>
+<li>alvis, cosmos, kebnekaise, pelle, tetralith<ul>
+<li>add-list.py, add-list.sh </li>
+<li>pytorch_fitting_gpu.py, pytorch_fitting_gpu.sh</li>
+<li>integration2d_gpu.py, integration2d_gpu_shared.py, job-gpu.sh   </li>
+</ul>
+</li>
+<li>dardel<ul>
+<li>hello_world_gpu.cpp, hello_world_gpu.sh </li>
+</ul>
+</li>
+</ul>
+<h2 id="miscellaneous">Miscellaneous<a class="headerlink" href="#miscellaneous" title="Permanent link">&para;</a></h2>
+<p>There are many other types of jobs in Slurm. Here are a few more examples. </p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you are on Dardel, you also need to add a partition. </p>
+</div>
+<h3 id="multiple__serial__jobs__simultaneously">Multiple serial jobs, simultaneously<a class="headerlink" href="#multiple__serial__jobs__simultaneously" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-27-1"><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a><span class="ch">#!/bin/bash</span>
+</span><span id="__span-27-2"><a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a><span class="c1">#SBATCH -A &lt;job ID&gt;</span>
+</span><span id="__span-27-3"><a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a><span class="c1"># Add enough cores that all jobs can run at the same time </span>
+</span><span id="__span-27-4"><a id="__codelineno-27-4" name="__codelineno-27-4" href="#__codelineno-27-4"></a><span class="c1">#SBATCH -n &lt;cores&gt;</span>
+</span><span id="__span-27-5"><a id="__codelineno-27-5" name="__codelineno-27-5" href="#__codelineno-27-5"></a><span class="c1"># Make sure the time is long enough that the longest job have time to finish </span>
+</span><span id="__span-27-6"><a id="__codelineno-27-6" name="__codelineno-27-6" href="#__codelineno-27-6"></a><span class="c1">#SBATCH --time=HHH:MM:SS</span>
+</span><span id="__span-27-7"><a id="__codelineno-27-7" name="__codelineno-27-7" href="#__codelineno-27-7"></a>
+</span><span id="__span-27-8"><a id="__codelineno-27-8" name="__codelineno-27-8" href="#__codelineno-27-8"></a>module<span class="w"> </span>load<span class="w"> </span>&lt;modules&gt;
+</span><span id="__span-27-9"><a id="__codelineno-27-9" name="__codelineno-27-9" href="#__codelineno-27-9"></a>
+</span><span id="__span-27-10"><a id="__codelineno-27-10" name="__codelineno-27-10" href="#__codelineno-27-10"></a>srun<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span><span class="w"> </span>--exclusive<span class="w"> </span>./program<span class="w"> </span>data1<span class="w"> </span><span class="p">&amp;</span>
+</span><span id="__span-27-11"><a id="__codelineno-27-11" name="__codelineno-27-11" href="#__codelineno-27-11"></a>srun<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span><span class="w"> </span>--exclusive<span class="w"> </span>./program2<span class="w"> </span>data2<span class="w"> </span><span class="p">&amp;</span>
+</span><span id="__span-27-12"><a id="__codelineno-27-12" name="__codelineno-27-12" href="#__codelineno-27-12"></a>srun<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span><span class="w"> </span>--exclusive<span class="w"> </span>./program3<span class="w"> </span>data3<span class="w"> </span><span class="p">&amp;</span>
+</span><span id="__span-27-13"><a id="__codelineno-27-13" name="__codelineno-27-13" href="#__codelineno-27-13"></a>...
+</span><span id="__span-27-14"><a id="__codelineno-27-14" name="__codelineno-27-14" href="#__codelineno-27-14"></a>srun<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span><span class="w"> </span>--exclusive<span class="w"> </span>./program4<span class="w"> </span>data4<span class="w"> </span><span class="p">&amp;</span>
+</span><span id="__span-27-15"><a id="__codelineno-27-15" name="__codelineno-27-15" href="#__codelineno-27-15"></a><span class="nb">wait</span>
+</span></code></pre></div>
+<h3 id="multiple__simultaneous__jobs__serial__or__parallel">Multiple simultaneous jobs (serial or parallel)<a class="headerlink" href="#multiple__simultaneous__jobs__serial__or__parallel" title="Permanent link">&para;</a></h3>
+<p>In this example, 3 jobs each with 14 cores</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-28-1"><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="ch">#!/bin/bash</span>
+</span><span id="__span-28-2"><a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a><span class="c1">#SBATCH -A &lt;job ID&gt;</span>
+</span><span id="__span-28-3"><a id="__codelineno-28-3" name="__codelineno-28-3" href="#__codelineno-28-3"></a><span class="c1"># Since the files run simultaneously I need enough cores for all of them to run</span>
+</span><span id="__span-28-4"><a id="__codelineno-28-4" name="__codelineno-28-4" href="#__codelineno-28-4"></a><span class="c1">#SBATCH -n 56</span>
+</span><span id="__span-28-5"><a id="__codelineno-28-5" name="__codelineno-28-5" href="#__codelineno-28-5"></a><span class="c1"># Remember to ask for enough time for all jobs to complete</span>
+</span><span id="__span-28-6"><a id="__codelineno-28-6" name="__codelineno-28-6" href="#__codelineno-28-6"></a><span class="c1">#SBATCH --time=00:10:00</span>
+</span><span id="__span-28-7"><a id="__codelineno-28-7" name="__codelineno-28-7" href="#__codelineno-28-7"></a>
+</span><span id="__span-28-8"><a id="__codelineno-28-8" name="__codelineno-28-8" href="#__codelineno-28-8"></a>module<span class="w"> </span>load<span class="w"> </span>&lt;modules&gt;
+</span><span id="__span-28-9"><a id="__codelineno-28-9" name="__codelineno-28-9" href="#__codelineno-28-9"></a>
+</span><span id="__span-28-10"><a id="__codelineno-28-10" name="__codelineno-28-10" href="#__codelineno-28-10"></a>srun<span class="w"> </span>-n<span class="w"> </span><span class="m">14</span><span class="w"> </span>--exclusive<span class="w"> </span>./mympiprogram<span class="w"> </span>data<span class="w"> </span><span class="p">&amp;</span>
+</span><span id="__span-28-11"><a id="__codelineno-28-11" name="__codelineno-28-11" href="#__codelineno-28-11"></a>srun<span class="w"> </span>-n<span class="w"> </span><span class="m">14</span><span class="w"> </span>--exclusive<span class="w"> </span>./my2mpi<span class="w"> </span>data2<span class="w"> </span><span class="p">&amp;</span>
+</span><span id="__span-28-12"><a id="__codelineno-28-12" name="__codelineno-28-12" href="#__codelineno-28-12"></a>srun<span class="w"> </span>-n<span class="w"> </span><span class="m">14</span><span class="w"> </span>--exclusive<span class="w"> </span>./my3mpi<span class="w"> </span>data3<span class="w"> </span><span class="p">&amp;</span>
+</span><span id="__span-28-13"><a id="__codelineno-28-13" name="__codelineno-28-13" href="#__codelineno-28-13"></a><span class="nb">wait</span>
+</span></code></pre></div>
+<h3 id="multiple__sequential__jobs__serial__or__parallel">Multiple sequential jobs (serial or parallel)<a class="headerlink" href="#multiple__sequential__jobs__serial__or__parallel" title="Permanent link">&para;</a></h3>
+<p>This example is for jobs where some are with 14 tasks with 2 cores per task and some are 4 tasks with 4 cores per task </p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-29-1"><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a><span class="ch">#!/bin/bash</span>
+</span><span id="__span-29-2"><a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a><span class="c1">#SBATCH -A &lt;job ID&gt;</span>
+</span><span id="__span-29-3"><a id="__codelineno-29-3" name="__codelineno-29-3" href="#__codelineno-29-3"></a><span class="c1"># Since the programs run sequentially I only need enough cores for the largest of them to run</span>
+</span><span id="__span-29-4"><a id="__codelineno-29-4" name="__codelineno-29-4" href="#__codelineno-29-4"></a><span class="c1">#SBATCH -c 28</span>
+</span><span id="__span-29-5"><a id="__codelineno-29-5" name="__codelineno-29-5" href="#__codelineno-29-5"></a><span class="c1"># Remember to ask for enough time for all jobs to complete</span>
+</span><span id="__span-29-6"><a id="__codelineno-29-6" name="__codelineno-29-6" href="#__codelineno-29-6"></a><span class="c1">#SBATCH --time=HHH:MM:SS</span>
+</span><span id="__span-29-7"><a id="__codelineno-29-7" name="__codelineno-29-7" href="#__codelineno-29-7"></a>
+</span><span id="__span-29-8"><a id="__codelineno-29-8" name="__codelineno-29-8" href="#__codelineno-29-8"></a>module<span class="w"> </span>load<span class="w"> </span>&lt;modules&gt;
+</span><span id="__span-29-9"><a id="__codelineno-29-9" name="__codelineno-29-9" href="#__codelineno-29-9"></a>
+</span><span id="__span-29-10"><a id="__codelineno-29-10" name="__codelineno-29-10" href="#__codelineno-29-10"></a>srun<span class="w"> </span>-n<span class="w"> </span><span class="m">14</span><span class="w"> </span>-c<span class="w"> </span><span class="m">2</span><span class="w"> </span>./myprogram<span class="w"> </span>data
+</span><span id="__span-29-11"><a id="__codelineno-29-11" name="__codelineno-29-11" href="#__codelineno-29-11"></a>srun<span class="w"> </span>-n<span class="w"> </span><span class="m">4</span><span class="w"> </span>-c<span class="w"> </span><span class="m">4</span><span class="w"> </span>./myotherprogram<span class="w"> </span>mydata
+</span><span id="__span-29-12"><a id="__codelineno-29-12" name="__codelineno-29-12" href="#__codelineno-29-12"></a>...
+</span><span id="__span-29-13"><a id="__codelineno-29-13" name="__codelineno-29-13" href="#__codelineno-29-13"></a>srun<span class="w"> </span>-n<span class="w"> </span><span class="m">14</span><span class="w"> </span>-c<span class="w"> </span><span class="m">2</span><span class="w"> </span>./my2program<span class="w"> </span>data2
+</span></code></pre></div>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../interactive/" class="btn btn-neutral float-left" title="Interactive jobs"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../monitoring/" class="btn btn-neutral float-right" title="Job monitoring and efficiency">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/UPPMAX/NAISS_Slurm" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href="../interactive/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../monitoring/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../assets/_markdown_exec_pyodide.js"></script>
+      <script src="../search/main.js"></script>
+      <script src="../js/open_in_new_tab.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
