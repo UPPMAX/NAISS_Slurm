@@ -609,12 +609,15 @@ Another way of getting extra memory is to use nodes that have more memory. A use
 
     This section comes with many caveats; it depends a lot on the type of job and the system. Often, if you are in the situation where you have an I/O intensive job, you need to talk to support as it will be very individualized. 
 
+- Not all systems offer node local discs
+    - The **Dardel** system does not offer node local discs.   The use of ``$SNIC_TMP``, ``$NAISS_TMP``and ``$TMPDIR`` is discouraged.  ``$SNIC_TMP`` and ``$NAISS_TMP`` do not offer a performance advantage and are not protected against name space conflicts by jobs running on different nodes, submitted by the same user.  ``$TMPDIR`` will utilise the node's RAM.
 - In most cases, you should use the project storage
-- Centre-dependent. If needed you can use node-local disk for **single-node** jobs
+- Centre-dependent. If needed you can use node-local disc for **single-node** jobs
     - Remember you need to copy data to/from the node-local scratch (``$SNIC_TMP``)! 
-    - On some systems ``$TMPDIR`` also points to the node local disk
+    - On some systems ``$TMPDIR`` also points to the node local disc
     - The environment variable ``$SLURM_SUBMIT_DIR`` is the directory you submitted from
 - On Tetralith, the data access between /home or /proj and GPU/CPU compute nodes are **not** suitable for I/O intensive jobs => use /scratch/local (``$SNIC_TMP``)
+
 
 ### Example 
 
@@ -626,7 +629,7 @@ Another way of getting extra memory is to use nodes that have more memory. A use
 
 module load <modules>
 
-# Copy your data etc. to node local scratch disk
+# Copy your data etc. to node local scratch disc
 cp -p mydata.dat $SNIC_TMP
 cp -p myprogram $SNIC_TMP
 
